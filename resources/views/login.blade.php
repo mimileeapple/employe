@@ -39,7 +39,7 @@ header("Content-Type:text/html;charset=utf-8");
         <tr><td style="text-align: right">員工帳號:</td>
             <td style="text-align: left"><input type="text" id="accout" name="accout" placeholder="預設郵件開頭英文名" value=""></td></tr>
         <tr><td style="text-align: right">員工密碼:</td>
-            <td style="text-align: left"><input type="text" id="pwd" name="pwd" placeholder="預設個人手機號" value=""></td></tr>
+            <td style="text-align: left"><input type="text" id="pwd" name="pwd" placeholder="預設個人QQ號" value=""></td></tr>
         <tr><td colspan="2" style="text-align: center">
                 <input type="hidden" id="doing" name="doing" value="1">
                 <input type="button" value="登入" class="bt-send" onclick="mydoing()"></td></tr>

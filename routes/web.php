@@ -17,8 +17,10 @@
 Route::resource('/', 'loginController');
 //因為是登入 所以東西不能放在GET 我們這邊用POST
 //any 是啥都可以 他不會特別去監控 你是get 還是post
-Route::any('verify', 'loginController@verifya');
-Route::resource('personalinfor', 'personalinforController');
+//你要去哪都會經過路由 不能直接指定view
+Route::any('verify', 'loginController@verifya')->name('verify');
+Route::any('logout', 'loginController@logout')->name('logout');
+Route::resource('personalinfor', 'personalinforController')->middleware('AuthStatus');
 
 //resource 他是同時有新修查改的route 所以 不用'HumanResourceController@index' 只需要給他controller就可以了
 // 當連到該路由的時候HumanResource 他會判斷 你連到這個路由的時候 適用POST 還是 GET 來判斷你是哪個function
@@ -30,6 +32,7 @@ Route::resource('personalinfor', 'personalinforController');
 //Route::get('verify/{value}', 'loginController@verifya');這是帶傳參
 //Route::resource('HumanResource', 'HumanResourceController');
 
-Route::resource('employees', 'HumanResourceController');
+Route::resource('employees', 'HumanResourceController')->middleware('AuthStatus');
 
 
+Route::post('search','HumanResourceController@search_empid')->name('search')->middleware('AuthStatus');

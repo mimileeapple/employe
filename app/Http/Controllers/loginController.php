@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\empinfo;
-use DB;
 use Session;
 class loginController extends Controller
 {
@@ -83,6 +82,11 @@ class loginController extends Controller
     {
         //
     }
+    public function  logout(){
+        Session::flush();
+        return redirect()->action('loginController@index');
+    }
+
     //Request $request 這個是前端from送來的資料
     public function verifya(Request $request){
         //這邊會把送來的資料把它陣列
@@ -90,18 +94,21 @@ class loginController extends Controller
 //       $a= empinfo::where('accout', $request->accout)->get();
 //       dd($a);
         try {
-            $data =  DB::select('SELECT * FROM empinfo where accout = ?', array($request->accout));
+            //first就是抓第一筆條件符合的資料
+            //empinfo 這個是我剛剛做好的model
+            $data =  empinfo::where('accout','=',$request->accout)->first();
+//            $data =  DB::select('SELECT * FROM empinfo where accout = ?', array($request->accout));
 //            $data =  DB::select('SELECT * FROM empinfo where accout = ? and qq =?', array($request->accout,3164874945)); 兩個以上
             //session的函數
-           /* if(Session::has('empid')){
+            if(Session::has('empid')){
                 return view('empindex');
-            }*/
+            }
 
-            if(count($data)>0 ){
-                if($data[0]->qq==$request->pwd){
-                   // dd($data[0]->qq);
+            if(!empty($data)){
+                if($data->pwd==$request->pwd){
                     //在登入成功後 我把員工資料送到 empindex
-                    Session::put('empid', $data[0]->empid);
+                    Session::put('empid', $data->empid);
+                    Session::put('name', $data->name);
                     return view('empindex');
                 }
                 else{

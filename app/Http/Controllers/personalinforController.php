@@ -93,11 +93,11 @@ class personalinforController extends Controller
             $data =  DB::select('SELECT * FROM empinfo where empid = ?', array($id));
             if($res){
                 //更新成功
-                Session::put('empid', $data[0]->empid);
+//                Session::put('empid', $data[0]->empid);
                 return view('updateemp', ['error' => '更新成功','data'=>$data[0],'emp_list'=>$emp_list]);
             }else{
                 //更新失敗
-                Session::put('empid', $data[0]->empid);
+//                Session::put('empid', $data[0]->empid);
                 return view('updateemp', ['error' => '更新失敗','data'=>$data[0],'emp_list'=>$emp_list]);
             }
         }catch (Exception $e){
