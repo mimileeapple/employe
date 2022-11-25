@@ -80,7 +80,6 @@ date_default_timezone_set('Asia/Taipei');
                     <td><b>總計時間</b></td>
                     <td><b>訂單狀態</b></td>
                     <td><b>附件</b></td>
-
                 </tr>
                 {{--                放在foreach 會導致ID重複 submit只會送出第一個--}}
                 <form id="form1" name="form1" action="{{route('signfinsh')}}" method="post">
