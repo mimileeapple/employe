@@ -36,3 +36,18 @@ Route::resource('employees', 'HumanResourceController')->middleware('AuthStatus'
 
 
 Route::post('search','HumanResourceController@search_empid')->name('search')->middleware('AuthStatus');
+Route::resource('leavefake', 'leavefakeController')->middleware('AuthStatus');
+Route::get('isholiday', 'leavefakeController@isholiday')->middleware('AuthStatus')->name('isholiday');
+//你路徑 signleaveorder
+Route::post('signleaveorder', 'leavefakeController@signleaveorder')->middleware('AuthStatus')->name('signleaveorder');
+Route::post('searchdate','leavefakeController@sreachdate')->name('searchdate')->middleware('AuthStatus');
+Route::get('finshorder','leavefakeController@finshorder')->name('finshorder')->middleware('AuthStatus');//秀出列表
+Route::post('signfinsh','leavefakeController@signfinsh')->name('signfinsh')->middleware('AuthStatus');//審核
+Route::post('sumleavedate','leavefakeController@sumleavedate')->name('sumleavedate')->middleware('AuthStatus');//審核
+Route::any('showleaveall','leavefakeController@showleaveall')->name('showleaveall')->middleware('AuthStatus');//秀出資料
+Route::resource('vacation', 'vacationController')->middleware('AuthStatus');;//休假與請假系統串接
+Route::resource('Pay', 'PayController')->middleware('AuthStatus');
+Route::get('orderdetail/{p}', 'leavefakeController@orderdetail')->middleware('AuthStatus')->name('orderdetail');
+
+
+

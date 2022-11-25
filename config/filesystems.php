@@ -63,6 +63,13 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        //這邊為新增的模組 主要存放請假的附件
+        'Leave' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/leave_attachment'),
+            'url' => 'storage/app/public/leave_attachment',
+            'visibility' => 'public',
+        ],
 
     ],
 

@@ -9,7 +9,9 @@ header("Content-Type:text/html;charset=utf-8");
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1; charset=utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <title>登入</title>
+    <link rel="icon" href="img/pageicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/pageicon.ico" type="image/x-icon" />
+    <title>員工登入</title>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
    <style>
         td{height:40px;width: 150px;}

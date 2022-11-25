@@ -1,17 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers;
+use App\Services\HumanResourceServices;
+use App\Services\empinforservices;
 use Illuminate\Http\Request;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 use App\empinfo;
+use App\leaveorder;
+use App\isholiday;
+use App\jobyears;
 use Session;
+use DB;
+
 class loginController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $HumanResourceServices;
+    private $empinforservices;
+    public function __construct()
+    {
+        $this->HumanResourceServices =new HumanResourceServices();
+        $this->empinforservices =new empinforservices();
+    }
     public function index()
     {
        return view('login');
@@ -109,6 +121,14 @@ class loginController extends Controller
                     //在登入成功後 我把員工資料送到 empindex
                     Session::put('empid', $data->empid);
                     Session::put('name', $data->name);
+                    Session::put('empdata', $data);
+                    $data=$this->HumanResourceServices->bosssignall(Session::get('empid'));
+                    //因為你勾選 他要處理一堆資料 最後在一開始就處理好 會方便很多
+
+                    Session::put('j',count($data));
+
+
+
                     return view('empindex');
                 }
                 else{

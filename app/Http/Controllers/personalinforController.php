@@ -79,7 +79,7 @@ class personalinforController extends Controller
                 phone = ?,
                 adress = ?,
                 edu = ?,
-                agentemp = ? where empid = ?',
+                agentemp = ?,updatedate=?,updateemp=? where empid = ?',
                 [
                     $request->pwd,
                     $request->cellphone,
@@ -87,6 +87,8 @@ class personalinforController extends Controller
                     $request->adress,
                     $request->edu,
                     $request->agentemp,
+                    $request->updatedate,
+                    $request->updateemp,
                     $id
                 ]);
             $emp_list =  DB::select('SELECT * FROM empinfo ', array());

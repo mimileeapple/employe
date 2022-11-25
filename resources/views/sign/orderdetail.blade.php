@@ -363,9 +363,14 @@ date_default_timezone_set('Asia/Taipei');
         }
         @endisset
     </script>
+    <style>
+        table {
+            margin-left: 50px;
+        }
+    </style>
 </head>
 <body style="text-align: center">
-@include("include.nav")
+
 
 <div class="mt-5">
     <div>
@@ -375,97 +380,75 @@ date_default_timezone_set('Asia/Taipei');
 </div>
 <div class="container-fluid">
     <div class="row">
-        @include("include.menu")
+
         <div class="col-md-10">
-            <form action="{{route('leavefake.store')}}" id="form1" name="form1" method="post"
-                  enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <br>
-                <table border="1" align="center" class="bor-blue tbl" width="95%">
+
+            <br>
+            @foreach($emp_list as $emp)
+
+                <table border="1" align="center" class="bor-blue tbl" width="100%">
                     <tr align="center">
                         <td class="bg-blue">工號</td>
-                        <td><input type="text" id="empid" name="empid" value="{{Session::get('empid')}}" readonly></td>
+                        <td>{{$emp->empid}}</td>
                         <td class="bg-blue">姓名</td>
-                        <td><input type="text" id="name" name="name" value="{{Session::get('name')}}" readonly></td>
+                        <td>{{$emp->name}}</td>
                         <td class="bg-blue">申请時間</td>
-                        <td><input type="datetime-local" style="background:#F0F0F0; " id="orderdate" name="orderdate"
-                                   value="<?php echo date('Y-m-d H:i:s');?>" readonly></td>
+                        <td>{{$emp->orderdate}}</td>
                     </tr>
 
                     <tr align="center">
                         <td class="bg-blue">部門</td>
-                        <td><input type="text" id="depname" name="depname" value="{{Session::get('empdata')->dep}}"
-                                   readonly>
-                            <input type="hidden" id="depid" name="depid" value="{{Session::get('empdata')->depid}}"
-                                   readonly>
+                        <td>{{$emp->depname}}
+
                         </td>
                         <td class="bg-blue">職位</td>
-                        <td><input type="text" id="title" name="title" value="{{Session::get('empdata')->title}}"
-                                   readonly></td>
+                        <td>{{$emp->title}}</td>
                         <td class="bg-blue">職務代理人</td>
-                        <td><input type="text" id="agentemp" name="agentemp"
-                                   value="{{Session::get('empdata')->agentemp}}" readonly>
-                            <input type="hidden" id="achievedate" name="achievedate"
-                                   value="{{Session::get('empdata')->achievedate}}" readonly></td>
+                        <td>{{$emp->agentemp}}
+
                     </tr>
                     <tr align="center">
                         <td class="bg-blue">假別</td>
-                        <td>
-                            <select id="leavefakeid" name="leavefakeid">
-
-                                <option value="1">特休</option>
-                                <option value="2">年休</option>
-                                <option value="3">出差</option>
-                                <option value="4">公假</option>
-                                <option value="5">事假</option>
-                                <option value="6">病假</option>
-                                <option value="7">婚假</option>
-                                <option value="8">喪假</option>
-                                <option value="9">生理假</option>
-                                <option value="10">其他</option>
-                                <option value="11">補休</option>
-
-
-                            </select>
-
-                            <input type="hidden" id="leavefakename" name="leavefakename" value="特休"></td>
+                        <td>{{$emp->leavefakename}}</td>
                         <td class="bg-blue">事由</td>
-                        <td><input type="text" id="reason" name="reason" value=""></td>
-                        <td class="bg-blue">備註</td>
-                        <td><input type="text" id="note" name="note" value=""></td>
+                        <td>{{$emp->reason}}</td>
+                        <td class="bg-blue">到職日</td>
+                        <td>{{$emp->achievedate}}</td>
 
                     </tr>
                     <tr>
                         <td class="bg-blue">请假天数</td>
-                        <td colspan="5" style="text-align: left;font-size: 12px;">
+                        <td colspan="5" style="text-align: left;font-size: 14px;">
 
-                            起始日期 <label class="start_date">
-                                <input type="text" class="leavestartdate" id="datepicker"></label>
-                            起始時間 <label class="start_date">
-                                <input type="text" class="leavestarttime" id="timepicker"></label>
+                            起始日期:
+                            {{$emp->leavestart}}
+
+                            </label>
+
                             到
-                            結束日期 <label class="start_date">
-                                <input type="text" class="leaveenddate" id="datepicker1"></label>
-                            結束時間 <label class="start_date">
-                                <input type="text" class="leaveendtime" id="timepicker1"></label>
-                            <input type="button" value="計算" onclick="calculate()">
-                            <input type="text" id="hours" name="hours" value=""> 時
-                            =<input type="text" id="minit" name="minit" value="">分
-                            <input type="hidden" class="" id="leavestart" name="leavestart">
-                            <input type="hidden" class="" id="leaveend" name="leaveend">
+                            結束日期:
+                            {{$emp->leaveend}}
+
+                            共{{$emp->hours}} 時
+
+
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="6">您還有特休{{$emp_vacation[0]->specialdate}}
-                            天，年休{{$emp_vacation[0]->years_date}}天，補休{{$emp_vacation[0]->comp_time}}天 <a id="pay"
-                                                                                                               href="{{route('Pay.index')}}">出差表</a>
-                        </td>
+                    <tr>@foreach($emp_list1 as $e)
+                            <td colspan="6"> 您還有特休{{$e->remain_specialdate}}天，年休{{$e->remain_years_date}}
+                                天，補休{{$e->remain_comp_time}}天 <a id="pay" href="{{route('Pay.index')}}">出差表</a>
+                            </td>
+                        @endforeach
                     </tr>
                     <tr>
                         <td class="bg-blue">附件</td>
-                        <td colspan="5"><input type="file" id="uploadfile" name="uploadfile" value=""></td>
+                        <td colspan="5">
+                            @if($emp->uploadfile!='')
+                                <a target="_blank" href="{{url('../'.$emp->uploadfile)}}">附件</a></td>
+                        @else</td>
+                        @endif
 
-                        </td>
+
                     </tr>
                     <tr>
                         <td class="bg-blue">請假注意事項</td>
@@ -473,46 +456,30 @@ date_default_timezone_set('Asia/Taipei');
                                 color="red">請假請先設定起訖日期後點選計算確認天數/時數是否正確，病假或喪假請上傳JPG檔案</font>
                         </td>
                     </tr>
-
-                    <input type="hidden" name="creatdate" value="<?php echo date("Y-m-d");?>">
-                    <input type="hidden" name="createmp" value="{{Session::get('name')}}">
-                    <input type="hidden" name="updatedate" value="<?php echo date("Y-m-d");?>">
-                    <input type="hidden" name="updateemp" value="{{Session::get('name')}}">
-
+                    <tr>
+                        <td class="bg-blue">備註</td>
+                        <td colspan="5">{{$emp->note}}</td>
+                    </tr>
                     <tr>
                         <td colspan="6" style="text-align: center;padding-left:30px; ">
 
-                            一階主管：<input type="text" id="manage1" name="manage1"
-                                            value="{{Session::get('empdata')->manage1name}}" readonly>
-                            <input type="hidden" id="manage1mail" name="manage1mail"
-                                   value="{{Session::get('empdata')->manage1mail}}" readonly>
-                            二階主管：<input type="text" id="manage2" name="manage2"
-                                            value="{{Session::get('empdata')->manage2name}}" readonly>
-                            <input type="hidden" id="manage2mail" name="manage2mail"
-                                   value="{{Session::get('empdata')->manage2mail}}" readonly>
-                            簽核狀態：<input type="text" id="signsts" name="signsts" value="0" readonly>
-                            單據狀態：<input type="text" id="ordersts" name="ordersts" value="N" readonly></td>
-                        <input type="hidden" id="manage2id" name="manage2id"
-                               value="{{Session::get('empdata')->manage2id}}">
-                        <input type="hidden" id="manage1id" name="manage1id"
-                               value="{{Session::get('empdata')->manage1id}}">
+                            一階主管：{{$emp->manage1}}
 
-                        <input type="hidden" id="manage2sign" name="manage2empsign" value="N">
-                        <input type="hidden" id="manage1sign" name="manage1empsign" value="N">
+                            二階主管：{{$emp->manage2}}
+
+                            簽核狀態：{{$emp->signsts}}
+                            單據狀態：{{$emp->ordersts}}</td>
+
                     </tr>
-                    <tr>
-                        <td colspan="6"><input type="button" value="送出" class="bt-add" id="doicon" name="doicon"
-                                               onclick="DoImport()">
-                            <input type="hidden" id="doing" value="1"></td>
-                    </tr>
+
                 </table>
-
+            @endforeach
         </div>
     </div>
 
 
 </div>
-</form>
+
 </body>
 
 </html>

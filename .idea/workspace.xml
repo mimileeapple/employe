@@ -1,22 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd0c221f-2634-40af-8bee-96dfc31314cc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/css/employeesstyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/include/menu.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/include/nav.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/leave/leaveorder.blade.php" afterDir="false" />
+    <list default="true" id="bd0c221f-2634-40af-8bee-96dfc31314cc" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/app/Services/HumanResourceServices.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Services/empinforservices.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/icon/date.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/icon/time.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/notice.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/pageicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/myjs/gotop.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/myjs/leaveorder.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/announcement/leaverote.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/leave/persolattendance.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/leave/personalleaveorder.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/pay/reimburse.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/sign/attendance.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/sign/bosssign.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/sign/finshsign.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/sign/orderdetail.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/sign/specialdate.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/sign/totaltable.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HumanResourceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HumanResourceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/loginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/loginController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personalinforController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personalinforController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/AuthStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/AuthStatus.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/empinfo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/empinfo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/filesystems.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/filesystems.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/mail.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/mail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/employeesstyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/employeesstyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/empindex.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/empindex.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/hrsys/employees.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hrsys/employees.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/hrsys/hrupdateemp.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hrsys/hrupdateemp.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/hrsys/newemp.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hrsys/newemp.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/include/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/include/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/include/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/include/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/leave/leaveorder.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/leave/leaveorder.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/login.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/updateemp.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/updateemp.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
@@ -35,6 +59,7 @@
       <list>
         <option value="HTML File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -141,28 +166,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/wamp64/www/employe/resources/views/hrsys&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/wamp64/www/employe/resources/views/sign",
+    "list.type.of.created.stylesheet": "CSS",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "Errors",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\employe\resources\views\sign" />
+      <recent name="C:\wamp64\www\employe\public\img" />
       <recent name="C:\wamp64\www\employe\resources\views\hrsys" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\employe\resources\views\pay" />
+      <recent name="C:\wamp64\www\employe\app" />
+      <recent name="C:\wamp64\www\employe\public\myjs" />
+      <recent name="C:\wamp64\www\employe\public\img\icon" />
       <recent name="C:\wamp64\www\employe\resources\views\include" />
-      <recent name="C:\wamp64\www\employe\resources\views\hrsys" />
-      <recent name="C:\wamp64\www\employe\img" />
-      <recent name="C:\wamp64\www\employe" />
-      <recent name="C:\wamp64\www\employe\css" />
     </key>
   </component>
   <component name="RunManager">
@@ -185,7 +213,28 @@
       <workItem from="1666228376696" duration="25722000" />
       <workItem from="1666259448712" duration="1253000" />
       <workItem from="1666315199328" duration="28894000" />
-      <workItem from="1666663714292" duration="24920000" />
+      <workItem from="1666663714292" duration="27000000" />
+      <workItem from="1666746618099" duration="26655000" />
+      <workItem from="1666919796688" duration="27595000" />
+      <workItem from="1667181719167" duration="26051000" />
+      <workItem from="1667265943961" duration="23649000" />
+      <workItem from="1667366246565" duration="15987000" />
+      <workItem from="1667438886479" duration="709000" />
+      <workItem from="1667439608346" duration="26075000" />
+      <workItem from="1667524901967" duration="27105000" />
+      <workItem from="1667870934579" duration="26353000" />
+      <workItem from="1667957187967" duration="26593000" />
+      <workItem from="1668043368336" duration="27038000" />
+      <workItem from="1668130116555" duration="17977000" />
+      <workItem from="1668561729467" duration="28456000" />
+      <workItem from="1668647793455" duration="23124000" />
+      <workItem from="1668734301408" duration="28574000" />
+      <workItem from="1668994406598" duration="24357000" />
+      <workItem from="1669080442143" duration="28200000" />
+      <workItem from="1669180111551" duration="15449000" />
+      <workItem from="1669252972940" duration="3476000" />
+      <workItem from="1669256558909" duration="20131000" />
+      <workItem from="1669339916201" duration="3955000" />
     </task>
     <servers />
   </component>
@@ -202,15 +251,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/resources/views/include/menu.blade.php</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

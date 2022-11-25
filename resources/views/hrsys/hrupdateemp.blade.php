@@ -8,6 +8,8 @@ header("Content-Type:text/html;charset=utf-8");?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1; charset=utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link  href="{{ URL::asset('css/style.css') }}"  rel="stylesheet" type="text/css">
+        <link rel="icon" href="{{ URL::asset('img/pageicon.ico')}}" type="image/x-icon" />
+        <link rel="shortcut icon" href="img/pageicon.ico" type="image/x-icon" />
         <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
         <title>員工資料修改</title>
         <style>
@@ -96,16 +98,16 @@ header("Content-Type:text/html;charset=utf-8");?>
                 </select></td>
             <td>在職狀態</td>
             <td><select name="jobsts">
-                    <option value="" {{$data->edu ==""? 'selected':''}}></option>
-                    <option value="Y" {{$data->edu =="Y"? 'selected':''}}>在職</option>
-                    <option value="N" {{$data->edu =="N"? 'selected':''}}>離職</option>
-                    <option value="F" {{$data->edu =="F"? 'selected':''}}>留職停薪</option></select>
+                    <option value="" {{$data->jobsts ==""? 'selected':''}}></option>
+                    <option value="Y" {{$data->jobsts =="Y"? 'selected':''}}>在職</option>
+                    <option value="N" {{$data->jobsts =="N"? 'selected':''}}>離職</option>
+                    <option value="F" {{$data->jobsts =="F"? 'selected':''}}>留職停薪</option></select>
                 </td></tr>
          <tr><td>建檔日期</td><td><input style="background:#F0F0F0;" type="text" name="creatdate" value="{{$data->creatdate}}" readonly ></td>
             <td>建檔人員</td><td><input  style="background:#F0F0F0;" type="text" name="createmp" value="{{$data->createmp}}" readonly ></td></tr>
       <tr><td>最後修改日期</td><td><input  style="background:#F0F0F0;" type="text" name="updatedate" value="<?php echo date("Y-m-d");?>" readonly ></td>
-            <td>最後修改人員</td><td><input  style="background:#F0F0F0;" type="hidden" name="updateemp" value="{{Session::get('id')}}">
-              <input type="text" style="background:#F0F0F0;" value="{{Session::get('name')}}" readonly></td></tr>
+            <td>最後修改人員</td><td>
+              <input type="text" style="background:#F0F0F0;" name="updateemp value="{{Session::get('name')}}" readonly></td></tr>
 
 
     </table><br><input type="submit" class="bt-send" value="修改員工資料"><br><br> </form>

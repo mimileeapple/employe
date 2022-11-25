@@ -15,7 +15,7 @@ class AuthStatus
     public function handle($request, Closure $next)
     {
         if(!Session::has('empid')){
-            return  redirect()->route('verify');
+            return  redirect()->route('logout');
         }else{
             return $next($request);
         }

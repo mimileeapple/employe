@@ -12,29 +12,13 @@ $title="員工資料管理";
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link  href="{{ URL::asset('css/style.css') }}"  rel="stylesheet" type="text/css">
     <link  href="{{ URL::asset('css/employeesstyle.css') }}"  rel="stylesheet" type="text/css">
+    <link rel="icon" href="{{ URL::asset('img/pageicon.ico')}}" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/pageicon.ico" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ URL::asset('myjs/gotop.js') }}"></script>
     <title><?php echo $title?></title>
-
-    <script type="text/javascript">
-        $(function() {
-            /* 按下GoTop按鈕時的事件 */
-            $('#gotop').click(function(){
-                $('html,body').animate({ scrollTop: 0 }, 'slow');   /* 返回到最頂上 */
-                return false;
-            });
-
-            /* 偵測卷軸滑動時，往下滑超過400px就讓GoTop按鈕出現 */
-            $(window).scroll(function() {
-                if ( $(this).scrollTop() > 100){
-                    $('#gotop').fadeIn();
-                } else {
-                    $('#gotop').fadeOut();
-                }
-            });
-        });
-    </script>
 </head>
 <body style="text-align: center" onUnload="opener.location.reload()">
 @include("include.nav")
@@ -48,12 +32,12 @@ $title="員工資料管理";
     <div class="row">
         @include("include.menu")
         <div class="col-md-10">
-<a  id="gotop" >
-    ^
-</a>
+            <a  id="gotop" >
+                <font size="20px"> ^</font>
+            </a>
 <table width="95%" border="0"  style="margin: auto"><tr>
         <td style="text-align:left; ">
-<input type="button" class="bt-add" onclick="window.open('employees/create','newemp','width=450px;height=450px')" value="新增員工">
+<input type="button" class="bt-add" onclick="window.open('employees/create','newemp','width=650px;height=650px')" value="新增員工">
             </td><td></td>
 
 
@@ -85,7 +69,7 @@ $title="員工資料管理";
  </tr>
 @foreach($emp_list as  $emp)
     <tr >
-        <td> <input class="bg-blue bor-blue" style="width: 50px;" type="button" name="{{$emp->empid}}" value="{{$emp->empid}}" onclick="window.open('{{route('employees.edit',$emp->empid)}}','udateemp','width=450px;height=450px')"> </td>
+        <td> <input class="bg-blue bor-blue" style="width: 50px;" type="button" name="{{$emp->empid}}" value="{{$emp->empid}}" onclick="window.open('{{route('employees.edit',$emp->empid)}}','udateemp','width=800px;height=800px')"> </td>
 
         <td> {{$emp->name}}</td>
         <td>{{$emp->ename}}</td>

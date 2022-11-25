@@ -11,6 +11,8 @@ $title="員工資料新增";
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link  href="{{ URL::asset('css/style.css') }}"  rel="stylesheet" type="text/css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <link rel="icon" href="{{ URL::asset('img/pageicon.ico')}}" type="image/x-icon" />
+        <link rel="shortcut icon" href="img/pageicon.ico" type="image/x-icon" />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
         <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
@@ -20,14 +22,30 @@ $title="員工資料新增";
             select{width:120px;}
         </style>
         <script>
+           $(function(){
+            $("#manage1id").change(function() {
 
-            if({{$status}}){
+                $("#manage1name").val($("#manage1id :selected").text());
+            })
+
+            $("#manage2id").change(function() {
+                $("#manage2name").val($("#manage2id :selected").text());
+            })
+
+            })
+
+
+         </script>
+        <script>
+
+           if( {{$status}} ){
                 alert('新增成功');
                 self.opener.location.reload();
                 window.close();
             }else {
                 alert('新增失敗');
             }
+
         </script>
     </head>
     <body style="text-align: center">
@@ -85,12 +103,12 @@ $title="員工資料新增";
         <tr><td>電話</td><td><input type="text" name="phone"></td>
             <td>地址</td><td><input type="text" name="adress" style="width:400px;"></td></tr>
         <tr><td>學歷</td><td><select  name="edu">
-                    <option value="1">小學</option>
-                    <option value="2">國中</option>
-                    <option value="3">高中職</option>
-                    <option value="4">大學</option>
-                    <option value="5">碩士</option>
-                    <option value="6">博士</option>
+                    <option value="小學">小學</option>
+                    <option value="國中">國中</option>
+                    <option value="高中職">高中職</option>
+                    <option value="大學">大學</option>
+                    <option value="碩士">碩士</option>
+                    <option value="博士">博士</option>
                 </select></td>
             <td>權限</td><td><input type="text" name="syslimit"></td></tr>
         <tr><td>職務代理人</td><td>
@@ -105,6 +123,23 @@ $title="員工資料新增";
                     <option value="N">離職</option>
                     <option value="F">留職停薪</option></select>
                 </td></tr>
+        <tr><td>一階主管</td><td>
+                <select id="manage1id" name="manage1id">
+                    <option value=""></option>
+                    @foreach($emp_list1 as $v)
+                        <option value="{{$v->empid}}">{{$v->name}}</option>
+
+                    @endforeach
+                </select>
+                <input type="hidden" id="manage1name" name="manage1name" value="">
+            </td>
+            <td>二階主管</td><td>
+                <select id="manage2id" name="manage2id">
+                    <option value=""></option>
+                @foreach($emp_list1 as $v)
+                    <option value="{{$v->empid}}">{{$v->name}}</option>
+                @endforeach</select><input type="hidden" id="manage2name" name="manage2name" value=""></td></tr>
+
         <tr><td>建檔日期</td><td><input style="background:#F0F0F0;" type="text" name="creatdate" value="<?php echo date("Y-m-d");?>" readonly ></td>
             <td>建檔人員</td><td><input  style="background:#F0F0F0;" type="text" name="createmp" value="{{Session::get('name')}}" readonly ></td></tr>
         <tr><td>最後修改日期</td><td><input  style="background:#F0F0F0;" type="text" name="updatedate" value="<?php echo date("Y-m-d");?>" readonly ></td>
