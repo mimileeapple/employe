@@ -100,7 +100,7 @@ date_default_timezone_set('Asia/Taipei');
                 maxTime: "18:00pm", //最大時間
                 defaultTime: "09", //預設起始時間
                 startTime: "09:00", // 開始時間
-                dynamic: true, //是否顯示項目，使第一個項目按時間順序緊接在所選時間之後
+                dynamic: false, //是否顯示項目，使第一個項目按時間順序緊接在所選時間之後
                 dropdown: true, //是否顯示時間條目的下拉列表
                 scrollbar: true //是否顯示捲軸
             });
@@ -314,6 +314,10 @@ date_default_timezone_set('Asia/Taipei');
                 alert("請按下計算按鈕確認時數是否正確");
                 return 0;
             }
+            if($("#reason").val()==""){
+                alert("請填寫事由");
+                return 0;
+            }
             //  if(uploadfile.length==0)
             /*  {//********更改
                   status =false;
@@ -430,7 +434,7 @@ date_default_timezone_set('Asia/Taipei');
 
                             <input type="hidden" id="leavefakename" name="leavefakename" value="特休"></td>
                         <td class="bg-blue">事由</td>
-                        <td><input type="text" id="reason" name="reason" value=""></td>
+                        <td><input type="text" id="reason" name="reason" value="" required="required" ></td>
                         <td class="bg-blue">備註</td>
                         <td><input type="text" id="note" name="note" value=""></td>
 
@@ -455,12 +459,14 @@ date_default_timezone_set('Asia/Taipei');
                             <input type="hidden" class="" id="leaveend" name="leaveend">
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="6">您還有特休{{$emp_vacation[0]->specialdate}}
-                            天，年休{{$emp_vacation[0]->years_date}}天，補休{{$emp_vacation[0]->comp_time}}天 <a id="pay"
-                                                                                                               href="{{route('Pay.index')}}">出差表</a>
-                        </td>
-                    </tr>
+                    @foreach($emp_vacation as $e)
+                        <tr>
+                            <td colspan="6"><font color="red">您還有特休{{$e->specialdate}}
+                                    分，年休{{$e->years_date}}分，補休{{$e->comp_time}}分</font>
+
+                            </td>
+                        </tr>
+                    @endforeach
                     <tr>
                         <td class="bg-blue">附件</td>
                         <td colspan="5"><input type="file" id="uploadfile" name="uploadfile" value=""></td>

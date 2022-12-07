@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Services\HumanResourceServices;
 use App\Services\empinforservices;
+use App\Services\PayServices;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
-use App\empinfo;
-use App\leaveorder;
-use App\isholiday;
-use App\jobyears;
+use App\Model\empinfo;
+use App\Model\leaveorder;
+use App\Model\isholiday;
+use App\Model\jobyears;
+use App\Model\tripdata;
 use Session;
 use DB;
 
@@ -19,53 +21,36 @@ class leavefakeController extends Controller
 {
     private $HumanResourceServices;
     private $empinforservices;
+    private $PayServices;
 
     public function __construct()
     {
         $this->HumanResourceServices = new HumanResourceServices();
         $this->empinforservices = new empinforservices();
+        $this->PayServices = new PayServices();
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $emp_list1 = $this->HumanResourceServices->select_emp();
         $now = date('Y-m');
-        //dd($now);
         $emp_vacation = $this->empinforservices->years_vactation($now, Session::get('empid'));
-
-
         return view('leave.leaveorder', ['emp_list1' => $emp_list1, 'emp_vacation' => $emp_vacation]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $status = '';
         $emp_list1 = $this->HumanResourceServices->select_emp();
-
         return view('leave/leaveorder', ['emp_list1' => $emp_list1]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(Request $request)//申請請假單
     {
         $id = $request->empid;
         //上傳的檔案
-//dd($request);
         if (isset($request->uploadfile)) {
             //檔名
             $image = $request->file('uploadfile');
@@ -84,15 +69,10 @@ class leavefakeController extends Controller
             $data = array_except($request->input(), '_token');
         }
 
-
         $res = leaveorder::create($data);//用model的名字
-
         //寄信
-
         $title = "簽核通知-" . $request->name . "-請假單簽核";
-
         $tomail = $request->manage1mail;
-
         $towho = $request->manage1mail;;
         $content = "你有請假單尚未簽核，請至人資系統簽核";
         $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);
@@ -100,35 +80,18 @@ class leavefakeController extends Controller
         if ($res != false) {
             $res = true;
         }
-
         $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'));
-        return view('leave.personalleaveorder', ['emp_list' => $data]);//跳到總表
+       return view('leave.personalleaveorder', ['emp_list' => $data]);//跳到總表
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)//
+    public function show($id)////我的個人請假資料
     {
-        //我的個人請假資料
-
         $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'));
         return view('leave.personalleaveorder', ['emp_list' => $data]);
     }
 
-    /**
-     *
-     *
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request)
+    public function edit(Request $request)//主管需要的簽核資料
     {
         //簽核總表頁面
         //先抓1階主管
@@ -138,130 +101,112 @@ class leavefakeController extends Controller
               $data= $this->HumanResourceServices->bosssign2(Session::get('empid'));}*/
         $data = $this->HumanResourceServices->bosssignall(Session::get('empid'));
 
-
         foreach ($data as $i => $v) {
 
             $data[$i]->order_data = $v->orderid . ',' . $v->signsts . ',' . $v->manage1empsign . ',' . $v->manage2empsign;
         }
 
-
         return view('sign.bosssign', ['emp_list1' => $data]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
     }
 
-    public function isholiday(Request $request)
-    {//判斷是否為假日
-        $date_countday = $this->HumanResourceServices->isholiday($request->leavestart, $request->leaveend);
-        //將抓到的資料用count來計算筆數 如果他抓到100筆符合條件的資料 就會計算出100
-        return response()->json(['data' => $date_countday]);
-    }
 
-    public function signleaveorder(Request $request)
+    public function signleaveorder(Request $request)//簽核請假單
     {
+        date_default_timezone_set('Asia/Taipei');
+        $today = date('Y-m-d H:i:s');
         $leaveorder = new  leaveorder();
-        $data = [];
-
         foreach ($request->Checkbox as $i => $v) {
             $upda = explode(',', $v);
-//        $upda_data[$i]['orderid'] = $upda[0];
+            //$upda_data[$i]['orderid'] = $upda[0];
             $upda_data['signsts'] = $upda[1];
             if ($upda_data['signsts'] == 0) {//申請中
                 $upda_data['manage1empsign'] = 'Y';
                 $upda_data['signsts'] = '1';
                 $upda_data['manage2empsign'] = 'N';
+                $upda_data['updatedate'] = $today;
+                $upda_data['updateemp'] = Session::get('name');
+                $upda_data['manage1empsigndate'] = $today;
                 //寄信
 
-                $title = "簽核通知-" . $request->name[0] . "-請假單簽核";
-                $tomail = $this->empinforservices->empdata($request->manage2id, 3);
-                $tomail = $tomail[0]->mail;
-
-                $towho = $this->empinforservices->empdata($request->manage2id, 1);//取name
-
-                $towho = $towho[0]->name;
-                $content = "你有請假單尚未簽核，請至人資系統簽核";
-                $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);
+                /* $title = "簽核通知-" . $request->name[0] . "-請假單簽核";
+                 $tomail = $this->empinforservices->empdata($request->manage2id, 3);
+                 $towho = $this->empinforservices->empdata($request->manage2id, 1);//取name
+                 $content = "你有請假單尚未簽核，請至人資系統簽核";
+                 $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);*/
 
 
             } else if ($upda_data['signsts'] == 1) {//一階主管已簽核 二階主管作業
                 $upda_data['signsts'] = '2';
                 $upda_data['manage2empsign'] = 'Y';//1簽過了
                 $upda_data['manage1empsign'] = $upda[2];
+                $upda_data['updatedate'] = $today;
+                $upda_data['updateemp'] = Session::get('name');
+                $upda_data['manage2empsigndate'] = $today;
                 //寄信
-                $title = "簽核通知-misa-請假單簽核";
-                $tomail = "misa.lee@hibertek.com";//結案人
-                $towho = "misa.lee";;
-                $content = "你有請假單尚未簽核，請至人資系統簽核";
-                $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);
+                /* $title = "簽核通知-misa-請假單簽核";
+                 $tomail = "misa.lee@hibertek.com";//結案人
+                 $towho = "misa.lee";;
+                 $content = "你有請假單尚未簽核，請至人資系統簽核";
+                 $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);*/
 
 
             }
             leaveorder::where('orderid', $upda[0])->update($upda_data);
-            $data = $this->HumanResourceServices->bosssignall(Session::get('empid'));
-            //因為你勾選 他要處理一堆資料 最後在一開始就處理好 會方便很多
 
-            Session::put('j', count($data));
         }
+        $data = $this->HumanResourceServices->bosssignall(Session::get('empid'));
+        //因為你勾選 他要處理一堆資料 最後在一開始就處理好 會方便很多
+
+        Session::put('j', count($data));
         return redirect()->back();
     }
 
-    public function sreachdate(Request $request)
-    {
+    public function sreachdate(Request $request)//以月分搜尋某人請假單
+    {//以日期
         $id = $request->empid;
-        $emp_list1 = $this->HumanResourceServices->selectmyleave($id);
-
-        $data = $this->HumanResourceServices->sreachdate($request->sreachdateorder, $id);
+        $emp_list1 = $this->HumanResourceServices->selectmyleave($id);//抓自己全部請假資料
+        $data = $this->HumanResourceServices->sreachdate($request->sreachdateorder, $id);//以月分搜尋某人請價單
         return view('leave.personalleaveorder', ['emp_list' => $data, 'emp_list1' => $emp_list1, 'selected' => $request->sreachdateorder]);
 
     }
 
-    public function finshorder()//
+    public function finshorder()//秀出請假單需要結案的列表
     {
-        //秀出列表
-
         $data = $this->HumanResourceServices->finshsign();
         return view('sign.finshsign', ['emp_list' => $data]);
     }
 
-    public function signfinsh(Request $request)
+    public function signfinsh(Request $request)//結案簽核
     {
-
+        date_default_timezone_set('Asia/Taipei');
+        $today = date('Y-m-d H:i:s');
         //審核----->結案
-        if ($request->signsts == 2) {
-            foreach ($request->Checkbox as $k => $y) {
-                $data[] = array('orderid' => $y, 'signsts' => '3', 'ordersts' => 'Y');
-
-            }
-        }
         $leaveorder = new  leaveorder();
-        $leaveorder->updateBatch($data);
+        $data = [];
+        foreach ($request->Checkbox as $k => $y) {
+
+            $data['signsts'] = '3';
+            $data['ordersts'] = 'Y';
+            $data['signfinshdate'] = $today;
+            $data['updateemp'] = Session::get('name');
+
+            leaveorder::where('orderid', $y)->update($data);
+        }
         return redirect()->back();
     }
 
-
-    public function showleaveall(Request $request)
+    public function showleaveall(Request $request)//請假總表
     {//秀出全部資料-------------------*************
         $emp_list1 = $this->HumanResourceServices->select_emp();//抓所有員工資料
 //dd($request->input());
@@ -330,8 +275,6 @@ class leavefakeController extends Controller
 
             $emp_leavetotal = $this->empinforservices->sumleavedate($emp->empid, $selectmonths, $enddate);//昨天寫死 今天要寫活的
             foreach ($emp_leavetotal as $date) {
-
-
                 if ($emp->empid == $date->empid) {
                     $emp_list1[$id]['a1'] = $date->a1;
                     $emp_list1[$id]['a2'] = $date->a2;
@@ -346,23 +289,42 @@ class leavefakeController extends Controller
                     $emp_list1[$id]['a11'] = $date->a11;
                 }
             }
-
-
         }
-
 
         return view('sign.totaltable', ['emp_list1' => $emp_list1, 'selected' => $selected]);
 
     }
 
-    public function orderdetail($orderid)
+    public function orderdetail($orderid)//以單號搜尋某張請假單明細
     {
         $months = date('Y-m');
         $emp_list = $this->empinforservices->orderdetail($orderid);
         $a = $this->empinforservices->orderdetailmyid($orderid);//,'emp_list1'=>$data
-        $data = $this->empinforservices->myvacation($a, $months);
+        $data = $this->empinforservices->years_vactation($months, $a);
 
         return view('sign.orderdetail', ['emp_list' => $emp_list, 'emp_list1' => $data]);
     }
 
+    public function isholiday(Request $request)//判斷是否為假日
+    {
+        $date_countday = $this->HumanResourceServices->isholiday($request->leavestart, $request->leaveend);
+        //將抓到的資料用count來計算筆數 如果他抓到100筆符合條件的資料 就會計算出100
+        return response()->json(['data' => $date_countday]);
+    }
+
+    public function showleaveorder(Request $request)
+    {//秀出某月某人特定假期請假列表 EX:全部病假
+
+
+        $emp_list = $this->empinforservices->leaveorderdatil($request->input()['fakeid'], $request->input()['month'], $request->input()['empid']);
+
+        return view('sign.persolorder', ['emp_list' => $emp_list]);
+    }
+
+    public function historysignfinsh()
+    {
+        $data = $this->empinforservices->historysignfinsh();
+        //歷史簽核完畢資料
+        return view('sign.history_finshsign', ['emp_list' => $data]);
+    }
 }

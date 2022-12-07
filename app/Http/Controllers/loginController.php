@@ -4,14 +4,18 @@
 namespace App\Http\Controllers;
 use App\Services\HumanResourceServices;
 use App\Services\empinforservices;
+use App\Model\PayController;
+use App\Services\PayServices;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
-use App\empinfo;
-use App\leaveorder;
-use App\isholiday;
-use App\jobyears;
+use App\Model\empinfo;
+use App\Model\leaveorder;
+use App\Model\isholiday;
+use App\Model\jobyears;
+use App\Model\tripsign;
+use App\Model\board;
 use Session;
 use DB;
 
@@ -19,77 +23,54 @@ class loginController extends Controller
 {
     private $HumanResourceServices;
     private $empinforservices;
+    private $PayServices;
     public function __construct()
     {
         $this->HumanResourceServices =new HumanResourceServices();
         $this->empinforservices =new empinforservices();
+        $this->PayServices=new PayServices();
     }
     public function index()
     {
-       return view('login');
+        //跳轉公佈欄
+        $boardlist=$this->HumanResourceServices->board();
+       return view('login',['boardlist'=>$boardlist]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($id)//秀出所有"Y"的公告管理頁面
     {
-        //
+
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+
+
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
@@ -99,21 +80,18 @@ class loginController extends Controller
         return redirect()->action('loginController@index');
     }
 
-    //Request $request 這個是前端from送來的資料
+
     public function verifya(Request $request){
-        //這邊會把送來的資料把它陣列
-//       $data = $request->input();
-//       $a= empinfo::where('accout', $request->accout)->get();
-//       dd($a);
+
         try {
             //first就是抓第一筆條件符合的資料
             //empinfo 這個是我剛剛做好的model
             $data =  empinfo::where('accout','=',$request->accout)->first();
-//            $data =  DB::select('SELECT * FROM empinfo where accout = ?', array($request->accout));
-//            $data =  DB::select('SELECT * FROM empinfo where accout = ? and qq =?', array($request->accout,3164874945)); 兩個以上
+
             //session的函數
             if(Session::has('empid')){
-                return view('empindex');
+                $boardlist=$this->HumanResourceServices->board();
+                return view('empindex',['boardlist'=>$boardlist]);
             }
 
             if(!empty($data)){
@@ -126,10 +104,11 @@ class loginController extends Controller
                     //因為你勾選 他要處理一堆資料 最後在一開始就處理好 會方便很多
 
                     Session::put('j',count($data));
+                    $paydata=$this->PayServices->tripsign(Session::get('empid'));
+                    Session::put('pay',count($paydata));
+                    $boardlist=$this->HumanResourceServices->board();
 
-
-
-                    return view('empindex');
+                    return view('empindex',['boardlist'=>$boardlist]);
                 }
                 else{
                 return view('login',['error'=>'密碼錯誤,請重新輸入']);}
@@ -145,4 +124,5 @@ class loginController extends Controller
 
 
     }
+
 }
