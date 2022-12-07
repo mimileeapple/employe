@@ -419,27 +419,22 @@ date_default_timezone_set('Asia/Taipei');
                     <tr>
                         <td class="bg-blue">请假天数</td>
                         <td colspan="5" style="text-align: left;font-size: 14px;">
-
                             起始日期:
-                            {{$emp->leavestart}}
-
-                            </label>
-
+                            <b>{{$emp->leavestart}}</b>
                             到
                             結束日期:
-                            {{$emp->leaveend}}
-
-                            共{{$emp->hours}} 時
-
-
+                            <b>{{$emp->leaveend}}</b>
+                            共<b>{{$emp->hours}}</b>時<b>({{$emp->minit}}分鐘)</b>
                         </td>
                     </tr>
-                    <tr>@foreach($emp_list1 as $e)
-                            <td colspan="6"> 您還有特休{{$e->remain_specialdate}}天，年休{{$e->remain_years_date}}
-                                天，補休{{$e->remain_comp_time}}天 <a id="pay" href="{{route('Pay.index')}}">出差表</a>
+                    @foreach($emp_list1 as $e)
+                        <tr>
+                            <td colspan="6">
+                                截至上月為止，您還有特休<b>{{$e->specialdate}}</b>天，年休<b>{{$e->years_date}}</b>
+                                天，補休<b>{{$e->comp_time}}</b>天
                             </td>
-                        @endforeach
-                    </tr>
+                        </tr>
+                    @endforeach
                     <tr>
                         <td class="bg-blue">附件</td>
                         <td colspan="5">
@@ -447,37 +442,25 @@ date_default_timezone_set('Asia/Taipei');
                                 <a target="_blank" href="{{url('../'.$emp->uploadfile)}}">附件</a></td>
                         @else</td>
                         @endif
-
-
-                    </tr>
-                    <tr>
-                        <td class="bg-blue">請假注意事項</td>
-                        <td colspan="5"><font
-                                color="red">請假請先設定起訖日期後點選計算確認天數/時數是否正確，病假或喪假請上傳JPG檔案</font>
-                        </td>
                     </tr>
                     <tr>
                         <td class="bg-blue">備註</td>
-                        <td colspan="5">{{$emp->note}}</td>
+                        <td colspan="3">{{$emp->note}}</td>
+                        <td class="bg-blue"> 單據狀態：</td>
+                        <td>{{$emp->ordersts}}</td>
                     </tr>
                     <tr>
-                        <td colspan="6" style="text-align: center;padding-left:30px; ">
-
-                            一階主管：{{$emp->manage1}}
-
-                            二階主管：{{$emp->manage2}}
-
-                            簽核狀態：{{$emp->signsts}}
-                            單據狀態：{{$emp->ordersts}}</td>
-
+                        <td class="bg-blue"> 一階主管：</td>
+                        <td>{{$emp->manage1}}<br>{{$emp->manage1empsigndate}}</td>
+                        <td class="bg-blue"> 二階主管：</td>
+                        <td>{{$emp->manage2}}<br>{{$emp->manage2empsigndate}}</td>
+                        <td class="bg-blue"> 簽核狀態：</td>
+                        <td>{{$emp->signsts}}<br>{{$emp->signfinshdate}}</td>
                     </tr>
-
                 </table>
             @endforeach
         </div>
     </div>
-
-
 </div>
 
 </body>

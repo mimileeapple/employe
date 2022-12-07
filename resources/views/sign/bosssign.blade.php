@@ -84,6 +84,12 @@ date_default_timezone_set('Asia/Taipei');
 
                 <form id="form1" name="form1" action="{{route('signleaveorder')}}" method="post">
                     {{ csrf_field() }}
+                    @if(count($emp_list1)==0)
+                        <tr>
+                            <td colspan="16"><font color="red">目前尚無簽核資料</font></td>
+                        </tr>
+                    @else
+                    @endif
                     @foreach($emp_list1 as  $emp)
 
                         <tr>
@@ -104,7 +110,7 @@ date_default_timezone_set('Asia/Taipei');
                             <td>{{$emp->agentemp}}</td>
                             <td>{{$emp->leavestart}}</td>
                             <td>{{$emp->leaveend}}</td>
-                            <td>{{$emp->hours}}時</td>
+                            <td>{{$emp->hours}}時({{$emp->hours*60}}分鐘)</td>
                             <td>{{$emp->signsts}}</td>
 
                             <input type="hidden" name="signsts[]" value="{{$emp->signsts}}">
@@ -134,15 +140,18 @@ date_default_timezone_set('Asia/Taipei');
                         })
                     })
                 </script>
+                @if(count($emp_list1)>0)
+                    <tr>
+                        <td colspan="16"><input type="button" value="簽核通過" class="bt-send" id="signpass"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="16"><font
+                                color="silver">簽核狀態:0為申請中,1為1階主管已簽核,2為2階主管已簽核，3為結案</font></td>
+                    </tr>
+                @else
+                @endif
 
-                <tr>
-                    <td colspan="16"><input type="button" value="簽核通過" class="bt-send" id="signpass">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="16"><font
-                            color="silver">簽核狀態:0為申請中,1為1階主管已簽核,2為2階主管已簽核，3為結案</font></td>
-                </tr>
+
             </table>
             <br><br><br>
         </div>

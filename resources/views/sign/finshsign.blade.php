@@ -59,7 +59,8 @@ date_default_timezone_set('Asia/Taipei');
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
-            <br>
+            <br><br><a style="margin-left: -1100px;" href="{{route('historysignfinsh')}}" target="_blank"
+                       class="bt-search">已結案歷史資料</a><br><br>
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
                     <td><label>
@@ -90,7 +91,7 @@ date_default_timezone_set('Asia/Taipei');
                             </td>
                             <td>{{$emp->orderid}}</td>
                             <td><input type="button" value="明細" class="bt-admit"
-                                       onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=500px;height=500px')">
+                                       onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=900px;height=900px')">
                             </td>
                             <td>{{$emp->orderdate}}</td>
                             <td>{{$emp->leavefakename}}</td>
@@ -104,6 +105,7 @@ date_default_timezone_set('Asia/Taipei');
                             <td>{{$emp->leaveend}}</td>
                             <td>{{$emp->hours}}時</td>
                             <td> {{$emp->signsts}} <input type="hidden" name="signsts" value="{{$emp->signsts}}"></td>
+                            <input type="hidden" name="orderid" value="{{$emp->orderid}}">
                             <input type="hidden" name="manage1id" value="{{$emp->manage1id}}">
                             <input type="hidden" name="manage2id" value="{{$emp->manage2id}}">
                             <input type="hidden" name="signfinshmail" value="{{$emp->signfinshmail}}">

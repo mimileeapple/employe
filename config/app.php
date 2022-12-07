@@ -67,8 +67,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
-
+   //'timezone' => 'UTC',
+    'timezone' => 'Asia/Taipei',
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

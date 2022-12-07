@@ -38,11 +38,11 @@ $title="員工資料新增";
          </script>
         <script>
 
-           if( {{$status}} ){
+            if ({{$status}}) {
                 alert('新增成功');
                 self.opener.location.reload();
                 window.close();
-            }else {
+            } else {
                 alert('新增失敗');
             }
 

@@ -1,61 +1,79 @@
 <?php
+
 namespace App\Services;
-use App\empinfo;
-use App\leaveorder;
-use App\isholiday;
-use App\jobyears;
-use App\emp_vacation;
+
+use App\Model\empinfo;
+use App\Model\leaveorder;
+use App\Model\isholiday;
+use App\Model\jobyears;
+use App\Model\emp_vacation;
 use Mail;
 use DB;
 use Carbon\Carbon;
-class empinforservices{
-    function empdata($id,$number)
+
+class empinforservices
+{
+    function empdata($id, $number)
     {
-        $res = empinfo::where('empid', '=', $id)->get('name');
+        $res = empinfo::where('empid', '=', $id)->value('name');
         if ($number == 1) {
-            $res = empinfo::where('empid', '=', $id)->get('name');
+            $res = empinfo::where('empid', '=', $id)->value('name');
         }
         if ($number == 2) {
-            $res = empinfo::where('empid', '=', $id)->get('title');
+            $res = empinfo::where('empid', '=', $id)->value('title');
         }
         if ($number == 3) {
-            $res = empinfo::where('empid', '=', $id)->get('mail');
+            $res = empinfo::where('empid', '=', $id)->value('mail');
         }//取mail
         if ($number == 4) {
-            $res = empinfo::where('empid', '=', $id)->get('cellphone');
+            $res = empinfo::where('empid', '=', $id)->value('cellphone');
         }
         if ($number == 5) {
-            $res = empinfo::where('empid', '=', $id)->get('dep');
+            $res = empinfo::where('empid', '=', $id)->value('dep');
         }
         if ($number == 6) {
-            $res = empinfo::where('empid', '=', $id)->get('deparea');
+            $res = empinfo::where('empid', '=', $id)->value('deparea');
         }//
         if ($number == 7) {
-            $res = empinfo::where('empid', '=', $id)->get('achievedate');
+            $res = empinfo::where('empid', '=', $id)->value('achievedate');
         }//
         if ($number == 8) {
-            $res = empinfo::where('empid', '=', $id)->get('syslimit');
+            $res = empinfo::where('empid', '=', $id)->value('syslimit');
         }//
         if ($number == 9) {
-            $res = empinfo::where('empid', '=', $id)->get('agentemp');
+            $res = empinfo::where('empid', '=', $id)->value('agentemp');
         }//
         if ($number == 10) {
-            $res = empinfo::where('empid', '=', $id)->get('jobsts');
+            $res = empinfo::where('empid', '=', $id)->value('jobsts');
         }//
         if ($number == 11) {
-            $res = empinfo::where('empid', '=', $id)->get('manage1name');
+            $res = empinfo::where('empid', '=', $id)->value('manage1name');
         }//
         if ($number == 12) {
-            $res = empinfo::where('empid', '=', $id)->get('manage2name');
+            $res = empinfo::where('empid', '=', $id)->value('manage2name');
         }//
         if ($number == 13) {
-            $res = empinfo::where('empid', '=', $id)->get('qq');
+            $res = empinfo::where('empid', '=', $id)->value('qq');
+        }
+        if ($number == 14) {
+            $res = empinfo::where('empid', '=', $id)->value('manage1mail');
+        }//
+        if ($number == 15) {
+            $res = empinfo::where('empid', '=', $id)->value('manage2mail');
+        }//
+        if ($number == 16) {
+            $res = empinfo::where('empid', '=', $id)->value('manage1id');
+        }//
+        if ($number == 17) {
+            $res = empinfo::where('empid', '=', $id)->value('manage2id');
         }//
 
         return $res;
     }
-        function sumleavedate($empid,$leavestart,$leaveend){//假別
- $res =DB::select("select empid,
+
+    function sumleavedate($empid, $leavestart, $leaveend)
+    {//假別
+        $res = DB::select("select empid,
 SUM(CASE  leavefakeid WHEN   '1'  THEN  hours  else 0 END)'a1',
 SUM(CASE  leavefakeid WHEN   '2'  THEN  hours  else 0 END)'a2',
 SUM(CASE  leavefakeid WHEN   '3'  THEN  hours  else 0 END)'a3',
@@ -70,42 +88,63 @@ SUM(CASE  leavefakeid WHEN  '11'  THEN  hours  else 0  END) 'a11'
 from leaveorder
 WHERE (leavestart >= '$leavestart' and leaveend <= '$leaveend')
 group by empid");;
-            return $res;
-        }
-        function sumjobyears($years){//查詢特休
-
-            return jobyears::where('definition_years','=',$years)->get() ;
-        }
-        function showleaveorderall(){//嗅出全部請假單
-            return leaveorder::all();
-
-        }
-        function years_vactation($months,$empid){//抓取某人某月的假期表
-
-
-            $re=emp_vacation::where( 'months','=',$months) ->where('empid','=',$empid)->get();
-
-            return $re;
-
-        }
-        function nextmonthdata($months){//抓取某月份總數
-            $res = emp_vacation::where('months','=',$months)->count();
-
-            return $res;
-        }
-        function emp_vacation_all($months){//抓取某月份假期全部員工
-
-            return emp_vacation::where('months','=',$months)->get();
-
-        }
-        function orderdetail($orderid){//抓取某張請假單
-            return leaveorder::where('orderid','=',$orderid)->get();
-        }
-    function orderdetailmyid($orderid){//抓取某張請假單的empid
-        return leaveorder::where('orderid','=',$orderid)->value('empid');
+        return $res;
     }
-    function myvacation($id,$months){//抓取某人某月的假期
 
-        return emp_vacation::where('empid',$id and 'months',$months)->get();
+    function sumjobyears($years)
+    {//查詢特休
+
+        return jobyears::where('definition_years', '=', $years)->get();
     }
+
+    function showleaveorderall()
+    {//嗅出全部請假單
+        return leaveorder::all();
+
+    }
+
+    function years_vactation($months, $empid)
+    {//抓取某人某月的假期表
+
+        return emp_vacation::where('months', '=', $months)->where('empid', '=', $empid)->get();
+
+    }
+
+    function nextmonthdata($months)
+    {//抓取某月份總數
+        $res = emp_vacation::where('months', '=', $months)->count();
+
+        return $res;
+    }
+
+    function emp_vacation_all($months)
+    {//抓取某月份假期全部員工
+
+        return emp_vacation::where('months', '=', $months)->get();
+
+    }
+
+    function orderdetail($orderid)
+    {//以單號抓取某張請假單
+        return leaveorder::where('orderid', '=', $orderid)->get();
+    }
+
+    function orderdetailmyid($orderid)
+    {//抓取某張請假單的empid
+        return leaveorder::where('orderid', '=', $orderid)->value('empid');
+    }
+
+    function leaveorderdatil($fakeid, $month, $empid)
+    {
+        $selectmonths = date($month . "-01");
+        $endday = date($month . "-t");
+        return leaveorder::where('leavefakeid', $fakeid)->where('leavestart', '>=', $selectmonths)->where('leaveend', '<=', $endday)->
+        where('empid', $empid)->get();
+    }
+
+    function historysignfinsh()
+    {
+        return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->get();
+    }
+
 }
