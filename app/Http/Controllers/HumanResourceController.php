@@ -39,48 +39,18 @@ class HumanResourceController extends Controller
 
     public function store(Request $request)//新增員工
     {
-        $sdepname = '';
-        $ddepid = $request->dep;
-        if ($ddepid == "1") {
-            $sdepname = '管理部';
-        }
-        if ($ddepid == "2") {
-            $sdepname = '產品研發部';
-        }
-        if ($ddepid == "3") {
-            $sdepname = '產品工程部';
-        }
-        if ($ddepid == "4") {
-            $sdepname = 'PM業務部';
-        }
-        if ($ddepid == "5") {
-            $sdepname = '資材部';
-        }
-        if ($ddepid == "6") {
-            $sdepname = '財務部';
-        }
-        if ($ddepid == "7") {
-            $sdepname = '資訊部';
-        }
 
-        $sdepareaid = "";
-        $sdepareaname = $request->deparea;
-        if ($sdepareaname == 'T') {
-            $sdepareaid = "台北";
-        }
-        if ($sdepareaname == 'S') {
-            $sdepareaid = "深圳";
-        }
-        if ($sdepareaname == 'D') {
-            $sdepareaid = "東莞";
-        }
+
         $emp_list1 = empinfo::all();
         $mail1 = $this->empinforservices->empdata($request->manage1id, 3);//取1階主管mail
         $mail2 = $this->empinforservices->empdata($request->manage2id, 3);//取2階主管mail
         $a = explode("@", $request->mail);
         $accout = $a[0];
 
-        $data = array('dep' => $sdepname, 'depareaid' => $sdepareaid, 'manage1mail' => $mail1[0]->mail, 'manage2mail' => $mail2[0]->mail, 'accout' => $accout);//取得主管mail
+        $data['manage1mail'] =  $mail1;
+        $data['manage2mail'] =  $mail2;
+        $data['accout']=$accout;
+     //取得主管mail
         $data = array_merge($data, array_except($request->input(), '_token'));
         $status = empinfo::create($data);
         if ($status != false) {
@@ -135,8 +105,11 @@ class HumanResourceController extends Controller
     {
 
 
+
         $sdepid = '';
+        $depareaid="";
         $ddep = $request->dep;
+        $deparea=$request->deparea;
         if ($ddep == "管理部") {
             $sdepid = '1';
         }
@@ -158,10 +131,20 @@ class HumanResourceController extends Controller
         if ($ddep == "資訊部") {
             $sdepid = '7';
         }
+        if($deparea=="台北"){
+            $depareaid="T";
+        }
+        if($deparea=="深圳"){
+            $depareaid="S";
+        }
+        if($deparea=="東莞"){
+            $depareaid="D";
+        }
 
         try {
-
-            $data = array('depareaid' => $sdepid);
+            $data=$request->input();
+            $data['depid'] = $sdepid;
+            $data['depareaid'] = $depareaid;
 
             $res = empinfo::find($id)->update($data);
 

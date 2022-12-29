@@ -49,7 +49,7 @@ $date = date("Y-M-D");
             <br>
 
 
-            <table border="1" align="center" class="bor-blue tbl" width="100%">
+            <table border="1" align="center" class="bor-blue tbl" width="100%" style="margin-left: 150px;">
                 @if(count($emp_list) !=0)
                     <tr class="bg-blue">
                         <td><b>申请時間</b></td>

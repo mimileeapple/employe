@@ -79,7 +79,7 @@ date_default_timezone_set('Asia/Taipei');
                         <td><b>結束時間</b></td>
 
                         <td><b>簽核狀態</b></td>
-
+                        <td><b>刪除</b></td>
 
                     </tr>
                     @if(count($emplist)==0)
@@ -119,7 +119,9 @@ date_default_timezone_set('Asia/Taipei');
                             <input type="hidden" name="orderid[]" value="{{$emp->orderid}}">
                             <input type="hidden" name="supervisorsign[]" value="{{$emp->supervisorsign}}">
                             <input type="hidden" name="managersign[]" value="{{$emp->managersign}}">
-
+                            <td>
+                                <input data-del="{{$emp->orderid}}" type="button" value="刪除" class="bt-del">
+                            </td>
                     @endforeach
                     @if(count($emplist)>0)
                         <tr>
@@ -140,6 +142,27 @@ date_default_timezone_set('Asia/Taipei');
     </div>
 </div>
 <script>
+    $(".bt-del").on("click",function(){
+        var yes = confirm('你確定刪除此筆申請單嗎？');
+
+        if (yes) {
+            alert('刪除成功');
+        ID = $(this).data('del')
+        $.ajax({
+            type: 'DELETE',
+            url: '{{route('Pay.destroy','')}}'+'/'+ID,
+            data: {
+                'id':ID,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(msg) {
+                location.reload();
+            }
+        }); } else {
+            alert('取消');
+        }
+
+    });
     $(function () {
         $('#signpass').click(function () {
             alert("簽核成功!");

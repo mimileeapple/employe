@@ -9,4 +9,5 @@ class isholiday extends Model
     //
     protected $table ='calendar2023';
     protected $guarded = [];
+    public $timestamps = false;
 }

@@ -36,10 +36,10 @@ class HumanResourceServices
         return empinfo::where('empid', '=', $id)->get();
     }
 
-    function selectmyleave($id)
+    function selectmyleave($id,$page)
     {//抓自己全部請假資料
 
-        return leaveorder::where('empid', '=', $id)->orderBy('orderdate', 'DESC')->get();
+        return leaveorder::where('empid', '=', $id)->where('ordersts', '<>','D')->orderBy('orderdate', 'DESC')->paginate($page);
     }
 
     function selectmyleaveall()
@@ -52,11 +52,20 @@ class HumanResourceServices
         $datestart = date("Y-m-d", strtotime($datestart));
         $dateend = date("Y-m-d", strtotime($dateend));
         //抓期間中狀態為2的資料
-        $holiday = isholiday::whereBetween('date', [$datestart, $dateend])->where('isholiday', '=', '2')->get();//節日
-        $makework = isholiday::whereBetween('date', [$datestart, $dateend])->where('isholiday', '=', '3')->get();//補班日
-        $holiday = count($holiday);
-        $makework = count($makework);
-        return array('holiday' => $holiday, 'makework' => $makework);
+        $holidaynum = isholiday::whereBetween('date', [$datestart, $dateend])->where('isholiday', '=', '2')->whereNotIn('week', ["六","日"])->get();//節日
+//->whereNotIn('week', ["六","日"])
+        $workday=isholiday::whereBetween('date', [$datestart, $dateend])->where('isholiday', '=', '0')->get();//上班日
+
+        $makeworknum = isholiday::whereBetween('date', [$datestart, $dateend])->where('isholiday', '=', '3')->get();//補班日
+
+        $workday=count($workday);
+        $holiday = count($holidaynum);
+        $makework = count($makeworknum);
+        return array('holiday' => $holiday, 'makework' => $makework,'workday' => $workday);
+    }
+    function workinfo($date){
+        $workinfo=isholiday::where('date',$date)->value('isholiday');
+        return  array('workinfo'=>$workinfo);
     }
 
     function send_mail($title, $tomail, $towho, $content)
@@ -76,13 +85,13 @@ class HumanResourceServices
     function bosssign1($id)
     {//跑到主管1
         //
-        return leaveorder::where('signsts', '=', '0')->where('manage1id', '=', $id)->where('manage1empsign', 'N')->get();
+        return leaveorder::where('signsts', '=', '0')->where('manage1id', '=', $id)->where('manage1empsign', 'N')->where('ordersts', '<>','D')->get();
     }
 
     function bosssign2($id)
     {//跑到主管2
         //
-        return leaveorder::where('signsts', '=', '1')->where('manage2id', '=', $id)->where('manage2empsign', 'N')->get();
+        return leaveorder::where('signsts', '=', '1')->where('manage2id', '=', $id)->where('manage2empsign', 'N')->where('ordersts', '<>','D')->get();
     }
 
     function bosssignall($id)
@@ -95,8 +104,8 @@ class HumanResourceServices
 //            $query->where('manage1empsign', '=', 'N')
 //                ->orWhere('manage2empsign', '=', 'N'))}->get();
 
-        return DB::select("SELECT * FROM `leaveorder` where signsts in(0,1) and (manage1id=$id
-and manage1empsign='N') or (manage2id=$id and manage2empsign='N' and manage1empsign='Y')");
+        return DB::select("SELECT * FROM `leaveorder` where ordersts<>'D'  and (signsts in(0,1) and (manage1id=$id
+and manage1empsign='N') or (manage2id=$id and manage2empsign='N' and manage1empsign='Y'))");
     }
     /*leaveorder::whereIn('signsts', array('0', '1'))->where('manage1id','=',$id)->orWhere('manage2id','=',$id)->
     where('manage1empsign','=','N')->orWhere('manage2empsign','=','N')->get();*/
@@ -104,17 +113,17 @@ and manage1empsign='N') or (manage2id=$id and manage2empsign='N' and manage1emps
 or manage2id=$id) and manage1empsign='N' and manage2empsign='N'");*/
 
 
-    function sreachdate($sreachdateorder, $id)
+    function sreachdate($sreachdateorder, $id,$page)
     {//以月分搜尋某人請價單
         $enddate = date('Y-m-t', strtotime($sreachdateorder));
 
-        return leaveorder::where('empid', '=', $id)->whereBetween('creatdate', [$sreachdateorder, $enddate])->get();
+        return leaveorder::where('empid', '=', $id)->where('ordersts', '<>','D')->whereBetween('creatdate', [$sreachdateorder, $enddate])->paginate($page);;
     }
 
-    function finshsign()
+    function finshsign($page)
     {//搜尋需要結案的單子
         //
-        return leaveorder::where('signsts', '=', '2')->get();
+        return leaveorder::where('signsts', '=', '2')->where('ordersts', '<>','D')->paginate($page);
     }
 
     function board()

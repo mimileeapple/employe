@@ -65,10 +65,12 @@ date_default_timezone_set('Asia/Taipei');
                // $("#rownum").val(num-1);
                 $(this).parent().parent().remove();
             });
+
             $("input[type='text']").attr("readonly","readonly");
             $("#currency").attr("readonly","readonly");
             $("input[type='text']").css("background-color","#F0F0F0");
             $("#worknote").attr("readonly","readonly")
+
         });
 
     </script>
@@ -224,6 +226,7 @@ date_default_timezone_set('Asia/Taipei');
                     @endforeach
                 </tr>
             </table>
+
             </table>
 
             <br><br><br><br><br><br><br><br><br>

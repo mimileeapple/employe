@@ -13,6 +13,10 @@ use App\Model\tripsign;
 use App\Model\tripdata;
 use App\Model\trippay;
 use App\Model\triptotal;
+use App\Model\log\tripsign_log;
+use App\Model\log\tripdata_log;
+use App\Model\log\trippay_log;
+use App\Model\log\triptotal_log;
 use Session;
 use DB;
 
@@ -131,6 +135,7 @@ class PayController extends Controller
             $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);*/
 
         $status = true;
+
         echo " <script>alert('新增成功'); self.opener.location.reload();window.close(); </script>";
         return view('pay.applyreimburse', ['order_list' => json_decode($data), 'status' => $status]);
 
@@ -140,12 +145,14 @@ class PayController extends Controller
     public function show($id)//秀出所有我需要填寫的出差表
     {
 
-        $orderdata = $this->PayServices->findmytrip($id);//取出所有資料
+        $orderdata = $this->PayServices->findmytrip($id,10);//取出所有資料
 
         foreach ($orderdata as $i => $e) {
             $sts = $this->PayServices->findordersts($e->orderid);
-            if (count($sts) > 0) {
+
+            if (count($sts) > 0) {//有申請過
                 $orderdata[$i]['status'] = true;
+
             } else {
                 $orderdata[$i]['status'] = false;
             }
@@ -260,14 +267,55 @@ class PayController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $id)
     {
-        //
+        $id = $id->input('id');
+
+      // tripsign::where('orderid', $id)->update(['ordersts'=>'D']);
+        $empdata = [];
+        $data = $this->PayServices->tripsign(Session::get('empid'));
+        foreach ($data as $i => $e) {
+            $empdata[$i]['title'] = $this->PayServices->tripdatatitle($e->orderid);
+            $empdata[$i]['leavestart'] = $this->PayServices->tripdataleavestart($e->orderid);
+            $empdata[$i]['leaveend'] = $this->PayServices->tripdataleaveend($e->orderid);
+            $empdata[$i] = array_merge($empdata[$i], json_decode(json_encode($data[$i]), true));
+
+        }
+        $empdata = json_decode(json_encode($empdata), FALSE);
+
+        foreach ($data as $i => $v) {
+
+            $empdata[$i]->order_data = $v->orderid . ',' . $v->signsts . ',' . $v->supervisorsign . ',' . $v->managersign . ',' . $v->financesign;
+        }
+
+        //將刪除的資料全部撈出後存入log
+        $datasign= tripsign::where('orderid', $id)->get();
+        $datasign[0]->action='delete';
+
+         tripsign_log::create($datasign->toArray()[0]);
+
+        $tripdata= tripdata::where('orderid', $id)->get();
+        $tripdata[0]->action='delete';
+        tripdata_log::create($tripdata->toArray()[0]);
+        $paydata= trippay::where('orderid', $id)->get();
+        $paydata[0]->action='delete';
+        trippay_log::create($paydata->toArray()[0]);
+        $totaldata= triptotal::where('orderid', $id)->get();
+        $totaldata[0]->action='delete';
+        triptotal_log::create($totaldata->toArray()[0]);
+ //刪除
+        tripsign::where('orderid', $id)->delete();
+        tripdata::where('orderid', $id)->delete();
+        trippay::where('orderid', $id)->delete();
+        triptotal::where('orderid', $id)->delete();
+
+        return view("sign.bosssigntrip", ['emplist' => $empdata]);
     }
 
     public function search_trip(Request $request)
     {//個人總表
-        $orderdata = $this->PayServices->search_trip_month($request->month);
+        $orderdata = $this->PayServices->search_trip_month($request->month,10);
+
         foreach ($orderdata as $i => $e) {
             $sts = $this->PayServices->findordersts($e->orderid);
             if (count($sts) > 0) {
@@ -301,7 +349,7 @@ class PayController extends Controller
     }
 
     public function historytrippay()
-    {
+    {//歷史申請單資料
         $empdata = [];
         $data = $this->PayServices->historytrippay();
         foreach ($data as $i => $e) {

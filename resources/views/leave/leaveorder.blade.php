@@ -11,11 +11,11 @@ date_default_timezone_set('Asia/Taipei');
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1; charset=utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet" type="text/css">
+    <link rel="icon" href="{{ URL::asset('img/pageicon.ico')}}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="img/pageicon.ico" type="image/x-icon"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" href="{{ URL::asset('img/pageicon.ico')}}" type="image/x-icon"/>
-    <link rel="shortcut icon" href="img/pageicon.ico" type="image/x-icon"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
             crossorigin="anonymous"></script>
@@ -144,7 +144,7 @@ date_default_timezone_set('Asia/Taipei');
         //下午上班
         var pmStart = pmHourStart + pmMinutesStart / 60;
         var pmEnd = pmHourEnd + pmMinutesEnd / 60;
-
+        //中午休息時間
         var qk = pmHourStart - amHourEnd
         var middleTime = pmStart - amEnd;
 
@@ -153,11 +153,12 @@ date_default_timezone_set('Asia/Taipei');
 
             var sstartTime = $(".leavestartdate").val() + ' ' + $(".leavestarttime").val();
             var sendTime = $(".leaveenddate").val() + ' ' + $(".leaveendtime").val();
-
-            // alert(startTime)
-            // alert(endTime)
             var startTime = new Date(sstartTime);
             var endTime = new Date(sendTime);
+            var month=$(".leavestartdate").val().replace(/\//g,"-");
+           month=month.substring(0, 7);
+           $("#months").val(month);
+
             if (startTime == "") {
                 alert("請填入開始日期");
                 return 0;
@@ -172,37 +173,59 @@ date_default_timezone_set('Asia/Taipei');
                 $("#hours").val("");
                 return 0;
             }
-
-            var hours = getHours(startTime, endTime);
             $("#leavestart").val(sstartTime);
             $("#leaveend").val(sendTime);
-
             if ($("#leavestart").val() == "" || $("#leaveend").val() == "") {
                 alert("日期不得等於空");
                 return 0;
             }
-            //hours-節日
 
-            $.get("isholiday", {leavestart: $(".leavestartdate").val(), leaveend: $(".leaveenddate").val()},
+            var hours = getHours(startTime, endTime);//純計算扣掉六日
+            if(hours<=8){
+                $.get("workinfo", {leavestart: $(".leavestartdate").val()},//當天
+                    function (time) {
+                        var workinfo=time.data.workinfo;
+
+                        //alert("workinfo="+workinfo);
+                      if(workinfo==2){
+                          alert("今天為休假日");
+                          hours=0;
+                      }
+                      else if(workinfo==3||workinfo==0){
+                          hours=hours;
+                      }
+                        if(hours<0){
+                            hours=0;
+                        }
+                        $("#hours").val(hours);
+                        var m = $("#hours").val() * 60;
+                        $("#minit").val(m);
+                });
+            }
+           // alert(hours);
+            if(hours>8){//日期區間
+            $.get("isholiday", {leavestart: $(".leavestartdate").val(), leaveend:$(".leaveenddate").val()},
                 function (time) {
                     //這邊會返回100
                     var a = parseInt(time.data.holiday);//節日
                     var b = parseInt(time.data.makework);//補班
-                    var holiday = a * 8;
+                    var holiday = a * 8;//如果用兩天 同一時間 則會錯誤變成16H
                     var makework = b * 8;
                     //將返回的數字*8 等於工時
-
-                    hours = hours - holiday + makework;
-
+                    hours = hours - holiday+makework ;
+                    //alert(holiday);
+                    //alert(makework);
+                    if(hours<0){
+                        hours=0;
+                    }
                     $("#hours").val(hours);
                     var m = $("#hours").val() * 60;
                     $("#minit").val(m);
                 });
-
+            }
 
         }
-
-        function getHours(startTime, endTime) {
+    function getHours(startTime, endTime) {
             var startDate = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
             var endDate = new Date(endTime.getFullYear(), endTime.getMonth(), endTime.getDate(), 0);
             var tmpStart = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
@@ -247,7 +270,7 @@ date_default_timezone_set('Asia/Taipei');
 
                     } else {
                         // 中间日期
-
+                        //遇到星期六 星期日
                         if (date.getDay() == 6 || date.getDay() == 0) {
                             continue;
                         }
@@ -280,7 +303,7 @@ date_default_timezone_set('Asia/Taipei');
                 if (tmpStartTime < amEnd && tmpEndTime >= pmStart) {
                     timeLong -= middleTime;
 
-                }//這邊寫了
+                }
 
                 return timeLong;
             }
@@ -333,9 +356,10 @@ date_default_timezone_set('Asia/Taipei');
                 extname = str[str.length - 1];
                 console.log(extname.toUpperCase());
 
-                if (extname.toUpperCase() == "JPG" || extname.toUpperCase() == "PNG") {
+                if (extname.toUpperCase() == "JPG" || extname.toUpperCase() == "PNG"||extname.toUpperCase() == "PDF") {
                     console.log(status)
-                } else {
+                }
+                else {
                     status = false;
                     MSG += "匯入之檔案必須是JPG/PNG/PDF！\n";
                 }
@@ -410,7 +434,7 @@ date_default_timezone_set('Asia/Taipei');
                         <td><input type="text" id="agentemp" name="agentemp"
                                    value="{{Session::get('empdata')->agentemp}}" readonly>
                             <input type="hidden" id="achievedate" name="achievedate"
-                                   value="{{Session::get('empdata')->achievedate}}" readonly></td>
+                                   value="{{Session::get('empdata')->achievedate}}"></td>
                     </tr>
                     <tr align="center">
                         <td class="bg-blue">假別</td>
@@ -428,7 +452,12 @@ date_default_timezone_set('Asia/Taipei');
                                 <option value="9">生理假</option>
                                 <option value="10">其他</option>
                                 <option value="11">補休</option>
-
+                                <option value="12">公傷病假</option>
+                                <option value="13">產假</option>
+                                <option value="14">產檢假</option>
+                                <option value="15">陪產假</option>
+                                <option value="16">留職停薪</option>
+                                <option value="17">家庭照顧假</option>
 
                             </select>
 
@@ -444,15 +473,15 @@ date_default_timezone_set('Asia/Taipei');
                         <td colspan="5" style="text-align: left;font-size: 12px;">
 
                             起始日期 <label class="start_date">
-                                <input type="text" class="leavestartdate" id="datepicker"></label>
+                                <input type="text" class="leavestartdate"  id="datepicker"  autocomplete="off"></label>
                             起始時間 <label class="start_date">
-                                <input type="text" class="leavestarttime" id="timepicker"></label>
+                                <input type="text" class="leavestarttime" id="timepicker"  autocomplete="off"></label>
                             到
                             結束日期 <label class="start_date">
-                                <input type="text" class="leaveenddate" id="datepicker1"></label>
+                                <input type="text" class="leaveenddate" id="datepicker1"  autocomplete="off"></label>
                             結束時間 <label class="start_date">
-                                <input type="text" class="leaveendtime" id="timepicker1"></label>
-                            <input type="button" value="計算" onclick="calculate()">
+                                <input type="text" class="leaveendtime" id="timepicker1"  autocomplete="off"></label>
+                            <input type="button" value="計算" onclick="calculate()" class="bt-print">
                             <input type="text" id="hours" name="hours" value=""> 時
                             =<input type="text" id="minit" name="minit" value="">分
                             <input type="hidden" class="" id="leavestart" name="leavestart">
@@ -484,7 +513,7 @@ date_default_timezone_set('Asia/Taipei');
                     <input type="hidden" name="createmp" value="{{Session::get('name')}}">
                     <input type="hidden" name="updatedate" value="<?php echo date("Y-m-d");?>">
                     <input type="hidden" name="updateemp" value="{{Session::get('name')}}">
-
+                    <input type="hidden" class="months" id="months" name="months" value="<?php echo date("Y-m");?>">
                     <tr>
                         <td colspan="6" style="text-align: center;padding-left:30px; ">
 
@@ -511,6 +540,7 @@ date_default_timezone_set('Asia/Taipei');
                                                onclick="DoImport()">
                             <input type="hidden" id="doing" value="1"></td>
                     </tr>
+                    <tr><td colspan="6"><font color="red"> 申請即送出簽核，若要修改或取消，需通知簽核人員刪除後再重新申請</font></td></tr>
                 </table>
 
         </div>

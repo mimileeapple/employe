@@ -47,19 +47,41 @@ class vacationController extends Controller
             $days = floor(($dateDifference - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
             $jobyears = $years . '.' . $months;//這裡已經有了阿 //0.6
 
-            $personlyears = $years . " year,  " . $months . " months , " . $days . " days";//年資
+            $personlyears = $years . "年" . $months . "月" . $days . "日";//年資
             $emp_list[$id]['personlyears'] = $personlyears;//年資(詳細 含字串)
             $emp_list[$id]['jobyears'] = $jobyears;//年.月(也算年資 沒算日)
 
             //特休年修結束
             $vacaion = $this->empinforservices->years_vactation($thismonth, $emp->empid);
+            if ($years==0&&$months==6) {
 
+                $year= 0.6;
+                $jobvaction=$this->empinforservices->sumjobyears($year);
+                foreach ($jobvaction as $v){
+
+                    $emp_list[$id]['add_specialdate'] = $v->specialdate;
+                    $emp_list[$id]['add_years_date'] = $v->years_date;
+                }
+            }
+            else if($years>0&&$months==0){
+                $jobvaction=$this->empinforservices->sumjobyears($years);
+                foreach ($jobvaction as $v){
+
+                    $emp_list[$id]['add_specialdate'] = $v->specialdate;
+                    $emp_list[$id]['add_years_date'] = $v->years_date;
+
+                }
+
+            }
+            else{
+                $emp_list[$id]['add_specialdate'] = 0;
+                $emp_list[$id]['add_years_date'] =0;
+            }
             foreach ($vacaion as $a) {
+
                 $emp_list[$id]['specialdate_m'] = $a->specialdate;
                 $emp_list[$id]['years_date_m'] = $a->years_date;
                 $emp_list[$id]['comp_time_m'] = $a->comp_time;
-                $emp_list[$id]['add_specialdate'] = $a->add_specialdate;
-                $emp_list[$id]['add_years_date'] = $a->add_years_date;
                 $emp_list[$id]['add_comp_time'] = $a->add_comp_time;
                 $emp_list[$id]['remain_specialdate'] = $a->remain_specialdate;
                 $emp_list[$id]['remain_years_date'] = $a->remain_years_date;
@@ -87,29 +109,21 @@ class vacationController extends Controller
     public function store(Request $request)
     {
         $emp_list1 = $this->HumanResourceServices->select_emp();
-        $today = date('Y-m-d');
-        $nextmonth = date('Y-m', strtotime(date('Y-m-01', strtotime(Session::get('thismonth'))) . '+1 month '));
 
+        $today = date('Y-m-d');
+        $thistoday=date('Y-m', strtotime(Session::get('thismonth')));
+        $nextmonth = date('Y-m', strtotime(date('Y-m-01', strtotime(Session::get('thismonth'))) . '+1 month '));
+        $thismonth_list=$this->empinforservices->nextmonthdata($thistoday);
         $month_list = $this->empinforservices->nextmonthdata($nextmonth);
         try {
-            foreach ($emp_list1 as $emp) {
 
-                $remain_specialdate = (int)$_POST['specialdate'][$emp->empid] + (int)$_POST['add_specialdate'][$emp->empid] - (int)$_POST['sub_specialdate'][$emp->empid];
-                if ($remain_specialdate <= 0) {
-                    $remain_specialdate = 0;
-                }
-                $remain_years_date = (int)$_POST['years_date'][$emp->empid] + (int)$_POST['add_years_date'][$emp->empid] - (int)$_POST['sub_years_date'][$emp->empid];
-                if ($remain_years_date <= 0) {
-                    $remain_years_date = 0;
-                }
-                $remain_comp_time = (int)$_POST['comp_time'][$emp->empid] + (int)$_POST['add_comp_time'][$emp->empid] - (int)$_POST['sub_comp_time'][$emp->empid];
-                if ($remain_comp_time <= 0) {
-                    $remain_comp_time = 0;
-                }
-                $data = DB::update('update emp_vacation set
+            foreach ($emp_list1 as $emp) {
+                if($thismonth_list>0){
+                    //有資料
+                $status = DB::update('update emp_vacation set
           add_specialdate = ?,add_years_date = ?,add_comp_time = ?,
           specialdate=?, years_date=?,comp_time=?,sub_specialdate=?,sub_years_date=?,sub_comp_time=?,
-          remain_specialdate=?,remain_years_date=?,remain_comp_time=?,updateemp=?
+          remain_specialdate=?,remain_years_date=?,remain_comp_time=?,updateemp=?,updatedate=?,sts=?,
                     where empid =? and months=?',
                     [
                         $_POST['add_specialdate'][$emp->empid],
@@ -121,43 +135,84 @@ class vacationController extends Controller
                         $_POST['sub_specialdate'][$emp->empid],
                         $_POST['sub_years_date'][$emp->empid],
                         $_POST['sub_comp_time'][$emp->empid],
-                        $remain_specialdate,
-                        $remain_years_date,
-                        $remain_comp_time,
-                        Session::get('name'),
+                        $_POST['remain_specialdate'][$emp->empid],
+                        $_POST['remain_years_date'][$emp->empid],
+                        $_POST['remain_comp_time'][$emp->empid],
+                        Session::get('name'),$today,'update',
                         $emp->empid,
                         date(Session::get('thismonth'))]);
-                $status = false;
-                if ($month_list == 0) {
+                $status = true;
+            }
+                else{
+                    //沒資料
+                    $status = DB::insert('insert into emp_vacation (
+                    empid,name,ename,achievedate,months,
+                    specialdate,years_date,comp_time,add_specialdate ,add_years_date,
+                    add_comp_time,sub_specialdate,sub_years_date,sub_comp_time,remain_specialdate,
+                    remain_years_date,remain_comp_time,updateemp,createmp,updatedate,
+                    creatdate,sts)
+        values (?,?,?,?,?,
+                ?,?,?,?,?,
+                ?,?,?,?,?,
+                ?,?,?,?,?,
+                ?,?
+               )',
+  [$_POST['empid'][$emp->empid], $_POST['name'][$emp->empid], $_POST['ename'][$emp->empid], $_POST['achievedate'][$emp->empid], $thistoday,
+  $_POST['specialdate'][$emp->empid],$_POST['years_date'][$emp->empid],$_POST['comp_time'][$emp->empid],$_POST['add_specialdate'][$emp->empid],$_POST['add_years_date'][$emp->empid],
+   $_POST['add_comp_time'][$emp->empid],$_POST['sub_specialdate'][$emp->empid],$_POST['sub_years_date'][$emp->empid],$_POST['sub_comp_time'][$emp->empid], $_POST['remain_specialdate'][$emp->empid],
+$_POST['remain_years_date'][$emp->empid],$_POST['remain_comp_time'][$emp->empid],Session::get("name"),Session::get("name"), $today, $today,'insert']);
+                    $status = true;
+
+                }
+                if ($month_list == 0) {//下月
                     try {
                         $status = DB::insert('insert into emp_vacation (
                     empid,name,ename,achievedate,months,
-                     specialdate,years_date,comp_time,createmp,updateemp,creatdate,updatedate)
+                     specialdate,years_date,comp_time,createmp,updateemp,creatdate,updatedate,sts)
         values (?,?,?,?,?,
-              ?,?,?,?,?,?,?
+              ?,?,?,?,?,?,?,?
                )',
                             [$_POST['empid'][$emp->empid], $_POST['name'][$emp->empid], $_POST['ename'][$emp->empid], $_POST['achievedate'][$emp->empid], $nextmonth,
-                                $remain_specialdate, $remain_years_date, $remain_comp_time,
-                                $_POST['updateemp'][$emp->empid], $_POST['updateemp'][$emp->empid], $today, $today]);
+                             $_POST['remain_specialdate'][$emp->empid],$_POST['remain_years_date'][$emp->empid],$_POST['remain_comp_time'][$emp->empid],
+                             $_POST['updateemp'][$emp->empid], Session::get("name"), $today, $today,'insert']);
                         $status = true;
-                    } catch (\Exception $e) {
+                    }
 
+                   catch (\Exception $e) {
                     }
                 }
+                else{
+                    $status = DB::update('update emp_vacation set
+          specialdate=?, years_date=?,comp_time=?,updateemp=?,updatedate=?,sts=?
+                    where empid =? and months=?',
+                        [
+
+                            $_POST['remain_specialdate'][$emp->empid],
+                            $_POST['remain_years_date'][$emp->empid],
+                            $_POST['remain_comp_time'][$emp->empid],
+                            Session::get('name'),$today,'update',
+                            $emp->empid,
+                            $nextmonth]);
+                    $status = true;
+                }
+
 
             }
             $emp_list = $this->empinforservices->emp_vacation_all(Session::get('thismonth'));
 
             if ($status) {
                 //更新成功
+                echo " <script>alert('修改成功'); self.opener.location.reload();window.close(); </script>";
                 return view('sign.specialdate', ['emp_list' => $emp_list, 'status' => true]);
-            } else {
+            }
+            else {
                 return view('sign.specialdate', ['emp_list' => $emp_list, 'status' => false]);
             }
         } catch (Exception $e) {
             //錯誤
 
         }
+
 
     }
 

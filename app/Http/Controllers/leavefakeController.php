@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\log\leaveorder_log;
 use App\Services\HumanResourceServices;
 use App\Services\empinforservices;
 use App\Services\PayServices;
@@ -43,7 +44,9 @@ class leavefakeController extends Controller
     {
         $status = '';
         $emp_list1 = $this->HumanResourceServices->select_emp();
-        return view('leave/leaveorder', ['emp_list1' => $emp_list1]);
+        $now = date('Y-m');
+        $emp_vacation = $this->empinforservices->years_vactation($now, Session::get('empid'));
+        return view('leave/leaveorder', ['emp_list1' => $emp_list1, 'emp_vacation' => $emp_vacation]);
     }
 
 
@@ -71,23 +74,23 @@ class leavefakeController extends Controller
 
         $res = leaveorder::create($data);//用model的名字
         //寄信
-        $title = "簽核通知-" . $request->name . "-請假單簽核";
+       /* $title = "簽核通知-" . $request->name . "-請假單簽核";
         $tomail = $request->manage1mail;
         $towho = $request->manage1mail;;
         $content = "你有請假單尚未簽核，請至人資系統簽核";
-        $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);
+        $this->HumanResourceServices->send_mail($title, $tomail, $towho, $content);*/
 
         if ($res != false) {
             $res = true;
         }
-        $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'));
+        $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'),10);
        return view('leave.personalleaveorder', ['emp_list' => $data]);//跳到總表
 
     }
 
     public function show($id)////我的個人請假資料
     {
-        $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'));
+        $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'),10);
         return view('leave.personalleaveorder', ['emp_list' => $data]);
     }
 
@@ -114,10 +117,26 @@ class leavefakeController extends Controller
 
 
     }
+//我剛剛加了Request 是宣告說 他要接從前台丟來的參數 你取消的話  他會變成 GET 但是 正常來說 是都有會有
+//現在發惠生這樣的情況 主要是因為他是resource的路由 resource本身都有特別的規則在限制 你說他的這些含是嬤
+//對 新 修 查 改 都有 特別的規則 就是沒照著寫 很容易錯誤就對了
+//對 你現在的寫法比較偏向 沒照規則走  就是自己創一個路由 那樣的話 什麼規則都沒有  你想怎麼寫就怎麼寫 一班都是怎樣?
+    public function destroy(Request $id)
+    {//刪除請假單 sts=D
+  $id = $id->input('id');
 
-    public function destroy($id)
-    {
-        //
+        leaveorder::where('orderid', $id)->update(['ordersts'=>'D']);
+        $data = $this->HumanResourceServices->bosssignall(Session::get('empid'));
+        foreach ($data as $i => $v) {
+
+            $data[$i]->order_data = $v->orderid . ',' . $v->signsts . ',' . $v->manage1empsign . ',' . $v->manage2empsign;
+        }
+       $leavedata= leaveorder::where('orderid', $id)->get();
+        $leavedata[0]->action='delete';
+        leaveorder_log::create($leavedata->toArray()[0]);
+        leaveorder::where('orderid', $id)->delete();//
+
+        return view('sign.bosssign', ['emp_list1' => $data]);
     }
 
 
@@ -126,6 +145,7 @@ class leavefakeController extends Controller
         date_default_timezone_set('Asia/Taipei');
         $today = date('Y-m-d H:i:s');
         $leaveorder = new  leaveorder();
+
         foreach ($request->Checkbox as $i => $v) {
             $upda = explode(',', $v);
             //$upda_data[$i]['orderid'] = $upda[0];
@@ -166,7 +186,6 @@ class leavefakeController extends Controller
 
         }
         $data = $this->HumanResourceServices->bosssignall(Session::get('empid'));
-        //因為你勾選 他要處理一堆資料 最後在一開始就處理好 會方便很多
 
         Session::put('j', count($data));
         return redirect()->back();
@@ -175,15 +194,16 @@ class leavefakeController extends Controller
     public function sreachdate(Request $request)//以月分搜尋某人請假單
     {//以日期
         $id = $request->empid;
-        $emp_list1 = $this->HumanResourceServices->selectmyleave($id);//抓自己全部請假資料
-        $data = $this->HumanResourceServices->sreachdate($request->sreachdateorder, $id);//以月分搜尋某人請價單
+
+        $emp_list1 = $this->HumanResourceServices->selectmyleave($id,10);//抓自己全部請假資料
+        $data = $this->HumanResourceServices->sreachdate($request->sreachdateorder, $id,10);//以月分搜尋某人請價單
         return view('leave.personalleaveorder', ['emp_list' => $data, 'emp_list1' => $emp_list1, 'selected' => $request->sreachdateorder]);
 
     }
 
     public function finshorder()//秀出請假單需要結案的列表
     {
-        $data = $this->HumanResourceServices->finshsign();
+        $data = $this->HumanResourceServices->finshsign(10);
         return view('sign.finshsign', ['emp_list' => $data]);
     }
 
@@ -234,20 +254,19 @@ class leavefakeController extends Controller
             $days = floor(($dateDifference - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
             $jobyears = $years . '.' . $months;//這裡已經有了阿 //0.6
 
-            $personlyears = $years . " year,  " . $months . " months , " . $days . " days";//年資
+            $personlyears = $years . "年" . $months . "月" . $days . "日";//年資
             $emp_list1[$id]['personlyears'] = $personlyears;//年資(詳細 含字串)
             $emp_list1[$id]['jobyears'] = $jobyears;//年.月(也算年資 沒算日)
 
-            if ($emp->jobyears >= 0.6 && $emp->jobyears < 1 && $years == 0.0) {
 
-                $years = 0.6;
 
-            }
-            $yearsdata = $this->empinforservices->sumjobyears($years);// 依年資取得休假列表
+            //$yearsdata = $this->empinforservices->sumjobyears($years);// 依年資取得休假列表
 
             $vacaion = $this->empinforservices->years_vactation($request->sreachdateorder, $emp->empid);
 
-            foreach ($vacaion as $a) {
+
+      foreach ($vacaion as $a) {
+
                 $emp_list1[$id]['specialdate_m'] = $a->specialdate;
                 $emp_list1[$id]['years_date_m'] = $a->years_date;
                 $emp_list1[$id]['comp_time_m'] = $a->comp_time;
@@ -258,22 +277,11 @@ class leavefakeController extends Controller
                 $emp_list1[$id]['remain_years_date'] = $a->remain_years_date;
                 $emp_list1[$id]['remain_comp_time'] = $a->remain_comp_time;
             }
-            foreach ($yearsdata as $date) {
-//floor(
-                if ($years == $date->definition_years) {//年資有到的人
-
-                    $emp_list1[$id]['specialdate'] = $date->specialdate;
-                }
-                if ($years >= 3) {//年休大於3年88
-
-                    $emp_list1[$id]['years_date'] = $date->years_date;
-                }
-            }//特休年修結束
 
 
 //******************************************************************//
 
-            $emp_leavetotal = $this->empinforservices->sumleavedate($emp->empid, $selectmonths, $enddate);//昨天寫死 今天要寫活的
+            $emp_leavetotal = $this->empinforservices->sumleavedate($emp->empid, $selectmonths, $enddate);
             foreach ($emp_leavetotal as $date) {
                 if ($emp->empid == $date->empid) {
                     $emp_list1[$id]['a1'] = $date->a1;
@@ -311,7 +319,10 @@ class leavefakeController extends Controller
         //將抓到的資料用count來計算筆數 如果他抓到100筆符合條件的資料 就會計算出100
         return response()->json(['data' => $date_countday]);
     }
-
+    public function workinfo(Request  $request){
+        $date_countday = $this->HumanResourceServices->workinfo($request->leavestart);
+        return response()->json(['data' => $date_countday]);
+    }
     public function showleaveorder(Request $request)
     {//秀出某月某人特定假期請假列表 EX:全部病假
 
@@ -322,9 +333,10 @@ class leavefakeController extends Controller
     }
 
     public function historysignfinsh()
-    {
-        $data = $this->empinforservices->historysignfinsh();
-        //歷史簽核完畢資料
+    { //歷史簽核完畢資料
+        $data = $this->empinforservices->historysignfinsh(10);
+
         return view('sign.history_finshsign', ['emp_list' => $data]);
     }
+
 }

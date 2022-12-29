@@ -97,7 +97,9 @@ date_default_timezone_set('Asia/Taipei');
                 @endforeach
 
 
-            </table>
+            </table>  @if($emp_list->count()>2)
+                {{$emp_list->links()}}
+            @endif
             <br><br><br>
         </div>
     </div>

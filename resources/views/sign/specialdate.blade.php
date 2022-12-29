@@ -45,7 +45,7 @@ date_default_timezone_set('Asia/Taipei');
         }
     </script>
 </head>
-<body style="text-align: center" onUnload="opener.location.reload()">
+<body style="text-align: center" >
 
 <div class="mt-5">
     <div>
@@ -65,9 +65,9 @@ date_default_timezone_set('Asia/Taipei');
                 {{ csrf_field() }}
                 <table border="1" align="center" class="bor-blue tbl" width="100%" style="text-align: center;">
                     <tr>
-                        <td colspan="7" class="bg-blue">新增時數</td>
-                        <td colspan="3" class="bg-orange">累積時數</td>
-                        <td colspan="3" class="bg-pink">本月請假時數</td>
+                        <td colspan="7" class="bg-blue">累積時數</td>
+                        <td colspan="3" class="bg-orange">新增時數</td>
+                        <td colspan="3" class="bg-red">本月請假時數</td>
                         <td colspan="3" class="bg-green">剩餘時數</td>
                     </tr>
                     <tr>
@@ -101,19 +101,22 @@ date_default_timezone_set('Asia/Taipei');
                                 {{$emp->empid}}</td>
                             <td>{{$emp->name}}<br>{{$emp->ename}}</td>
                             <td>{{$emp->achievedate}}</td>
-                            <td>{{$emp->jobyears}}</td>
-                            <td><input type="text" name="add_specialdate[{{$emp->empid}}]"
-                                       value="{{$emp->add_specialdate}}"></td>
-                            <td><input type="text" name="add_years_date[{{$emp->empid}}]"
-                                       value="{{$emp->add_years_date}}"></td>
-                            <td><input type="text" name="add_comp_time[{{$emp->empid}}]"
-                                       value="{{$emp->add_comp_time}}"></td>
+                            <td>{{$emp->personlyears}}
+
+                            </td>
+
                             <td><input type="hidden" name="specialdate[{{$emp->empid}}]"
                                        value="{{$emp->specialdate_m}}">{{$emp->specialdate_m}}</td>
                             <td><input type="hidden" name="years_date[{{$emp->empid}}]"
                                        value="{{$emp->years_date_m}}">{{$emp->years_date_m}}</td>
                             <td><input type="hidden" name="comp_time[{{$emp->empid}}]"
                                        value="{{$emp->comp_time_m}}">{{$emp->comp_time_m}}</td>
+                            <td><input type="text" name="add_specialdate[{{$emp->empid}}]"
+                                       value="{{$emp->add_specialdate*8}}"></td>
+                            <td><input type="text" name="add_years_date[{{$emp->empid}}]"
+                                       value="{{$emp->add_years_date*8}}"></td>
+                            <td><input type="text" name="add_comp_time[{{$emp->empid}}]"
+                                       value="{{$emp->add_comp_time}}"></td>
                             <td><input type="hidden" name="sub_specialdate[{{$emp->empid}}]"
                                        value="{{$emp->a1}}">{{$emp->a1}}</td>
                             <td><input type="hidden" name="sub_years_date[{{$emp->empid}}]"
@@ -121,15 +124,21 @@ date_default_timezone_set('Asia/Taipei');
                             <td><input type="hidden" name="sub_comp_time[{{$emp->empid}}]"
                                        value="{{$emp->a11}}">{{$emp->a11}}</td>
 
+                            @php
+  $remain_specialdate=(int)$emp->specialdate_m+(int)($emp->add_specialdate*8)-(int)$emp->a1;
+ $remain_years_date=(int)$emp->years_date_m+(int)($emp->add_years_date*8)-(int)$emp->a2;
+  $remain_comp_time=(int)$emp->comp_time_m+(int)$emp->add_comp_time-(int)$emp->a11;
+
+                            @endphp
                             <td><input type="hidden" name="remain_specialdate[{{$emp->empid}}]"
-                                       value="{{$emp->remain_specialdate}}">
-                                {{$emp->remain_specialdate}}</td>
+                                       value="{{$remain_specialdate}}">
+                                {{ $remain_specialdate}} </td>
                             <td><input type="hidden" name="remain_years_date[{{$emp->empid}}]"
-                                       value="{{$emp->remain_years_date}}">
-                                {{$emp->remain_years_date}}</td>
+                                       value="{{$remain_years_date}}">
+                                {{$remain_years_date}}</td>
                             <td><input type="hidden" name="remain_comp_time[{{$emp->empid}}]"
-                                       value="{{$emp->remain_comp_time}}">
-                                {{$emp->remain_comp_time}}  </td>
+                                       value="{{ $remain_comp_time}}">
+                                {{$remain_comp_time}}  </td>
                             @endforeach
                         </tr>
                         <tr>

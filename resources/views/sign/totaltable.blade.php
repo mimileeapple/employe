@@ -22,11 +22,12 @@ date_default_timezone_set('Asia/Taipei');
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript" src="{{ URL::asset('myjs/gotop.js') }}"></script>
     <title><?php echo $title ?></title>
+
     <script>
 
     </script>
 </head>
-<body style="text-align: center">
+<body style="text-align: center" onUnload="opener.location.reload()">
 @include("include.nav")
 <div class="mt-5">
     <div>
@@ -43,7 +44,7 @@ date_default_timezone_set('Asia/Taipei');
             </a>
 
             <br>
-            <form action="showleaveall" method="post">
+            <form action="showleaveall" method="post" >
                 {{ csrf_field() }}
                 <div style="text-align: left;">
                     <input type="hidden" name="empid" value="{{session("empid")}}">
@@ -68,19 +69,22 @@ date_default_timezone_set('Asia/Taipei');
 
                     </select></div>
                 <br>
+
                 <font color="red">年資、特休與年休計算到當月底為準</font>
-                <table border="1" align="center" class="bor-blue tbl" width="100%">
+                <table border="1" align="center" class="bor-blue tbl" width="100%" style="font-size: 10px;">
                     <tr>
-                        <td class="bg-blue" colspan="8">尚未使用(累積)</td>
+                        <td class="bg-orange" colspan="6">(本月新增)</td>
+                        <td class="bg-blue" colspan="3">尚未使用(累積)</td>
                         <td class="bg-red" colspan="12">當月休假</td>
                         <td class="bg-green" colspan="3">剩餘休假</td>
                     </tr>
                     <tr>
-                        <td class="bg-blue"><b>姓名</b></td>
-                        <td class="bg-blue"><b>到職日</b></td>
-                        <td class="bg-blue"><b>年資</b></td>
-                        <td class="bg-blue"><b>特休</b></td>
-                        <td class="bg-blue"><b>年休</b></td>
+                        <td class="bg-orange"><b>姓名</b></td>
+                        <td class="bg-orange"><b>到職日</b></td>
+                        <td class="bg-orange"><b>年資</b></td>
+                        <td class="bg-orange"><b>特休</b></td>
+                        <td class="bg-orange"><b>年休</b></td>
+                        <td class="bg-orange"><b>補休</b></td>
                         <td class="bg-blue"><b>累積特休(分)</b></td>
                         <td class="bg-blue"><b>累積年休(分)</b></td>
                         <td class="bg-blue"><b>補休(分)</b></td>
@@ -109,8 +113,9 @@ date_default_timezone_set('Asia/Taipei');
 
                             <td>{{$emp->achievedate}}</td>
                             <td>{{$emp->personlyears}}</td>
-                            <td>{{$emp->specialdate*1}}</td>
-                            <td>{{$emp->years_date*1}}</td>
+                            <td>{{$emp->add_specialdate}}</td>
+                            <td>{{$emp->add_years_date}}</td>
+                            <td>{{$emp->add_comp_time}}</td>
                             <td>{{$emp->specialdate_m}}</td>
                             <td>{{$emp->years_date_m}}</td>
                             <td>{{$emp->comp_time_m}}</td>

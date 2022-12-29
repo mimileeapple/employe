@@ -86,7 +86,7 @@ SUM(CASE   leavefakeid WHEN  '9'  THEN  hours  else 0 END) 'a9',
 SUM(CASE  leavefakeid WHEN  '10'  THEN  hours  else 0  END) 'a10',
 SUM(CASE  leavefakeid WHEN  '11'  THEN  hours  else 0  END) 'a11'
 from leaveorder
-WHERE (leavestart >= '$leavestart' and leaveend <= '$leaveend')
+WHERE (leavestart >= '$leavestart' and leaveend <= '$leaveend') and ordersts<>'D'
 group by empid");;
         return $res;
     }
@@ -111,14 +111,14 @@ group by empid");;
     }
 
     function nextmonthdata($months)
-    {//抓取某月份總數
+    {//抓取某月份全部員工特休總數
         $res = emp_vacation::where('months', '=', $months)->count();
 
         return $res;
     }
 
     function emp_vacation_all($months)
-    {//抓取某月份假期全部員工
+    {//抓取某月份全部員工特休
 
         return emp_vacation::where('months', '=', $months)->get();
 
@@ -138,13 +138,13 @@ group by empid");;
     {
         $selectmonths = date($month . "-01");
         $endday = date($month . "-t");
-        return leaveorder::where('leavefakeid', $fakeid)->where('leavestart', '>=', $selectmonths)->where('leaveend', '<=', $endday)->
-        where('empid', $empid)->get();
+        return leaveorder::where('leavefakeid','=',$fakeid)->where('leavestart', '>=', $selectmonths)->where('leaveend', '<=', $endday)->
+        where('empid', '=', $empid)->where('ordersts','<>','D')->get();
     }
 
-    function historysignfinsh()
+    function historysignfinsh($page)
     {
-        return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->get();
+        return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->paginate($page);;
     }
 
 }

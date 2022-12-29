@@ -67,6 +67,7 @@ $date = date("Y-M-D");
             @if(count($orderdata) !=0)
                 <br>
                 <table border="1" align="center" class="bor-blue tbl" width="100%">
+                    <tr><td colspan="10"><font color="red"> 申請即送出簽核，若要修改或取消，需通知簽核人員刪除後再重新申請</font></td></tr>
                     <tr class="bg-blue">
                         <td><b>填寫出差旅費報告表</b></td>
                         <td><b>申请時間</b></td>
@@ -98,7 +99,7 @@ $date = date("Y-M-D");
                                            onclick="window.open('{{route('Pay.edit',$emp->orderid)}}','newemp','width='+(window.screen.availWidth-10)+',height='+(window.screen.availHeight-30)+',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes')">
                                 </td>
                             @endif
-                            <td>{{$emp->orderdate}}</td>
+                            <td>{{$emp->ordersts}}{{$emp->orderdate}}</td>
                             <td>{{$emp->orderid}}</td>
                             <td>{{$emp->leavefakename}}</td>
                             <td>{{$emp->name}}</td>
@@ -115,6 +116,9 @@ $date = date("Y-M-D");
                     @endforeach
 
                 </table>
+                @if($orderdata->count()>0)
+                    {{$orderdata->links()}}
+                @endif
                 <br><br><br>
         </div>
     </div>

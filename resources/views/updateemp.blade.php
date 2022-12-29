@@ -41,6 +41,7 @@ $title = "修改個人資料";
             <form action="{{route('personalinfor.update',$data->empid)}}" method="post">
                 {{ csrf_field() }}
                 {{method_field('PUT')}}
+
                 <table border="1" class="tbl" width="90%">
                     <tr>
                         <td class="bg-blue">密碼</td>
@@ -57,12 +58,12 @@ $title = "修改個人資料";
                     <tr>
                         <td class="bg-blue">學歷</td>
                         <td><select name="edu">
-                                <option value="小學" {{$data->edu ==1? 'selected':''}}>小學</option>
-                                <option value="國中" {{$data->edu ==2? 'selected':''}}>國中</option>
-                                <option value="高中職" {{$data->edu ==3? 'selected':''}}>高中職</option>
-                                <option value="大學" {{$data->edu ==4? 'selected':''}}>大學</option>
-                                <option value="碩士" {{$data->edu ==5? 'selected':''}}>碩士</option>
-                                <option value="博士" {{$data->edu ==6? 'selected':''}}>博士</option>
+                                <option value="小學" {{$data->edu =="小學"? 'selected':''}}>小學</option>
+                                <option value="國中" {{$data->edu =="國中"? 'selected':''}}>國中</option>
+                                <option value="高中職" {{$data->edu =="高中職"? 'selected':''}}>高中職</option>
+                                <option value="大學" {{$data->edu =="大學"? 'selected':''}}>大學</option>
+                                <option value="碩士" {{$data->edu =="碩士"? 'selected':''}}>碩士</option>
+                                <option value="博士" {{$data->edu =="博士"? 'selected':''}}>博士</option>
                             </select>
                             {{--                    <input value="<slect></seclt>--}}
                             {{--            {{$data->edu}}" type="text" name="edu">--}}
@@ -80,6 +81,7 @@ $title = "修改個人資料";
                     <input type="hidden" name="updatedate" value="<?php echo date("Y-m-d")?>">
 
                     <input type="hidden" name="updateemp" value="{{Session::get('empid')}}">
+
                     @if(isset($error))
                         <tr>
                             <td colspan="4">

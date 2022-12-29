@@ -64,6 +64,9 @@ header("Content-Type:text/html;charset=utf-8");
             <td colspan="2" style="text-align: center;font-size: 10px;">忘記密碼請洽資訊人員</td>
         </tr>
         <tr>
+            <td colspan="2" style="text-align: center;font-size: 10px;">本系統建議使用Google chrome瀏覽器</td>
+        </tr>
+        <tr>
             <td colspan="2" style="text-align: center;color: red;"> @if(isset($error))
                     <font color="red" font-size="12px;">{{$error}}</font>
                 @endif</td>

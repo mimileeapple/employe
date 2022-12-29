@@ -43,7 +43,7 @@ $title = "員工資料管理";
                 <tr>
                     <td style="text-align:left; ">
                         <input type="button" class="bt-add"
-                               onclick="window.open('employees/create','newemp','width=650px;height=650px')"
+                               onclick="window.open('employees/create','newemp',config='width=1000;height=1000')"
                                value="新增員工">
                     </td>
                     <td></td>
@@ -52,9 +52,10 @@ $title = "員工資料管理";
                     <td>
                         <form method="post" id="form1" action="{{route('search')}}">
                             {{ csrf_field() }}
-                            <select name="empid">
+
+                            <select name="empid" id="empid" style="width: 200px;">
                                 @foreach($emp_list1 as  $emp)
-                                    <option value="{{$emp->empid}}">{{$emp->name}}</option>
+                                    <option value="{{$emp->empid}}">{{$emp->name}}&nbsp;&nbsp;{{$emp->ename}}</option>
                                 @endforeach
                             </select>
                             <input type="submit" value="員工查詢" class="bt-send ">

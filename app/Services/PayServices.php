@@ -19,9 +19,9 @@ use Carbon\Carbon;
 
 class PayServices
 {
-    function findmytrip($id)
+    function findmytrip($id,$page)
     {//找請假單的
-        return leaveorder::where('leavefakeid', 3)->where('empid', $id)->get();
+        return leaveorder::where('leavefakeid', 3)->where('empid', $id)->paginate($page);
     }
 
     function findtripdata($orderid)
@@ -44,24 +44,26 @@ class PayServices
 
     function findordersts($orderid)
     {
-        return tripdata::where('orderid', '=', $orderid)->get();
+        return tripsign::where('orderid', '=', $orderid)->get();
 
     }
 
-    function search_trip_month($month)
+    function search_trip_month($month,$page)
     {
-        $months = date($month . '-01');
-        $enddate = date($month . '-t', strtotime($month));
-        return leaveorder::where('leavefakeid', 3)->where('empid', Session::get('empid'))->whereBetween('creatdate', [$months, $enddate])->get();
+        $months = date($month);
+        $res=leaveorder::where('leavefakeid', 3)->where('empid', Session::get('empid'))
+            ->where('months', $months)->paginate($page);
+
+        return $res;
 
     }
 
     function tripsign($id)
     {
 
-        return DB::select("SELECT * FROM `tripsign` where signsts in(0,1,2,3) and (supervisorid=$id
+        return DB::select("SELECT * FROM `tripsign` where ordersts<>'D' and (signsts in(0,1,2,3) and (supervisorid=$id
                and supervisorsign='N') or ( managerid=$id and managersign='N' and supervisorsign='Y') or (financeid=$id and
-               financesign='N' and supervisorsign='Y' and  managersign='Y')");
+               financesign='N' and supervisorsign='Y' and  managersign='Y'))");
     }
 
     function tripdataall()

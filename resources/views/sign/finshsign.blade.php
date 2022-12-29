@@ -134,7 +134,9 @@ date_default_timezone_set('Asia/Taipei');
                     <td colspan="14"><input type="button" value="簽核通過" class="bt-send" id="signpass">
                     </td>
                 </tr>
-            </table>
+            </table> @if($emp_list->count()>2)
+                {{$emp_list->links()}}
+            @endif
             <br><br><br>
         </div>
     </div>

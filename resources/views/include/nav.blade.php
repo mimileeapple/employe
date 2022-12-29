@@ -5,12 +5,14 @@
 {{--        myInput.focus()--}}
 {{--    })--}}
 {{--</script>--}}
+<head>
 <style>
     .modal-backdrop.show {
         z-index: 0;
     }
 
 </style>
+</head>
 <ul class="nav justify-content-end fixed-top" style="background-color: #c6c0c0;">
 
     <!-- Button trigger modal -->
@@ -22,7 +24,7 @@
     <span
         style="border-radius: 50%;height: 20px;width: 20px;display: inline-block;background: #f30303;vertical-align: top;">
       <span
-          style="display: block;color: #FFFFFF;height: 20px;line-height: 20px;text-align: center"> {!! Session::get('j')+Session::get('pay') !!}</span>
+          style="display: block;color: #FFFFFF;height: 20px;line-height: 20px;text-align: center"> {!! Session::get('j')+Session::get('pay')+Session::get('check') !!}</span>
  </span>
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -37,7 +39,9 @@
                     <a href="{{route('leavefake.edit',Session::get('empid'))}}"> 你有{!! Session::get('j') !!}
                         筆請假單未處理</a><br>
                     <a href="{{route('showtripsign',['id'=>Session::get('empid')])}}">你有{!! Session::get('pay') !!}
-                        筆請款單未處理</a>
+                        筆請款單未處理</a><br>
+                    <a href="{{route('showchecksign',['id'=>Session::get('empid')])}}">你有{!! Session::get('check') !!}
+                        筆補卡單未處理</a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

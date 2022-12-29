@@ -123,12 +123,12 @@ header("Content-Type:text/html;charset=utf-8"); ?>
             <td>學歷</td>
             <td><select name="edu">
                     <option value="" {{$data->edu ==""? 'selected':''}}></option>
-                    <option value="1" {{$data->edu ==1? 'selected':''}}>小學</option>
-                    <option value="2" {{$data->edu ==2? 'selected':''}}>國中</option>
-                    <option value="3" {{$data->edu ==3? 'selected':''}}>高中職</option>
-                    <option value="4" {{$data->edu ==4? 'selected':''}}>大學</option>
-                    <option value="5" {{$data->edu ==5? 'selected':''}}>碩士</option>
-                    <option value="6" {{$data->edu ==6? 'selected':''}}>博士</option>
+                    <option value="小學" {{$data->edu =='小學'? 'selected':''}}>小學</option>
+                    <option value="國中" {{$data->edu =='國中'? 'selected':''}}>國中</option>
+                    <option value="高中職" {{$data->edu =='高中職'? 'selected':''}}>高中職</option>
+                    <option value="大學" {{$data->edu =='大學'? 'selected':''}}>大學</option>
+                    <option value="碩士" {{$data->edu =='碩士'? 'selected':''}}>碩士</option>
+                    <option value="博士" {{$data->edu =='博士'? 'selected':''}}>博士</option>
                 </select></td>
             <td>權限</td>
             <td><input type="text" name="syslimit" value="{{$data->syslimit}}"></td>
@@ -165,7 +165,7 @@ header("Content-Type:text/html;charset=utf-8"); ?>
                        readonly></td>
             <td>最後修改人員</td>
             <td>
-                <input type="text" style="background:#F0F0F0;" name="updateemp value="{{Session::get('name')}}"
+                <input type="text" style="background:#F0F0F0;" name="updateemp" value="{{Session::get('name')}}"
                 readonly>
             </td>
         </tr>

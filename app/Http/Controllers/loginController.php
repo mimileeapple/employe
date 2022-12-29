@@ -6,6 +6,7 @@ use App\Services\HumanResourceServices;
 use App\Services\empinforservices;
 use App\Model\PayController;
 use App\Services\PayServices;
+use App\Services\CheckinServices;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -24,11 +25,13 @@ class loginController extends Controller
     private $HumanResourceServices;
     private $empinforservices;
     private $PayServices;
+    private $CheckinServices;
     public function __construct()
     {
         $this->HumanResourceServices =new HumanResourceServices();
         $this->empinforservices =new empinforservices();
         $this->PayServices=new PayServices();
+        $this->CheckinServices=new CheckinServices();
     }
     public function index()
     {
@@ -107,7 +110,8 @@ class loginController extends Controller
                     $paydata=$this->PayServices->tripsign(Session::get('empid'));
                     Session::put('pay',count($paydata));
                     $boardlist=$this->HumanResourceServices->board();
-
+                    $checklist=$this->CheckinServices->showchecksign(Session::get('empid'));
+                    Session::put('check', count($checklist));
                     return view('empindex',['boardlist'=>$boardlist]);
                 }
                 else{

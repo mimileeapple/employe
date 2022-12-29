@@ -64,21 +64,19 @@ date_default_timezone_set('Asia/Taipei');
                     <td><label>
                             <input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll"/>
                             全選</label></td>
+                    <td><b>序號 </b></td>
                     <td><b>單號 </b></td>
                     <td><b>明細</b></td>
                     <td><b>申请時間</b></td>
                     <td><b>假別</b></td>
                     <td><b>姓名</b></td>
                     <td><b>事由</b></td>
-                    <td><b>備註</b></td>
-                    <td><b>部門</b></td>
-                    <td><b>職位</b></td>
-                    <td><b>職務代理人</b></td>
                     <td><b>起始時間</b></td>
                     <td><b>結束時間</b></td>
                     <td><b>總計時間</b></td>
                     <td><b>簽核狀態</b></td>
                     <td><b>附件</b></td>
+                    <td><b>刪除</b></td>
 
                 </tr>
 
@@ -90,24 +88,22 @@ date_default_timezone_set('Asia/Taipei');
                         </tr>
                     @else
                     @endif
-                    @foreach($emp_list1 as  $emp)
+                    @foreach($emp_list1 as  $i=>$emp)
 
                         <tr>
 
                             <td><input type="checkbox" id="checkboxselect" name="Checkbox[]"
                                        value="{{$emp->order_data}}"></td>
+                            <td>{{$i+1}}</td>
                             <td>{{$emp->orderid}}</td>
                             <td><input type="button" value="明細" class="bt-admit"
                                        onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=500px;height=500px')">
                             </td>
+
                             <td>{{$emp->orderdate}}</td>
                             <td>{{$emp->leavefakename}}</td>
                             <td>{{$emp->name}}</td>
                             <td> {{$emp->reason}}</td>
-                            <td>{{$emp->note}}</td>
-                            <td>{{$emp->depname}}</td>
-                            <td>{{$emp->title}}</td>
-                            <td>{{$emp->agentemp}}</td>
                             <td>{{$emp->leavestart}}</td>
                             <td>{{$emp->leaveend}}</td>
                             <td>{{$emp->hours}}時({{$emp->hours*60}}分鐘)</td>
@@ -125,21 +121,45 @@ date_default_timezone_set('Asia/Taipei');
                             @else
                                 <td></td>
                             @endif
-
+                            <td>
+                                <input data-del="{{$emp->orderid}}" type="button" value="刪除" class="bt-del">
+                            </td>
                         </tr>
                     @endforeach
+
                 </form>
 
-                <script>
-                    $(function () {
+        <script>
+            $(".bt-del").on("click",function(){
+                var yes = confirm('你確定刪除此筆請假單嗎？');
+                if (yes) {
+                        alert('刪除成功');
+                        ID = $(this).data('del')
+                        $.ajax({
+                            type: 'DELETE',
+                            url: '{{route('leavefake.destroy','')}}'+'/'+ID,
+                            data: {
+                                'id':ID,
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function(msg) {
+                                location.reload();
+                            }
+                        });
+
+                 }
+                else {
+                        alert('取消');
+                }
+            });
+
+            $(function () {
                         $('#signpass').click(function () {
                             alert("簽核成功!");
-
                             $('#form1').submit();
-
                         })
-                    })
-                </script>
+            })
+        </script>
                 @if(count($emp_list1)>0)
                     <tr>
                         <td colspan="16"><input type="button" value="簽核通過" class="bt-send" id="signpass"></td>
@@ -151,13 +171,11 @@ date_default_timezone_set('Asia/Taipei');
                 @else
                 @endif
 
-
             </table>
             <br><br><br>
         </div>
     </div>
 </div>
-
 </body>
 
 </html>

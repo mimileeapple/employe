@@ -31,6 +31,12 @@ $title="員工資料新增";
             $("#manage2id").change(function() {
                 $("#manage2name").val($("#manage2id :selected").text());
             })
+               $("#depid").change(function() {
+                   $("#dep").val($("#depid :selected").text());
+               })
+               $("#depareaid").change(function() {
+                   $("#deparea").val($("#depid :selected").text());
+               })
 
             })
 
@@ -81,7 +87,8 @@ $title="員工資料新增";
         <tr><td>職級</td><td><input type="text" name="emprank" ></td>
             <td>到職日</td><td><input type="date" name="achievedate" ></td></tr>
         <tr><td>部門</td><td>
-                <select name="dep">
+                <input type="hidden" name="dep" id="dep">
+                <select name="depid" id="depid">
                     <option value="1">管理部</option>
                     <option value="2">產品研發部</option>
                     <option value="3">產品工程部</option>
@@ -93,7 +100,8 @@ $title="員工資料新增";
 
             </td>
             <td>部門所在地</td><td>
-                <select name="deparea">
+                <input type="hidden" name="deparea" id="deparea">
+                <select name="depareaid" id="depareaid">
                     <option value="T">台北</option>
                     <option value="S">深圳</option>
                     <option value="D">東莞</option>

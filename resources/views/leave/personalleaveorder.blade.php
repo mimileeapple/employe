@@ -51,7 +51,7 @@ $date = date("Y-M-D");
             <form action="{{route("searchdate")}}" method="post">
                 {{ csrf_field() }}
                 <div style="text-align: left;">
-                    <input type="hidden" name="empid" value="{{session("empid")}}">
+                    <input type="hidden" name="empid" value="{{Session::get("empid")}}">
                     <select name="sreachdateorder" style="width: 150px;text-align: center">
                         <option
                             {{ isset($selected)&&$selected == date('Y-m-01',strtotime('-3 month'))?'selected ' :''  }} value="<?php echo date('Y-m-01',strtotime('-3 month')); ?>"><?php echo date('Y-m-01', strtotime('-3 month'));; ?></option>
@@ -71,6 +71,7 @@ $date = date("Y-M-D");
                 <br>
                 <table border="1" align="center" class="bor-blue tbl" width="100%">
                     <tr class="bg-blue">
+                        <td><b>單號</b></td>
                         <td><b>申请時間</b></td>
                         <td><b>明細</b></td>
                         <td><b>假別</b></td>
@@ -90,16 +91,12 @@ $date = date("Y-M-D");
 
                     @foreach($emp_list as  $emp)
                         <tr>
+                            <td>{{$emp->orderid}}</td>
                             <td>{{$emp->orderdate}}</td>
                             <td><input type="button" value="明細" class="bt-admit"
                                        onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=700px;height=700px')">
                             </td>
-
-                            <td>
-                                {{$emp->leavefakename}}
-
-                            </td>
-
+                            <td>{{$emp->leavefakename}}</td>
                             <td>{{$emp->name}}</td>
                             <td> {{$emp->reason}}</td>
                             <td>{{$emp->note}}</td>
@@ -117,6 +114,11 @@ $date = date("Y-M-D");
                     @endforeach
 
                 </table>
+                @if($emp_list->count()>2)
+
+                    {{$emp_list->appends(request()->input())->links()}}
+{{--                    {{$emp_list->links()}}--}}
+                @endif
                 <br><br><br>
         </div>
     </div>

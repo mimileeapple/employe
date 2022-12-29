@@ -66,8 +66,12 @@ date_default_timezone_set('Asia/Taipei');
 
             $(document).on('click', '.jq-delete', function () {
                 // $("#rownum").val(num-1);
+
+               price=$(this).parent().parent().find('.convert_T').val()
                 $(this).parent().parent().remove();
-            });
+                $('.total').val ($('.total').val ()-price);
+
+                });
 
 
         });
@@ -107,7 +111,7 @@ date_default_timezone_set('Asia/Taipei');
 
                     <tr>
                         <td class="bg-blue">出差事由</td>
-                        <td colspan="3"><input type="text" name="trip_reason" style="width:400px;" value=""></td>
+                        <td colspan="3"><input type="text" name="trip_reason" style="width:400px;" value="{{$emp->trip_reason}}"></td>
                     </tr>
                     <tr>
                         <td class="bg-blue">出差日期(出發日)</td>
@@ -163,25 +167,7 @@ date_default_timezone_set('Asia/Taipei');
                         </td>
                     </tr>
 
-                    <tr>
-                        <td><input type="text" name="summary[]" value=""></td>
-                        <td><input type="text" name="details[]" value=""></td>
-                        <td><select name="currency[]">
-                                <option value="NTD">NTD</option>
-                                <option value="RMB">RMB</option>
-                                <option value="USD">USD</option>
-                                <option value="GBP">GBP</option>
-                                <option value="EUR">EUR</option>
-                                <option value="other">其他</option>
-                            </select></td>
-                        <td><input type="text" name="amount[]" class="amount" onkeypress="if (event.keyCode == 13) {return false;}"></td>
-                        <td><input type="text" name="rate[]" class="rate" onkeypress="if (event.keyCode == 13) {return false;}"></td>
-                        <td class="convert"><input type="text" name="convert_T[]" class="convert_T"></td>
-                        <td><input type="text" name="remark[]"></td>
-                        <td>
-                            <button class="btn jq-delete">刪除</button>
-                        </td>
-                    </tr>
+
                     </tbody>
 
                 </table>
@@ -216,8 +202,8 @@ date_default_timezone_set('Asia/Taipei');
                             <option value="EUR">EUR</option>
                             <option value="other">其他</option>
                         </select></td>
-                    <td><input type="text" name="advanceamount" value="" class="advanceamount" onkeypress="if (event.keyCode == 13) {return false;}"></td>
-                    <td><input type="text" name="advancerate" value="" class="advancerate" onkeypress="if (event.keyCode == 13) {return false;}"></td>
+                    <td><input type="text" name="advanceamount" value="" class="advanceamount" onkeypress="if (event.keyCode == 13) {return false;}" required></td>
+                    <td><input type="text" name="advancerate" value="" class="advancerate" onkeypress="if (event.keyCode == 13) {return false;}" required></td>
                     <td><input type="text" name="advanceconvert_T" value="" class="advanceconvert_T"></td>
                     <td><input type="text" name="advanceremark" value=""></td>
                 </tr>
@@ -232,9 +218,9 @@ date_default_timezone_set('Asia/Taipei');
                             <option value="EUR">EUR</option>
                             <option value="other">其他</option>
                         </select></td>
-                    <td><input type="text" name="advancereturnamount" value="" class="advancereturnamount" onkeypress="if (event.keyCode == 13) {return false;}"></td>
-                    <td><input type="text" name="advancereturnrate" value="" class="advancereturnrate" onkeypress="if (event.keyCode == 13) {return false;}"></td>
-                    <td><input type="text" name="advancereturnconvert_T" value="" class="advancereturnconvert_T"></td>
+                    <td><input type="text" name="advancereturnamount" value="" class="advancereturnamount" onkeypress="if (event.keyCode == 13) {return false;}" required></td>
+                    <td><input type="text" name="advancereturnrate" value="" class="advancereturnrate" onkeypress="if (event.keyCode == 13) {return false;}" required></td>
+                    <td><input type="text" name="advancereturnconvert_T" value="" class="advancereturnconvert_T" required></td>
                     <td><input type="text" name="advancereturnremark" value=""></td>
                 </tr>
                 <tr><td colspan="7"><font color="red">* 若無預支或退還請輸入 0 *</font> </td></tr>
@@ -306,6 +292,7 @@ date_default_timezone_set('Asia/Taipei');
             })
 
             $('.total').val (total);
+
         });
 
         $(document).on('input propertychange', '.advanceamount,.advancerate', function () {
@@ -377,7 +364,44 @@ date_default_timezone_set('Asia/Taipei');
 
     })
     function sendsubmit(){
-        $("#from1").submit();
+        if($(".advanceamount").val()==""){
+            alert("請輸入金額，若無請輸入0");
+            $(".advanceamount").focus();
+            return false;
+        }
+        if($(".advancerate").val()==""){
+            alert("請輸入金額，若無請輸入0");
+            $(".advancerate").focus();
+            return false;
+        }
+        if($(".advanceconvert_T").val()==""){
+            alert("請輸入金額，若無請輸入0");
+            $(".advanceconvert_T").focus();
+            return false;
+        }
+        if($(".advancereturnamount").val()==""){
+            alert("請輸入金額，若無請輸入0");
+            $(".advancereturnamount").focus();
+            return false;
+        }
+        if($(".advancereturnrate").val()==""){
+            alert("請輸入金額，若無請輸入0");
+            $(".advancereturnrate").focus();
+            return false;
+        }
+        if($(".advancereturnconvert_T").val()==""){
+            alert("請輸入金額，若無請輸入0");
+            $(".advancereturnconvert_T").focus();
+            return false;
+        }
+else{
+            $t=$(".total").val();
+            adt=$(".advanceconvert_T").val();
+            adct=$(".advancereturnconvert_T").val();
+            to=parseFloat($t)-parseFloat(adt)+parseFloat(adct);
+            $('.copeemptotal').val(to);
+       $("#from1").submit();
+            }
     }
 
 </script>

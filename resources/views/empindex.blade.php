@@ -4,7 +4,7 @@ header("Pragma: no-cache");
 session_start();
 header("Content-Type:text/html;charset=utf-8");
 $title = "首頁";
-?>
+//?>
 
     <!DOCTYPE html>
 <!DOCTYPE html>
@@ -30,7 +30,7 @@ $title = "首頁";
         html, body {
             height: 100%;
             margin: 0;
-            font-size: 10pt;
+            /*font-size: 10pt;*/
             font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
         }
 
@@ -40,12 +40,12 @@ $title = "首頁";
             padding: 0;
         }
 
-        .content > div {
+      /*  .content > div {
             border: px solid gray;
             padding: 6px;
             /* 設定 border-box，width 要內含 padding 與 border */
-            box-sizing: border-box;
-        }
+           /* box-sizing: border-box;
+        }*/
 
         .col1 {
             /* flex-basis 優先於 width 或 height */
@@ -59,9 +59,9 @@ $title = "首頁";
             flex: 1 2 400px;
         }
 
-        div {
-            padding: 6px;
-        }
+        /*div {*/
+        /*    padding: 6px;*/
+        /*}*/
 
         /* .disp { background-color:teal; color: yellow; height: 1em; }*/
 
@@ -73,7 +73,7 @@ $title = "首頁";
 <div class="mt-5">
     <div>
         <a href="{{route('verify')}}"><img src="{{ URL::asset('img/logo.png') }}"></a>
-        <h2 class="title-m "><?php echo $title ?></h2>
+        <h2 class="title-m"><?php echo $title ?></h2>
     </div>
 </div>
 <div class="container-fluid">
@@ -83,26 +83,44 @@ $title = "首頁";
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
+{{--<div class="container">--}}
+{{--    <div class="col-10"><h1>公佈欄</h1></div>--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-14">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-1"><div class="p-3 border bg-light">編號</div></div>--}}
+{{--                <div class="col-2"><div class="p-3 border bg-light">時間</div></div>--}}
+{{--                <div class="col-2"><div class="p-3 border bg-light">類別</div></div>--}}
+{{--                <div class="col-4"><div class="p-3 border bg-light">標題</div></div>--}}
+{{--                <div class="col-2"><div class="p-3 border bg-light">發佈人</div></div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
+
+{{--</div>--}}
             <img src="{{ URL::asset('img/post1.jpg') }}" width="1200px;">
 
 
-            <table border="1" width="88%" class="tbl  " style="text-align: center;" align="center">
+            <table border="1" width="88%" class="bor-blue" style="text-align: center;" align="center">
 
                 <tr class="bg-blue">
-                    <td>編號</td>
-                    <td> 時間</td>
-                    <td>類別</td>
-                    <td>標題</td>
-                    <td>發佈人</td>
+
+                    <th>序號</th>
+                    <th> 時間</th>
+                    <th>類別</th>
+                    <th>標題</th>
+                    <th>發佈人</th>
+
                 </tr>
                 @foreach($boardlist as $k=> $e)
                     <tr>
+
                         <td> {{$k+1}}</td>
                         <td>{{$e->boarddate}}</td>
                         <td>{{$e->type}}</td>
                         <td><a href="{{route('showboard',['id'=>$e->id])}}" target="_blank">{{$e->title}}</a></td>
                         <td>{{$e->dep}}{{$e->createmp}}</td>
+
                     </tr>
                 @endforeach
 
