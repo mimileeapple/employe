@@ -17,26 +17,46 @@ class materialImport implements ToCollection
     private $data ;
     public function collection(Collection $rows)
     {
+        $g="";
+        $gcode=explode(':',$rows[1][4]);//分割了
+        foreach ($gcode as $i=>$v){
+            if($i == 1){
+                $g =trim($v);
+                break;
+            }
+        }
+         $r =$rows[0][0];
+        $gcodename= substr($rows[0][0],0,11);
+        product_head::create([
+                    'g_codename' => $r,
+                    'g_code' =>$g,
+                    ]);
+        //-----------------------------------------//
+        product::create([
+                'bomcode'=>"",
+                'b_code'=> $g,
+                'b_materialname'=>$gcodename,
+                'b_space'=>$rows[0][0],
+                'b_unit'=>'PCS',
+                'b_num'=>'1',
+                'finished'=>'100',
+                'version'=>'',
+                'usests'=>'使用',
+                'usetype'=>'0',
+                'craft'=>'',
+                'reviewsts'=>'审核',
+                'remark'=>'',
+                'isconfigsource'=>'否',
+                'layerjump'=>'否'
+            ]) ;
+        //-------------------------------------//
 
-
-              $gcode=explode(':',$rows[1][4]);
-               $gcodename= substr($rows[0][0],0,11);
-                product_head::insert([
-                    'g_code' => $gcode[1],
-                    'g_codename' => $rows[0][0],
-
-                ]);
-
-
-        //然後在這邊把資料整理成你需要的格式
         foreach ($rows as $row =>$v)
         {
             $title='';
             if(is_int($v[0])){
                 //記住下面的格式 欄位名 => 你的資料
                 //這樣的資料格式才能給orm去做動作
-                $headname=partdata::where('partnumber',$v[3])->value('headname');
-
                 if($v[1]=='PCBA'){
                     $title='PCBA';
                 }
@@ -46,12 +66,23 @@ class materialImport implements ToCollection
                 else{
                     $title='Assy';
                 }
+                $pno=trim($v[3]);
+                $headname=partdata::where('partnumber','like',$pno)->value('headname');
+                if($headname==""){
+                    $headname="";
+                }
+                $description=partdata::where('partnumber','like',$pno)->value('description');
+                if($description==""){
+                    $description="";
+                }
+                $num=(string)$v[6];
+
                 $this->data[] = [
 
-                    'partnumber' => $v[3],
+                    'partnumber' => $pno,
                     'materialname'=>$headname,
-                    'description' => $v[5],
-                    'num'=>$v[6],
+                    'description' =>$description,
+                    'num'=>$num,
                     'location'=>$v[7],
                     'unit'=>"PCS",
                     'lossrate'=>"0",
@@ -75,8 +106,15 @@ class materialImport implements ToCollection
                     'remark3'=>'',
                     'isfeature'=>'否'
                 ];
+
             }
         }
+        d_material::insert($this->data);
+
+
+//        DB::transaction(function () {
+//
+//        });
         //transaction 他這個是裡面包了一個Function 如果在裡面 你有一百個不同的DB新增資料
         //例如 如果再d的時候新增失敗 那在他之前的abc 會全部取消 如果沒用這個方式  會變成 abc新增好了
         //因為資料帶不進去  所以你要再另外寫一個$this給他用
@@ -86,47 +124,19 @@ class materialImport implements ToCollection
 //            c::insert($data);
 //            d::insert($data);
 //        });
-        DB::transaction(function () {
-            d_material::insert($this->data);
-        });
-        $p_data[]
-       =
-       ['bomcode'=>"",
-        'b_code'=> $gcode[1],
-        'b_materialname'=>$gcodename,
-        'b_space'=>$rows[0][0],
-        'b_unit'=>'PCS',
-        'b_num'=>'1',
-        'finished'=>'100',
-        'version'=>'',
-        'usests'=>'使用',
-        'usetype'=>'0',
-        'craft'=>'',
-        'reviewsts'=>'审核',
-        'remark'=>'',
-        'isconfigsource'=>'否',
-        'layerjump'=>'否'
-] ;
-      product::insert($p_data);
 
-        //這邊你看要不要寫個return
-        return 'hello';
+        //transaction 他這個是裡面包了一個Function 如果在裡面 你有一百個不同的DB新增資料
+        //例如 如果再d的時候新增失敗 那在他之前的abc 會全部取消 如果沒用這個方式  會變成 abc新增好了
+        //因為資料帶不進去  所以你要再另外寫一個$this給他用
+//        d_material::transaction(function () {
+//            a::insert($data);
+//            b::insert($data);
+//            c::insert($data);
+//            d::insert($data);
+//        });
+
+
+
+
     }
-
-//    public function model(array $row)
-//    {
-
-
-//        return new product_head([
-//            'g_code'     => $row[3],
-//            'g_codename'    => $row[0]
-//
-//        ]);
-//        return new d_material([
-//           'partnumber'=>$row['Part Number'],
-//            'description' => $row['Description'],
-//            'num'=>$row['Unit'],
-//            'location' => $row['Location'],
-//        ]);
-//    }
 }

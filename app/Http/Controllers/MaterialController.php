@@ -20,8 +20,8 @@ class MaterialController extends Controller
 
     public function create()
     {
-
-        return view("material.Excelmaterial");
+        $issetxls=product_head::all()->count();
+        return view("material.Excelmaterial",['issetxls'=>$issetxls]);
     }
 
     public function store(Request $request)
@@ -32,21 +32,15 @@ class MaterialController extends Controller
 //        $array = Excel::toArray(new materialImport,  $request->file('file1'));
         try{
         Excel::import(new materialImport,$request->file('file1'));
-        Session::put('sts',true);
+            $issetxls=product_head::all()->count();
         }
         catch (\Exception $e){
             dd($e);
         }
         //因為你的這張表格 A欄的正是資料第一筆都是INT 所以我們用它來判斷 如果是int就留著 不是就刪除
         //這是會影響效能的  如果是很多筆資料會很慢 要跟USER溝通
-//        foreach ($array[0] as $i=>$v){
-//            if(!is_int($v[0])){
-//                unset($array[0][$i]);
-//            }
-//        }
-//        dd($array[0]);
-//$collection = Excel::toCollection(new materialImport,  $request->file('file1'));
-        return redirect()->route('material.create');
+
+        return redirect()->route('material.create',['issetxls'=>$issetxls]);
 
     }
 
@@ -77,8 +71,8 @@ class MaterialController extends Controller
             //::query()->delete();
         DB::table('product')->truncate();
         DB::table('product_head')->truncate();
-        Session::put('sts',false);
-        return redirect()->route('material.create');
+        $issetxls=product_head::all()->count();
+        return redirect()->route('material.create',['issetxls'=>$issetxls]);
     }
     public function materialExport(Request $request){
         date_default_timezone_set('Asia/Taipei');

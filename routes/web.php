@@ -62,10 +62,11 @@ Route::any('signcheckin', 'checkinController@signcheckin')->name('signcheckin')-
 Route::any('showallemplist', 'checkinController@showallemplist')->name('showallemplist')->middleware('AuthStatus');
 Route::any('search_checkemp', 'checkinController@search_checkemp')->name('search_checkemp')->middleware('AuthStatus');
 //都有 但是基本惠要求會用resource 一班的用法很多 他們會在一班的路由裡面加規則 你現在是都沒加 ㄨ
-Route::resource('Costomer', 'CostomerController')->middleware('AuthStatus');
-Route::any('searchconutry','CostomerController@searchconutry')->name('searchconutry')->middleware('AuthStatus');
+
 Route::resource('material', 'MaterialController')->middleware('AuthStatus');
 Route::resource('partdata', 'PartDataController')->middleware('AuthStatus');
+Route::resource('customer', 'CustomerController')->middleware('AuthStatus');
+Route::any('searchcustomer','CustomerController@searchcustomer')->name('searchcustomer')->middleware('AuthStatus');
 Route::any('materialExport','MaterialController@materialExport')->name('materialExport')->middleware('AuthStatus');
 Route::any('historysign','checkinController@historysign')->name('historysign')->middleware('AuthStatus');
 Route::any('showpartdata', 'PartDataController@showpartdata')->name('showpartdata')->middleware('AuthStatus');

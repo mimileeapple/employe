@@ -144,7 +144,7 @@ group by empid");;
 
     function historysignfinsh($page)
     {
-        return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->paginate($page);;
+        return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->paginate($page);
     }
 
 }

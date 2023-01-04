@@ -97,7 +97,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link link-dark">
+                <a href="{{route("customer.index")}}" class="nav-link link-dark">
                     客戶資料管理
                 </a>
             </li>

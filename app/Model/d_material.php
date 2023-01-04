@@ -8,7 +8,7 @@ class d_material extends Model
 {
     protected $table ='d_material';
     protected $guarded = [];
-    protected $primaryKey = 'id';
+
     public $timestamps = false;
 
 }

@@ -53,7 +53,7 @@ $title = "XLS轉BOM表";
                     <tr>
                         <td colspan="2"><br><br></td>
                     </tr>
-                    @if(Session::get('sts')==true)
+                    @if($issetxls>0)
                         <tr>
                             <td style="text-align: right;">匯入成功</td>
                             <td><a href="{{route('materialExport')}}" class="bt-export">下載xls</a></td>
@@ -68,7 +68,7 @@ $title = "XLS轉BOM表";
                         <td colspan="2"><br><br></td>
                     </tr>
 
-                    @if(Session::get('sts')==true)
+                    @if($issetxls>0)
                         <tr>
                             <td style="text-align: right;"><font color="red"> 使用完畢請清空資料，以防資料重複</font>
                             </td>

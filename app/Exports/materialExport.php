@@ -16,7 +16,8 @@ class materialExport implements FromCollection,WithHeadings
     public function collection()
     {
 
-       return d_material::all();
+        return d_material::all();
+
     }
 
 
@@ -28,6 +29,7 @@ class materialExport implements FromCollection,WithHeadings
         $b = product_head::all();
         $a = $a[0];
         $b = $b[0];
+
 
         return [
             ['[G]组别'],
@@ -44,8 +46,8 @@ class materialExport implements FromCollection,WithHeadings
             ['代码', '物料名称', '规格型号', '单位', '数量', '损耗率', '位置号', '坯料尺寸', '坯料数', '工位', '工序号', '工序', '是否倒冲', '配置属性', '提前期偏置', '计划百分比', '生效日期', '失效日期', '发料仓位',
                 '发料仓库', '子项类型', '备注', '备注1', '备注2', '备注3', '是否有特性'],
 
+];
 
-        ];
     }
 
 }

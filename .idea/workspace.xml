@@ -4,151 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd0c221f-2634-40af-8bee-96dfc31314cc" name="Changes" comment="1125">
-      <change afterPath="$PROJECT_DIR$/app/Exports/UsersExport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Exports/materialExport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/CostomerController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/MaterialController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PartDataController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/checkinController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Imports/materialImport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Imports/partdataImport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/checkin.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/d_material.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/log/checkin_log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/log/leaveorder_log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/log/partdata_log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/log/tripdata_log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/log/trippay_log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/log/tripsign_log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/log/triptotal_log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/partdata.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/product.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Model/product_head.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/CheckinServices.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/ConstomerServices.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/MaterialService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2022_12_27_165707_create_33_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/APC.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/CacheBase.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/DiscISAM.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/ICache.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/Igbinary.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/Memcache.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/Memory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/MemoryGZip.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/MemorySerialized.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/PHPTemp.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/SQLite.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/SQLite3.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorage/Wincache.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/CachedObjectStorageFactory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/Escher/DgContainer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/Escher/DgContainer/SpgrContainer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/Escher/DgContainer/SpgrContainer/SpContainer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/Escher/DggContainer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/Escher/DggContainer/BstoreContainer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/Escher/DggContainer/BstoreContainer/BSE.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/Escher/DggContainer/BstoreContainer/BSE/Blip.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/CHANGELOG.TXT" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/CholeskyDecomposition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/EigenvalueDecomposition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/LUDecomposition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/QRDecomposition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/SingularValueDecomposition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/utils/Error.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/JAMA/utils/Maths.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/OLE/ChainedBlockStream.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/PasswordHasher.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/ZipStreamWrapper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/trend/bestFitClass.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/trend/exponentialBestFitClass.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/trend/linearBestFitClass.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/trend/logarithmicBestFitClass.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/trend/polynomialBestFitClass.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/trend/powerBestFitClass.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Shared/trend/trendClass.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/AutoFilter/Column.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/AutoFilter/Column/Rule.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/BaseDrawing.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/CellIterator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/ColumnDimension.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/Drawing/Shadow.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/HeaderFooter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/HeaderFooterDrawing.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/MemoryDrawing.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/PageMargins.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/RowDimension.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Classes/PHPExcel/Worksheet/RowIterator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/apple-touch-icon-114x114.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/apple-touch-icon-72x72.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/glyphicons-halflings-white.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/glyphicons-halflings.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/icons/icon-folder-open-big.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/icons/icon_template.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/icons/visibility_private.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/icons/visibility_protected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/API/img/icons/visibility_public.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/PHPExcel AutoFilter Reference developer documentation.odt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/PHPExcel Function Reference developer documentation.odt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/PHPExcel User Documentation - Reading Spreadsheet Files.odt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/PHPExcel/PHPExcel/Documentation/PHPExcel developer documentation.odt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/show1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/attendance/checkin.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/attendance/persolwork.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/attendance/showallemplist.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/attendance/upcheckin.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/constomer/costomer.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/constomer/newCostomer.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/constomer/updateCostomer.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/material/Excelmaterial.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/material/partdata.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/sign/checkinsign.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/sign/history_checkinsign.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stubs/export.model.stub" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stubs/export.plain.stub" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stubs/export.query-model.stub" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stubs/export.query.stub" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stubs/import.collection.stub" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stubs/import.model.stub" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/employe.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/employe.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="bd0c221f-2634-40af-8bee-96dfc31314cc" name="Changes" comment="2022/12/29">
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/CustomerController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Model/customer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Services/CustomerService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HumanResourceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HumanResourceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/leavefakeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/leavefakeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/loginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/loginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/vacationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/vacationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/isholiday.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Model/isholiday.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/tripdata.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Model/tripdata.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/HumanResourceServices.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/HumanResourceServices.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/PayServices.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PayServices.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exports/materialExport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exports/materialExport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CostomerController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MaterialController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MaterialController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Imports/materialImport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Imports/materialImport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Model/d_material.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Model/d_material.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/empinforservices.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/empinforservices.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/empindex.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/empindex.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/hrsys/employees.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hrsys/employees.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/hrsys/hrupdateemp.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hrsys/hrupdateemp.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/hrsys/newemp.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hrsys/newemp.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/constomer/costomer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/customer/customerlist.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/constomer/newCostomer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/customer/newcustomer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/constomer/updateCostomer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/customer/updateCostomer.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/include/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/include/menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/include/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/include/nav.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/leave/leaveorder.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/leave/leaveorder.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/leave/personalleaveorder.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/leave/personalleaveorder.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pay/applyreimburse.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pay/applyreimburse.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pay/reimburse.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pay/reimburse.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pay/tripapplytotal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pay/tripapplytotal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sign/bosssign.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sign/bosssign.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sign/bosssigntrip.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sign/bosssigntrip.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sign/finshsign.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sign/finshsign.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sign/history_finshsign.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sign/history_finshsign.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sign/persolorder.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sign/persolorder.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sign/specialdate.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sign/specialdate.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sign/totaltable.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sign/totaltable.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/updateemp.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/updateemp.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/material/Excelmaterial.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/material/Excelmaterial.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -287,35 +158,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/wamp64/www/employe/resources/views/sign&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/wamp64/www/employe/app/Services",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.selected.package.stylelint": "",
+    "nodejs_package_manager_path": "npm",
+    "php.override.implement.member.chooser.php.doc": "NONE",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\employe\app\Services" />
       <recent name="C:\wamp64\www\employe\resources\views\sign" />
       <recent name="C:\wamp64\www\employe\app\Imports" />
       <recent name="C:\wamp64\www\employe\app\Exports" />
       <recent name="C:\wamp64\www\employe\resources\views\material" />
-      <recent name="C:\wamp64\www\employe\resources\views\attendance" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\employe\app\Model" />
       <recent name="C:\wamp64\www\employe\public\img" />
       <recent name="C:\wamp64\www\employe\app\Model\log" />
-      <recent name="C:\wamp64\www\employe\app\Model" />
       <recent name="C:\wamp64\www\employe\public" />
       <recent name="C:\wamp64\www\employe\resources\views\pay" />
     </key>
@@ -387,7 +258,9 @@
       <workItem from="1672113671941" duration="20059000" />
       <workItem from="1672135156253" duration="551000" />
       <workItem from="1672190330726" duration="26328000" />
-      <workItem from="1672277349786" duration="15905000" />
+      <workItem from="1672277349786" duration="22861000" />
+      <workItem from="1672363334805" duration="24155000" />
+      <workItem from="1672795828602" duration="11871000" />
     </task>
     <task id="LOCAL-00001" summary="1125">
       <created>1669344117813</created>
@@ -445,7 +318,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="1207" />
     <MESSAGE value="1125" />
-    <option name="LAST_COMMIT_MESSAGE" value="1125" />
+    <MESSAGE value="2022/12/29" />
+    <option name="LAST_COMMIT_MESSAGE" value="2022/12/29" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
