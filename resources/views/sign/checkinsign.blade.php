@@ -58,7 +58,8 @@ date_default_timezone_set('Asia/Taipei');
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
-            <br><div style="text-align: left;">
+            <br> @if(count($checklist)>0)
+				<div style="text-align: left;">
 <a href="{{route('historysign')}}" target="_blank" class="bt-search">歷史資料查詢</a>
             </div>    <br>
             <table border="1" align="center" class="bor-blue tbl" width="100%">
@@ -78,7 +79,7 @@ date_default_timezone_set('Asia/Taipei');
 
 
                 </tr>
-
+@endif
                 <form id="form1" name="form1" action="{{route('signcheckin')}}" method="post">
                     {{ csrf_field() }}
                     @if(count($checklist)==0)

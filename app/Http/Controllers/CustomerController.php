@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Model\countrycode;
 use App\Model\customer;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
-
+use Session;
 class CustomerController extends Controller
 {
     private $CustomerService;
@@ -16,15 +17,32 @@ class CustomerController extends Controller
 
     public function index()
     {
-       $data=$this->CustomerService->customerlist(10);
-       return view("customer.customerlist",['customerlist'=>$data]);
+
+        $custlist=customer::all();
+        $id=Session::get('custtitle');
+        if($id!=""){
+
+            $data=$this->CustomerService->sreachcust($id);
+            Session::forget('custtitle');
+            return view("customer.customerlist",['customerlist'=>$data,'custlist'=>$custlist,'cnoid'=>$id]);
+        }
+        else{
+            $data=$this->CustomerService->customerlist(10);
+            $id="";
+            return view("customer.customerlist",['customerlist'=>$data,'custlist'=>$custlist,'cnoid'=>$id]);
+        }
+//        $data=$this->CustomerService->customerlist(10);
+//        $custlist=customer::all();
+//        return view("customer.customerlist",['customerlist'=>$data,'custlist'=>$custlist]);
+
     }
 
 
     public function create()
     {
         $status = '';
-        return view("customer.newcustomer", ['status' => $status]);
+        $custlist=countrycode::all();
+        return view("customer.newcustomer", ['status' => $status,'custlist'=>$custlist]);
     }
 
 
@@ -34,10 +52,15 @@ class CustomerController extends Controller
         $data=$request->input();
         $status = customer::create($data);
         $customerlist = $this->CustomerService->customerlist(10);
+        $countrynum=$request->input('countrynum');
+        $countrycode=$request->input('countrycode');
+        countrycode::where('country_code','like',$countrycode)->update(['codeno' => $countrynum]);
+        $custlist=countrycode::all();
         if ($status != false) {
             $status = true;
         }
-        return view('customer.newcustomer', ['status' => $status], ['customerlist'=>$data]);
+        echo " <script>alert('新增成功'); self.opener.location.reload();window.close(); </script>";
+        return view('customer.newcustomer',  ['customerlist'=>$data,'custlist'=>$custlist]);
     }
 
 
@@ -58,16 +81,17 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         try {
+
             $data = $request->input();
             $res = customer::find($id)->update($data);
             $customerlist = $this->CustomerService->customerlist(10);
             if ($res) {
                 //更新成功
-
+                echo " <script>alert('修改成功'); self.opener.location.reload();window.close(); </script>";
                 return view('customer.updateCostomer', ['data' => $data, 'customerlist' => $customerlist, 'status' => true]);
             } else {
                 //更新失敗
-
+                echo " <script>alert('修改失敗'); self.opener.location.reload();window.close(); </script>";
                 return view('customer.updateCostomer', ['data' => $data, 'customerlist' => $customerlist, 'status' => false]);
             }
         }
@@ -82,7 +106,11 @@ class CustomerController extends Controller
         //
     }
     public function searchcustomer(Request $request){
-
+        $custtitle=$request->input('abbreviation');
+        $customerlist=customer::all();
+        $data=$this->CustomerService->sreachcust($custtitle);
+        Session::put('custtitle',$custtitle);
+        return redirect()->route('customer.index',['customerlist'=>$customerlist,'custlist'=>$data]);
     }
 
 }

@@ -70,9 +70,11 @@ Route::any('searchcustomer','CustomerController@searchcustomer')->name('searchcu
 Route::any('materialExport','MaterialController@materialExport')->name('materialExport')->middleware('AuthStatus');
 Route::any('historysign','checkinController@historysign')->name('historysign')->middleware('AuthStatus');
 Route::any('showpartdata', 'PartDataController@showpartdata')->name('showpartdata')->middleware('AuthStatus');
+Route::resource('custPI', 'custPIController')->middleware('AuthStatus');
+Route::any('searchcust', 'custPIController@searchcust')->name('searchcust')->middleware('AuthStatus');
+
 //這也有規則 規則是AuthStatus 我當初寫的是 如果session的會員不見了  他會到登入頁面 還有很多規則 這是比較核心的
 
-//Route::any('materialExport','MaterialController@materialExport')->name('materialExport')->middleware('AuthStatus');
 
 //像這種的 他有在中介曾 增加規則 叫做WEB 如果有達成WEB的規則 路由才能連線
 //Route::group(['middleware' => ['web']], function () {

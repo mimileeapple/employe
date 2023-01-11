@@ -96,11 +96,20 @@
                     公佈欄管理
                 </a>
             </li>
-            <li class="nav-item">
+            @if($limit>2)
+                <li class="nav-item">
                 <a href="{{route("customer.index")}}" class="nav-link link-dark">
                     客戶資料管理
                 </a>
             </li>
+            @endif
+            @if($limit==10)
+                <li class="nav-item">
+                    <a href="{{route("custPI.index")}}" class="nav-link link-dark">
+                        客戶PI單
+                    </a>
+                </li>
+            @endif
             <div class="dropdown">
                 <a class="btn bt-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                    data-bs-toggle="dropdown" aria-expanded="false">

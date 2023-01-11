@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Model\customer;
-use Carbon\Carbon;
 
 class CustomerService
 {
@@ -16,7 +15,14 @@ function cust($id){
     //以ID抓取資料
     return customer::where('id',$id)->first();
 }
+function custall(){
+    return customer::all();
+}
+function sreachcust($abbreviation){
+    return customer::where('abbreviation','like',$abbreviation)->get();
+}
+function findcountrymaxnum($code){
 
-
+}
 
 }

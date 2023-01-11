@@ -101,7 +101,7 @@ $title = "首頁";
             <img src="{{ URL::asset('img/post1.jpg') }}" width="1200px;">
 
 
-            <table border="1" width="88%" class="bor-blue" style="text-align: center;" align="center">
+            <table border="1"  class="bor-blue" style="width:1100px;text-align: center;" align="center">
 
                 <tr class="bg-blue">
 

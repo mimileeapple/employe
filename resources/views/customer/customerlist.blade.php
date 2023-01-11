@@ -52,16 +52,16 @@ $title = "客戶資料管理";
 
 
                     <td>
-{{--                        <form method="post" id="form1" action="{{route('searchcustomer')}}">--}}
-{{--                            {{ csrf_field() }}--}}
-{{--                            <input list="code">--}}
-{{--                            <datalist name="code">--}}
-{{--                                @foreach($country_list as  $country)--}}
-{{--                                    <option value="{{$country->code}}">{{$country->country_English}}{{$country->country_chinese}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </datalist>--}}
-{{--                            <input type="submit" value="客戶查詢" class="bt-send ">--}}
-{{--                        </form>--}}
+                        <form method="post" id="form1" action="{{route('searchcustomer')}}">
+                            {{ csrf_field() }}
+                            <input list="abbreviation" id="cno"  name="abbreviation"  placeholder="搜尋公司簡稱" value="{{$cnoid}}" autocomplete="off">
+                            <datalist id="abbreviation">
+                                @foreach($custlist as  $country)
+                                    <option value="{{$country->abbreviation}}"></option>
+                                @endforeach
+                            </datalist>
+                            <input type="submit" value="客戶查詢" class="bt-send ">
+                        </form>
                     </td>
                 </tr>
             </table>
@@ -71,7 +71,7 @@ $title = "客戶資料管理";
                 <tr style="width: 30px;" class="bg-blue">
                     <td>修改</td>
 
-                    <td>客戶編號</td>
+                    <td>客戶<br>編號</td>
                     <td>公司名稱</td>
                     <td>公司簡稱</td>
                     <td>國家</td>

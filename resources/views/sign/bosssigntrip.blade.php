@@ -58,8 +58,10 @@ date_default_timezone_set('Asia/Taipei');
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
-            <br> <br> <br><a href="{{route('historytrippay')}}" target="_blank" style="margin-left:-1050px;"
-                             class="bt-search">出差旅費報告簽核(歷史資料)</a> <br> <br>
+            <br> <br>
+ @if(count($emplist)>0)	
+	 <br><a href="{{route('historytrippay')}}" target="_blank" style="margin-left:-1050px;"
+            class="bt-search">出差旅費報告簽核(歷史資料)</a> <br> <br>
 
             <form id="form1" name="form1" action="{{route('Pay.update',1)}}" method="post">
                 {{ method_field('put') }}
@@ -82,6 +84,7 @@ date_default_timezone_set('Asia/Taipei');
                         <td><b>刪除</b></td>
 
                     </tr>
+					@endif
                     @if(count($emplist)==0)
                         <tr>
                             <td colspan="16"><font color="red">目前尚無簽核資料</font></td>

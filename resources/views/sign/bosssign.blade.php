@@ -59,6 +59,7 @@ date_default_timezone_set('Asia/Taipei');
                 <font size="20px"> ^</font>
             </a>
             <br>
+			@if(count($emp_list1)>0)
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
                     <td><label>
@@ -79,7 +80,7 @@ date_default_timezone_set('Asia/Taipei');
                     <td><b>刪除</b></td>
 
                 </tr>
-
+@endif
                 <form id="form1" name="form1" action="{{route('signleaveorder')}}" method="post">
                     {{ csrf_field() }}
                     @if(count($emp_list1)==0)

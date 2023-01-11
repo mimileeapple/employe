@@ -44,6 +44,7 @@ $today = date('Y-m-d H:i:s');
 
 
 </script>
+
 <form action="{{route('customer.update',$data->id)}}" method="post" name="form1">
     {{ csrf_field() }}
     {{method_field('PUT')}}
@@ -97,6 +98,6 @@ $today = date('Y-m-d H:i:s');
 
 
     </table>
-    <br><input type="submit" class="bt-send" value="修改員工資料"><br><br></form>
+    <br><input type="submit" class="bt-send" value="修改客戶資料"><br><br></form>
 </body>
 </html><?php
