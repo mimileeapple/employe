@@ -162,9 +162,9 @@ date_default_timezone_set('Asia/Taipei');
 
                         </tr>
 
-            </form>
 
-            </table>
+
+            </table> </form>
             <br><br><br>
         </div>
     </div>

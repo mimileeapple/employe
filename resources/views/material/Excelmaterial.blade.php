@@ -39,6 +39,7 @@ $title = "XLS轉BOM表";
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
+            <p style="color: red;text-align: left;">※上傳格式為xls/xlsx,且<b>只能有一個工作表(sheet)</b>※</p>
             <form action="{{route('material.store')}}" method="post" enctype='multipart/form-data' id="form1">
 
                 {{ csrf_field() }}
@@ -48,6 +49,7 @@ $title = "XLS轉BOM表";
                         <td style="text-align: right;">
                             <input type="file" name="file1" id="file1"></td>
                         <td><input type="button" class="bt-add" value="匯入xls" onclick="submitfile()">
+
                         </td>
                     </tr>
                     <tr>

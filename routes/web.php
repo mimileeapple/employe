@@ -32,10 +32,14 @@ Route::resource('creatboard', 'BoardController')->middleware('AuthStatus');
 //Route::post('verify', 'loginController@verifya');像這樣
 //Route::get('verify/{value}', 'loginController@verifya');這是帶傳參
 //Route::resource('HumanResource', 'HumanResourceController');
-Route::any('historytrippay', 'PayController@historytrippay')->name('historytrippay');
-Route::any('newboard', 'BoardController@newboard')->name('newboard');
+Route::any('historytrippay', 'PayController@historytrippay')->name('historytrippay')->middleware('AuthStatus');
+Route::any('newboard', 'BoardController@newboard')->name('newboard')->middleware('AuthStatus');
+Route::any('showpic', 'BoardController@showpic')->name('showpic')->middleware('AuthStatus');
+
 Route::resource('employees', 'HumanResourceController')->middleware('AuthStatus');
 
+Route::any('showpicsign', 'HumanResourceController@showpicsign')->name('showpicsign')->middleware('AuthStatus');
+Route::post('uploadpicsign', 'HumanResourceController@uploadpicsign')->name('uploadpicsign')->middleware('AuthStatus');
 
 Route::post('search', 'HumanResourceController@search_empid')->name('search')->middleware('AuthStatus');
 Route::resource('leavefake', 'leavefakeController')->middleware('AuthStatus');
@@ -58,6 +62,7 @@ Route::any('showtripsign', 'PayController@showtripsign')->name('showtripsign')->
 Route::resource('checkin', 'checkinController')->middleware('AuthStatus');
 Route::any('search_checkin', 'checkinController@search_checkin')->name('search_checkin')->middleware('AuthStatus');
 Route::any('showchecksign', 'checkinController@showchecksign')->name('showchecksign')->middleware('AuthStatus');
+Route::any('leaveorderdatilday', 'checkinController@leaveorderdatilday')->name('leaveorderdatilday')->middleware('AuthStatus');
 Route::any('signcheckin', 'checkinController@signcheckin')->name('signcheckin')->middleware('AuthStatus');
 Route::any('showallemplist', 'checkinController@showallemplist')->name('showallemplist')->middleware('AuthStatus');
 Route::any('search_checkemp', 'checkinController@search_checkemp')->name('search_checkemp')->middleware('AuthStatus');
@@ -72,6 +77,12 @@ Route::any('historysign','checkinController@historysign')->name('historysign')->
 Route::any('showpartdata', 'PartDataController@showpartdata')->name('showpartdata')->middleware('AuthStatus');
 Route::resource('custPI', 'custPIController')->middleware('AuthStatus');
 Route::any('searchcust', 'custPIController@searchcust')->name('searchcust')->middleware('AuthStatus');
+Route::any('findbankdata', 'custPIController@findbankdata')->name('findbankdata')->middleware('AuthStatus');
+Route::any('searchcompanyid', 'custPIController@searchcompanyid')->name('searchcompanyid')->middleware('AuthStatus');
+Route::any('uploadpi', 'custPIController@uploadpi')->name('uploadpi')->middleware('AuthStatus');
+Route::any('signpi/{p}', 'custPIController@signpi')->name('signpi')->middleware('AuthStatus');
+Route::resource('pispace', 'PIspaceController')->middleware('AuthStatus');
+Route::any('showpispace/{p}', 'PIspaceController@showpispace')->name('showpispace')->middleware('AuthStatus');
 
 //這也有規則 規則是AuthStatus 我當初寫的是 如果session的會員不見了  他會到登入頁面 還有很多規則 這是比較核心的
 

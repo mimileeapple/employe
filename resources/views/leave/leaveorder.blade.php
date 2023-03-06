@@ -431,8 +431,8 @@ date_default_timezone_set('Asia/Taipei');
                         <td><input type="text" id="title" name="title" value="{{Session::get('empdata')->title}}"
                                    readonly></td>
                         <td class="bg-blue">職務代理人</td>
-                        <td><input type="text" id="agentemp" name="agentemp"
-                                   value="{{Session::get('empdata')->agentemp}}" readonly>
+                        <td><input type="text" id="agentemp" name="agentempename"
+                                   value="{{Session::get('empdata')->agentempename}}" readonly>
                             <input type="hidden" id="achievedate" name="achievedate"
                                    value="{{Session::get('empdata')->achievedate}}"></td>
                     </tr>
@@ -481,8 +481,8 @@ date_default_timezone_set('Asia/Taipei');
                                 <input type="text" class="leaveenddate" id="datepicker1"  autocomplete="off"></label>
                             結束時間 <label class="start_date">
                                 <input type="text" class="leaveendtime" id="timepicker1"  autocomplete="off"></label>
-                            <input type="button" value="計算" onclick="calculate()" class="bt-print">
-                            <input type="text" id="hours" name="hours" value=""> 時
+                            <input type="button" value="計算" onclick="calculate()" class="bt-print"><br><br>
+                            <input type="text" id="hours" name="hours" value="" style="margin-left: 55px;"> 時
                             =<input type="text" id="minit" name="minit" value="">分
                             <input type="hidden" class="" id="leavestart" name="leavestart">
                             <input type="hidden" class="" id="leaveend" name="leaveend">

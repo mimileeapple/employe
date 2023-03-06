@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Model\leaveorder;
 use Illuminate\Support\Facades\Response;
 use App\Services\CheckinServices;
 use App\Services\HumanResourceServices;
@@ -57,7 +58,31 @@ class checkinController extends Controller
 
     public function show($id)
     {//秀出所有自己的出勤
+
         $checklist=$this->CheckinServices->showcheck($id);
+        //$checklist[0]->leaveorder='Y';
+
+      foreach ($checklist as $i=>$c){
+
+            if($c->checkintime==""||$c->checkouttime==""){
+                $nodate=$c->checkdate;  ;
+               $res= $this->CheckinServices->leaveorderdatilday($nodate,$id);
+
+              if(count($res)>0){
+                  $checklist[$i]->leaveorder='Y';
+             }
+              else{
+                  $checklist[$i]->leaveorder='N';
+              }
+
+            }
+            else{
+               $checklist[$i]->leaveorder="";
+
+                }
+
+        }
+//dd($checklist);
 
         return view("attendance.persolwork",['checklist'=>$checklist]);
     }
@@ -107,6 +132,26 @@ class checkinController extends Controller
        $months=$request->input('months');
         $checklist=$this->CheckinServices->showmonthcheckin($months,$empid);
 
+        foreach ($checklist as $i=>$c){
+
+            if($c->checkintime==""||$c->checkouttime==""){
+                $nodate=$c->checkdate;  ;
+                $res= $this->CheckinServices->leaveorderdatilday($nodate,$empid);
+
+                if(count($res)>0){
+                    $checklist[$i]->leaveorder='Y';
+                }
+                else{
+                    $checklist[$i]->leaveorder="N";
+                }
+
+            }
+            else{
+                $checklist[$i]->leaveorder="";
+
+            }
+
+        }
         return view("attendance.persolwork",['checklist'=>$checklist,'months'=>$months]);
     }
     public function showchecksign(Request $request){//秀出簽核頁面
@@ -130,23 +175,67 @@ class checkinController extends Controller
         return view("sign.checkinsign",['checklist'=>$checklist]);
     }
     public function showallemplist(Request $request){//秀出所有員工出勤表頁面
-        $empid= $request->input('empid');
-        $months=$request->input('months');
+        //$empid= $request->input('empid');
+        //$months=$request->input('months');
+
+        //$checklist=$this->CheckinServices->showmonthcheckin($months,$empid);
+
         $emp_list1 = $this->HumanResourceServices->select_emp();//所有的員工表
-        return view("attendance.showallemplist",['emp_list1'=>$emp_list1,'empid'=>$empid,'months'=>$months]);
+//        foreach ($checklist as $i=>$c) {
+//
+//            if ($c->checkintime == "" || $c->checkouttime == "") {
+//                $nodate = $c->checkdate;;
+//                $res = $this->CheckinServices->leaveorderdatilday($nodate, $empid);
+//
+//                if (count($res) > 0) {
+//                    $checklist[$i]->leaveorder = 'Y';
+//                } else {
+//                    $checklist[$i]->leaveorder = 'N';
+//                }
+//
+//            } else {
+//                $checklist[$i]->leaveorder = "";
+//
+//            }
+      //  }
+        return view("attendance.showallemplist",['emp_list1'=>$emp_list1]);
 
     }
     public function search_checkemp(Request $request){//查詢所有員工每月出勤表
         $emp_list1 = $this->HumanResourceServices->select_emp();//所有的員工表
         $empid= $request->input('empid');
         $months=$request->input('months');
-        //dd($request->input());
         $checklist=$this->CheckinServices->showmonthcheckin($months,$empid);
+
+        foreach ($checklist as $i=>$c){
+
+            if($c->checkintime==""||$c->checkouttime==""){
+                $nodate=$c->checkdate;  ;
+                $res= $this->CheckinServices->leaveorderdatilday($nodate,$empid);
+
+                if(count($res)>0){
+                    $checklist[$i]->leaveorder='Y';
+                }
+                else{
+                    $checklist[$i]->leaveorder="N";
+                }
+
+            }
+            else{
+                $checklist[$i]->leaveorder="";
+
+            }
+
+        }
         return view("attendance.showallemplist",['emp_list1'=>$emp_list1,'checklist'=>$checklist,'empid'=>$empid,'months'=>$months]);
     }
     public function historysign(Request $request){
         $checklist=$this->CheckinServices-> historyshowchecksign();
         return view("sign.history_checkinsign",['checklist'=>$checklist]);
+    }
+    public function leaveorderdatilday(Request $request){
+        $emp_list =$this->CheckinServices->leaveorderdatilday($request->input()['day'],$request->input()['empid']);
+        return view('sign.persolorder', ['emp_list' => $emp_list]);
     }
 }
 

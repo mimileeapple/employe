@@ -112,7 +112,7 @@ class vacationController extends Controller
 
         $today = date('Y-m-d');
         $thistoday=date('Y-m', strtotime(Session::get('thismonth')));
-        $nextmonth = date('Y-m', strtotime(date('Y-m-01', strtotime(Session::get('thismonth'))) . '+1 month '));
+        $nextmonth = date('Y-m', strtotime(date('Y-m-01', strtotime(Session::get('thismonth'))) . 'last day of 1 month'));
         $thismonth_list=$this->empinforservices->nextmonthdata($thistoday);
         $month_list = $this->empinforservices->nextmonthdata($nextmonth);
         try {
@@ -123,7 +123,7 @@ class vacationController extends Controller
                 $status = DB::update('update emp_vacation set
           add_specialdate = ?,add_years_date = ?,add_comp_time = ?,
           specialdate=?, years_date=?,comp_time=?,sub_specialdate=?,sub_years_date=?,sub_comp_time=?,
-          remain_specialdate=?,remain_years_date=?,remain_comp_time=?,updateemp=?,updatedate=?,sts=?,
+          remain_specialdate=?,remain_years_date=?,remain_comp_time=?,updateemp=?,updatedate=?,sts=?
                     where empid =? and months=?',
                     [
                         $_POST['add_specialdate'][$emp->empid],

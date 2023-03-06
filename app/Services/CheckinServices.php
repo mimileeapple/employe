@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Model\checkin;
+use App\Model\leaveorder;
 use DB;
 use Session;
 class CheckinServices
@@ -24,4 +25,17 @@ class CheckinServices
     function historyshowchecksign(){
         $res=checkin::where('sign','Y')->get();
         return $res;}
+    function showleaveorder($id,$date){
+        $res=  DB:: select("select * from leaveorder where empid=$id and left(leavestart,10)<='$date' and left(leaveend,10)>='$date'");
+        return $res;
+    }
+    function leaveorderdatilday($day,$empid){
+        $res= DB:: select("select * from leaveorder where left(leavestart,10)>='$day' and left(leaveend,10)<= '$day' AND
+        empid=$empid");
+
+//
+//            leaveorder::where('leavestart', '>=', $day)->where('leaveend', '<=', $day)->
+//        where('empid', '=', $empid)->where('ordersts','<>','D')->get();
+        return $res;
+    }
 }

@@ -59,7 +59,7 @@ $date = date("Y-M-D");
                         <option {{ isset($selected)&&$selected == date('Y-m',strtotime('-1 month'))?'selected ' :''  }}value="<?php echo date('Y-m',strtotime('-1 month')); ?>" ><?php echo date('Y-m',strtotime('-1 month')); ?></option>
 
                         <option {{ isset($selected)&&$selected == date('Y-m')?'selected ' :''  }}value="<?php echo date('Y-m'); ?>" ><?php echo date('Y-m'); ?></option>
-                        <option {{ isset($selected)&&$selected == date('Y-m',strtotime('+1 month'))?'selected ' :''  }}value="<?php echo date('Y-m',strtotime('+1 month')); ?>" ><?php echo date('Y-m',strtotime('+1 month')); ?></option>
+                        <option {{ isset($selected)&&$selected == date('Y-m',strtotime('last day of 1 month'))?'selected ' :''  }}value="<?php echo date('Y-m',strtotime('last day of 1 month')); ?>" ><?php echo date('Y-m',strtotime('last day of 1 month')); ?></option>
 
                         <input type="submit" value="查詢" class="bt-search">
                     </select></div>

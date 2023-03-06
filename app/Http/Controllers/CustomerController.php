@@ -108,8 +108,12 @@ class CustomerController extends Controller
     public function searchcustomer(Request $request){
         $custtitle=$request->input('abbreviation');
         $customerlist=customer::all();
+        if($custtitle==""){
+            $data=customer::all();
+        }
+        else{
         $data=$this->CustomerService->sreachcust($custtitle);
-        Session::put('custtitle',$custtitle);
+        Session::put('custtitle',$custtitle);}
         return redirect()->route('customer.index',['customerlist'=>$customerlist,'custlist'=>$data]);
     }
 

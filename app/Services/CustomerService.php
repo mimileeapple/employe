@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Model\customer;
-
+use App\Model\pispace\pispacedata;
 class CustomerService
 {
 
@@ -21,8 +21,15 @@ function custall(){
 function sreachcust($abbreviation){
     return customer::where('abbreviation','like',$abbreviation)->get();
 }
-function findcountrymaxnum($code){
-
+function findspaceid($id){
+    return pispacedata::where('id',$id)->value('spacecode');
 }
-
+function findspacesales($id)
+{
+    return pispacedata::where('id',$id)->value('oderspacdescript');
+}
+    function usetitlefindall($id)
+    {
+        return pispacedata::where('id',$id)->value('oderspactype');
+    }
 }

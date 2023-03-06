@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 'localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -66,8 +66,24 @@ return [
         //這邊為新增的模組 主要存放請假的附件
         'Leave' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/leave_attachment'),
-            'url' => 'storage/app/public/leave_attachment',
+            'root' => public_path('leave_attachment'),
+            'url' => 'leave_attachment',
+            'visibility' => 'public',
+        ],
+
+        //這邊為新增的模組 主要存放PI單的附件
+        'PI' => [
+            'driver' => 'local',
+            'root' => public_path('piorder'),
+            'url' => 'piorder',
+            'visibility' => 'public',
+        ],
+
+        //這邊為新增的模組 主要存放PI單的附件
+        'empsign' => [
+            'driver' => 'local',
+            'root' => public_path('empsign'),
+            'url' => 'empsign',
             'visibility' => 'public',
         ],
 

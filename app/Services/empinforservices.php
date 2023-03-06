@@ -146,5 +146,9 @@ group by empid");;
     {
         return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->paginate($page);
     }
-
+    function leaveorderdatil_day($day,$empid){
+        $res=leaveorder::where('leavestart', '>=', $day)->where('leaveend', '<=', $day)->
+        where('empid', '=', $empid)->where('ordersts','<>','D')->get();
+        return $res;
+    }
 }

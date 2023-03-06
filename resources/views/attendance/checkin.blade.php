@@ -30,6 +30,12 @@ $date = date("Y-m-d H:i:s");
         }
     </style>
     <script>
+        function paddingLeft(str,lenght){
+            if(str.length >= lenght)
+                return str;
+            else
+                return paddingLeft("0" +str,lenght);
+        }
         function ShowTime(){
             var NowDate=new Date();
             var y=NowDate.getFullYear();
@@ -38,9 +44,12 @@ $date = date("Y-m-d H:i:s");
             var h=NowDate.getHours();
             var m=NowDate.getMinutes();
             var s=NowDate.getSeconds();
-            document.getElementById('showbox').innerHTML =y+'年'+mo+'月'+d+'日'+ h+'時'+m+'分'+s+'秒';
+        var month=paddingLeft(mo,2);
+        var day=paddingLeft(d,2);
+            document.getElementById('showbox').innerHTML =y+'年'+month+'月'+day+'日'+ h+'時'+m+'分'+s+'秒';
             setTimeout('ShowTime()',1000);
         }
+
     </script>
 
 </head>
@@ -102,7 +111,9 @@ $date = date("Y-m-d H:i:s");
             $("#btnactionid").val(0);
             $("#btnactionin").val("上班");
             $("#worktime").val('');
+
             data = $('#form1').serializeArray()
+          // console.log(data)
             $.ajax({
                 type: "post",
                 dataType: "JSON",

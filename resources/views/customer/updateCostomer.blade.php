@@ -19,10 +19,10 @@ $today = date('Y-m-d H:i:s');
     <title><?php echo $title?></title>
     <style>
         td {
-            width: 200px;
+            width: 280px;
         }
         input{
-            width: 200px;
+            width: 250px;
         }
         select {
             width: 120px;
@@ -99,5 +99,6 @@ $today = date('Y-m-d H:i:s');
 
     </table>
     <br><input type="submit" class="bt-send" value="修改客戶資料"><br><br></form>
+
 </body>
 </html><?php

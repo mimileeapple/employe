@@ -3,16 +3,14 @@
     <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 200px;">
         <ul class="nav nav-pills flex-column mb-auto" style="text-align: left;">
 
-            <li class="nav-item">
+                <li class="nav-item">
                 <a href="{{route('verify')}}"  class="nav-link link-dark">回首頁</a></li>
-            <li class="nav-item">
+                <li class="nav-item">
                 <a href="{{route('checkin.index')}}" class="nav-link link-dark">我要打卡</a></li>
-
             <div class="dropdown">
                 <a class="btn bt-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     請假系統
                 </a>
-
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <li class="nav-item">
                         <a href="{{route('personalinfor.edit',Session::get('empid'))}}" class="nav-link link-dark">
@@ -38,7 +36,7 @@
                     </li>
                 </ul>
             </div>
-@if($limit==10)
+            @if($limit>2)
               <div class="dropdown">
                 <a class="btn bt-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,7 +60,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+                </div>
 
             <div class="dropdown">
                 <a class="btn bt-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -90,26 +88,25 @@
                     </li>
                 </ul>
             </div>
-            @endif
+
             <li class="nav-item">
                 <a href="{{route("creatboard.create")}}" class="nav-link link-dark">
                     公佈欄管理
                 </a>
             </li>
-            @if($limit>2)
+
                 <li class="nav-item">
                 <a href="{{route("customer.index")}}" class="nav-link link-dark">
                     客戶資料管理
                 </a>
             </li>
-            @endif
-            @if($limit==10)
+
                 <li class="nav-item">
                     <a href="{{route("custPI.index")}}" class="nav-link link-dark">
                         客戶PI單
                     </a>
                 </li>
-            @endif
+
             <div class="dropdown">
                 <a class="btn bt-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -129,6 +126,8 @@
                     </li>
 
                 </ul>
+            </div>
+            @endif
         </ul>
     </div>
     <div class="b-example-divider"></div>

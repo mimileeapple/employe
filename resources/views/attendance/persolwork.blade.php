@@ -29,6 +29,14 @@ $date = date("Y-M-D");
             width: 80px;
         }
     </style>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/css/theme.blue.min.css"></link>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/js/jquery.tablesorter.min.js"></script>   <script>
+        $("#myTable").tablesorter({
+            theme: "blue",
+            widgets: ['zebra']
+        });
+    </script>
 
 </head>
 <body style="text-align: center" onUnload="opener.location.reload()">
@@ -53,11 +61,12 @@ $date = date("Y-M-D");
 
                     <input type="hidden" name="empid" value="{{Session::get('empid')}}">
                     <select name="months" style="width: 150px;text-align: center">
-                        <option {{ isset($months)&&$months == date('Ym',strtotime('-3 month'))?'selected ' :''  }} value="<?php echo date('Ym',strtotime('-3 month')); ?>" ><?php echo  date('Y-m',strtotime('-3 month'));; ?></option>
-                        <option {{ isset($months)&&$months == date('Ym',strtotime('-2 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('-2 month')); ?>" ><?php echo  date('Y-m',strtotime('-2 month'));; ?></option>
-                        <option {{ isset($months)&&$months == date('Ym',strtotime('-1 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('-1 month')); ?>" ><?php echo date('Y-m',strtotime('-1 month')); ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of -3 month'))?'selected ' :''  }} value="<?php echo date('Ym',strtotime('last day of -3 month')); ?>" ><?php echo  date('Y-m',strtotime('last day of -3 month'));; ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of -2 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('last day of -2 month')); ?>" ><?php echo  date('Y-m',strtotime('last day of -2 month'));; ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of -1 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('last day of -1 month')); ?>" ><?php echo date('Y-m',strtotime('last day of -1 month')); ?></option>
 
                         <option {{ isset($months)&&$months == date('Ym')?'selected ' :''  }}value="<?php echo date('Ym'); ?>" ><?php echo date('Y-m'); ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of 1 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('last day of 1 month')); ?>" ><?php echo date('Y-m',strtotime('last day of 1 month')); ?></option>
 
 
                         <input type="submit" value="查詢" class="bt-search">
@@ -66,16 +75,20 @@ $date = date("Y-M-D");
             <input type="button" value="我要補卡" class="bt-add" onclick="window.open('{{route("checkin.create")}}','upcheckin',config='width=1000;height=600')"></td></tr>
                 </table>
 <br><br>
-            <table border="1" align="center" class="bor-blue tbl" width="80%" >
 
+
+            <table border="1" align="center" class="bor-blue tbl tablesorter" width="80%" id="myTable">
+                <thead>
                     <tr class="bg-blue">
-                        <td><b>日期</b></td>
-                        <td><b>日期</b></td>
-                        <td><b>上班打卡時間</b></td>
-                        <td><b>下班打卡時間</b></td>
-                        <td><b>今日上班時間</b></td>
+                        <th><b>序號</b></th>
+                        <th><b>日期</b></th>
+                        <th><b>上班打卡時間</b></th>
+                        <th><b>下班打卡時間</b></th>
+                        <th><b>今日上班時間</b></th>
+                        <th><b>備註</b></th>
                     </tr>
-
+                </thead>
+                <tbody>
                 @foreach($checklist as $i=>$in)
 
                     <tr>
@@ -83,6 +96,7 @@ $date = date("Y-M-D");
                         <td>{{$in->checkdate}}
                             @php $weekarray=array("日","一","二","三","四","五","六");
                             echo "(星期".$weekarray[date("w",strtotime($in->checkdate))].")";
+                             $day=date("w",strtotime($in->checkdate));
                             @endphp
                         </td>
                         <td>@if($in->checkintime!=null){{$in->checkintime}}
@@ -100,10 +114,18 @@ $date = date("Y-M-D");
                             @else
                             @endif
                         </td>
-
+                        <td>
+                            @if($in->leaveorder=="Y")
+                            <a href="{{route("leaveorderdatilday", ['day'=>$in->checkdate,'empid'=>$in->empid])}}"
+                               target="_blank">已請假</a>
+                            @elseif($in->leaveorder=="N"&&($day==0||$day==6))
+                            @elseif($in->leaveorder=="N"&&($day!=0||$day!=6))<font color="red">尚未請假</font>
+                            @endif
+                        </td>
                     </tr>
 
                 @endforeach
+                </tbody>
             </table>
             <br><br><br>
         </div>

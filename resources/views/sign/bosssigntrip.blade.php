@@ -59,10 +59,13 @@ date_default_timezone_set('Asia/Taipei');
                 <font size="20px"> ^</font>
             </a>
             <br> <br>
- @if(count($emplist)>0)	
+            @php $limit=Session::get('empdata')->syslimit @endphp
+            @if($limit>5)
 	 <br><a href="{{route('historytrippay')}}" target="_blank" style="margin-left:-1050px;"
             class="bt-search">出差旅費報告簽核(歷史資料)</a> <br> <br>
+            @endif
 
+            @if(count($emplist)>0)
             <form id="form1" name="form1" action="{{route('Pay.update',1)}}" method="post">
                 {{ method_field('put') }}
                 {{ csrf_field() }}

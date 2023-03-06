@@ -23,7 +23,7 @@ $title = "客戶資料管理";
     <script src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ URL::asset('myjs/gotop.js') }}"></script>
-    <title><?php echo $title ?></title>
+
 </head>
 <body style="text-align: center" onUnload="opener.location.reload()">
 @include("include.nav")
@@ -67,8 +67,8 @@ $title = "客戶資料管理";
             </table>
             <br><br>
 
-            <table width="95%" border="1" class="tbl" style="margin: auto">
-                <tr style="width: 30px;" class="bg-blue">
+            <table  class="tbl" style="margin: auto" width="95%" border="1">
+               <thead>  <tr style="width: 30px;" class="bg-blue">
                     <td>修改</td>
 
                     <td>客戶<br>編號</td>
@@ -81,8 +81,10 @@ $title = "客戶資料管理";
                     <td>連絡人手機</td>
                     <td>客戶電話</td>
                     <td>客戶傳真</td>
+               </tr>
+               </thead>
+               <tbody>
 
-                </tr>
                 @foreach($customerlist as  $customer)
                     <tr>
                         <td><input class="bt-search bor-blue" style="width: 50px;" type="button" name="{{$customer->id}}"
@@ -101,10 +103,10 @@ $title = "客戶資料管理";
                         <td>{{$customer->customerphone}}</td>
                         <td>{{$customer->customerfax}}</td>
 
-
-                        @endforeach
                     </tr>
+                        @endforeach
 
+               </tbody>
             </table>
             @if($customerlist->count()>2)
                 {{$customerlist->links()}}

@@ -6,6 +6,7 @@ use App\Services\HumanResourceServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Model\empinfo;
+use Illuminate\Support\Facades\Storage;
 use Session;
 use DB;
 use  App\Services\empinforservices;
@@ -217,5 +218,34 @@ class HumanResourceController extends Controller
         return view('hrsys.employees', ['emp_list' => $data, 'emp_list1' => $emp_list1]);
 
 
+    }
+    public function showpicsign(Request $request){
+
+        return view("attendance.uploadpmysign");
+    }
+    public function uploadpicsign(Request $request){
+        if (isset($request->uploadfile)) {
+            //檔名
+            $image = $request->file('uploadfile');
+            $filename = $image->getClientOriginalName();
+            //套用哪個模組 模組位置 config/filesystems.php -> disks
+//        Storage::disk('設定好的模組')->put('檔名','要上船的檔案'); 上傳成功會回傳true 失敗false
+            $newfilename=Session::get('empdata')->ename;
+            $arr = explode(".", $filename);
+            $myfilename=$newfilename.".".$arr[1];
+
+            $uploadPic = Storage::disk('empsign')->put($myfilename, file_get_contents($image->getRealPath()));
+
+            //取得存好檔案的URL
+            $photoURL = Storage::disk('empsign')->url($myfilename);
+
+            $data = array('mysign' => $photoURL);
+            $data = array_merge(array_except($request->input(), '_token'), $data);
+        } else {
+            $data = array_except($request->input(), '_token');
+        }
+        empinfo::where('empid', $request->input('empid'))->update($data);
+        echo " <script>alert('上傳成功'); self.opener.location.reload();window.close(); </script>";
+        return view("attendance.uploadpmysign");
     }
 }

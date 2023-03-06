@@ -7,6 +7,7 @@ use App\Services\empinforservices;
 use App\Services\HumanResourceServices;
 use App\Services\PayServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BoardController extends Controller
 {
@@ -81,4 +82,28 @@ class BoardController extends Controller
         $status="";
         return view('hrsys.creatboard',['status'=>$status]);
     }
+   public function showpic(Request $request){
+
+   /*    if (isset($request->uploadfile)) {
+           //檔名
+           $image = $request->file('uploadfile');
+           $filename = $image->getClientOriginalName();
+           //套用哪個模組 模組位置 config/filesystems.php -> disks
+//        Storage::disk('設定好的模組')->put('檔名','要上船的檔案'); 上傳成功會回傳true 失敗false
+
+           $uploadPic = Storage::disk('Leave')->put($filename, file_get_contents($image->getRealPath()));
+
+           //取得存好檔案的URL
+           $photoURL = Storage::disk('Leave')->url($filename);
+
+
+           $data = array('uploadfile' => $photoURL);
+           $data = array_merge(array_except($request->input(), '_token'), $data);
+       } else {
+           $data = array_except($request->input(), '_token');
+       }
+*/
+
+   }
+
 }

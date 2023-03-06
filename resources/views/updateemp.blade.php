@@ -26,7 +26,7 @@ $title = "修改個人資料";
 
     </style>
 </head>
-<body style="text-align: center">
+<body style="text-align: center" onUnload="opener.location.reload()">
 @include("include.nav")
 <div class="mt-5">
     <div>
@@ -38,6 +38,11 @@ $title = "修改個人資料";
     <div class="row">
         @include("include.menu")
         <div class="col-md-10">
+            @php $limit=Session::get('empdata')->syslimit @endphp
+
+            <div style="text-align: left;">
+            <input  type="button" value="新增個人簽名檔" onclick="window.open('{{route('showpicsign')}}','newsign',config='width=500px;height=300px')" class="bt-add">
+            </div>
             <form action="{{route('personalinfor.update',$data->empid)}}" method="post">
                 {{ csrf_field() }}
                 {{method_field('PUT')}}

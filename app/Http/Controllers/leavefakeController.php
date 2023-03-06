@@ -36,6 +36,7 @@ class leavefakeController extends Controller
         $emp_list1 = $this->HumanResourceServices->select_emp();
         $now = date('Y-m');
         $emp_vacation = $this->empinforservices->years_vactation($now, Session::get('empid'));
+
         return view('leave.leaveorder', ['emp_list1' => $emp_list1, 'emp_vacation' => $emp_vacation]);
     }
 
@@ -54,15 +55,25 @@ class leavefakeController extends Controller
     {
         $id = $request->empid;
         //上傳的檔案
+
         if (isset($request->uploadfile)) {
             //檔名
             $image = $request->file('uploadfile');
             $filename = $image->getClientOriginalName();
             //套用哪個模組 模組位置 config/filesystems.php -> disks
 //        Storage::disk('設定好的模組')->put('檔名','要上船的檔案'); 上傳成功會回傳true 失敗false
-            $uploadPic = Storage::disk('Leave')->put($filename, file_get_contents($image->getRealPath()));
+
+            $newfilename=Session::get('empdata')->ename;
+            $date=date("Ymd");
+            $newfilename=$newfilename.$date;
+            $arr = explode(".", $filename);
+            $myfilename=$newfilename.".".$arr[1];
+            
+
+            $uploadPic = Storage::disk('Leave')->put($myfilename, file_get_contents($image->getRealPath()));
+
             //取得存好檔案的URL
-            $photoURL = Storage::disk('Leave')->url($filename);
+            $photoURL = Storage::disk('Leave')->url($myfilename);
 
             $emp_list1 = $this->HumanResourceServices->selectemp($id);
 

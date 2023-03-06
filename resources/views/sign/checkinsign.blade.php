@@ -58,10 +58,14 @@ date_default_timezone_set('Asia/Taipei');
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
-            <br> @if(count($checklist)>0)
+            <br>
+            @php $limit=Session::get('empdata')->syslimit @endphp
+            @if($limit>5)
 				<div style="text-align: left;">
 <a href="{{route('historysign')}}" target="_blank" class="bt-search">歷史資料查詢</a>
             </div>    <br>
+            @endif
+            @if(count($checklist)>0)
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
                     <td><label>

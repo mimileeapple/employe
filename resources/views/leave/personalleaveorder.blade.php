@@ -63,7 +63,7 @@ $date = date("Y-M-D");
                         <option
                             {{ isset($selected)&&$selected == date('Y-m-01')?'selected ' :''  }}value="<?php echo date('Y-m-01'); ?>"><?php echo date('Y-m-01'); ?></option>
                         <option
-                            {{ isset($selected)&&$selected == date('Y-m-01',strtotime('+1 month'))?'selected ' :''  }}value="<?php echo date('Y-m-01',strtotime('+1 month')); ?>"><?php echo date('Y-m-01', strtotime('+1 month')); ?></option>
+                            {{ isset($selected)&&$selected == date('Y-m-01',strtotime('last day of 1 month'))?'selected ' :''  }}value="<?php echo date('Y-m-01',strtotime('last day of 1 month')); ?>"><?php echo date('Y-m-01', strtotime('last day of 1 month')); ?></option>
 
                         <input type="submit" value="查詢" class="bt-search">
                     </select></div>
@@ -104,8 +104,9 @@ $date = date("Y-M-D");
                             <td>{{$emp->leaveend}}</td>
                             <td>{{$emp->hours}}時({{$emp->hours*60}}分鐘)</td>
                             <td>{{$emp->signsts}}</td>
+
                             @if($emp->uploadfile!='')
-                                <td><a target="_blank" href="{{url('../'.$emp->uploadfile)}}">附件</a></td>
+                                <td><a target="_blank" href="{{url($emp->uploadfile)}}">附件</a></td>
                             @else
                                 <td></td>
                             @endif

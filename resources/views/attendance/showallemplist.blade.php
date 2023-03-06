@@ -31,7 +31,7 @@ $date = date("Y-M-D");
     </style>
     <script>
 
-     /*   if ({{isset($status)}}) {
+     /*   if () {
             alert('新增成功');
             self.opener.location.reload();
             window.close();
@@ -66,11 +66,13 @@ $date = date("Y-M-D");
                     @endforeach
                 </select>
                     <select name="months" style="width: 150px;text-align: center">
-                        <option {{ isset($months)&&$months == date('Ym',strtotime('-3 month'))?'selected ' :''  }} value="<?php echo date('Ym',strtotime('-3 month')); ?>" ><?php echo  date('Y-m',strtotime('-3 month'));; ?></option>
-                        <option {{ isset($months)&&$months == date('Ym',strtotime('-2 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('-2 month')); ?>" ><?php echo  date('Y-m',strtotime('-2 month'));; ?></option>
-                        <option {{ isset($months)&&$months == date('Ym',strtotime('-1 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('-1 month')); ?>" ><?php echo date('Y-m',strtotime('-1 month')); ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of -3 month'))?'selected ' :''  }} value="<?php echo date('Ym',strtotime('last day of -3 month')); ?>" ><?php echo  date('Y-m',strtotime('last day of -3 month'));; ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of -2 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('last day of -2 month')); ?>" ><?php echo  date('Y-m',strtotime('last day of -2 month'));; ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of -1 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('last day of -1 month')); ?>" ><?php echo date('Y-m',strtotime('last day of -1 month')); ?></option>
 
                         <option {{ isset($months)&&$months == date('Ym')?'selected ' :''  }}value="<?php echo date('Ym'); ?>" ><?php echo date('Y-m'); ?></option>
+                        <option {{ isset($months)&&$months == date('Ym',strtotime('last day of 1 month'))?'selected ' :''  }}value="<?php echo date('Ym',strtotime('last day of 1 month')); ?>" ><?php echo date('Y-m',strtotime('last day of 1 month')); ?></option>
+
 
 
                         <input type="submit" value="查詢" class="bt-search">
@@ -85,30 +87,44 @@ $date = date("Y-M-D");
                         <td><b>日期</b></td>
                         <td><b>上班打卡時間</b></td>
                         <td><b>下班打卡時間</b></td>
-
-
+                        <td><b>今日上班時間</b></td>
+                        <td><b>備註</b></td>
                     </tr>
 
                 @foreach($checklist as $i=>$in)
 
-                    <tr>
-                        <td>{{$i+1}}</td>
-                        <td>{{$in->checkdate}}
-                            @php $weekarray=array("日","一","二","三","四","五","六");
+                        <tr>
+                            <td>{{$i+1}}</td>
+                            <td>{{$in->checkdate}}
+                                @php $weekarray=array("日","一","二","三","四","五","六");
                             echo "(星期".$weekarray[date("w",strtotime($in->checkdate))].")";
-                            @endphp
-                        </td>
-                        <td>@if($in->checkintime!=null){{$in->checkintime}}
-                            @else<font color='red'>無資料</font>
-                            @endif
-                        </td>
-                        <td>@if($in->checkouttime!=null){{$in->checkouttime}}
-                            @else<font color='red'>無資料</font>
-                            @endif
-                        </td>
+                             $day=date("w",strtotime($in->checkdate));
+                                @endphp
+                            </td>
+                            <td>@if($in->checkintime!=null){{$in->checkintime}}
+                                @else<font color='red'>無資料</font>
+                                @endif
+                            </td>
+                            <td>@if($in->checkouttime!=null){{$in->checkouttime}}
+                                @else<font color='red'>無資料</font>
+                                @endif
+                            </td>
+                            <td>
+                                @if($in->checkintime!=null&&$in->checkouttime!=null)
 
-
-                    </tr>
+                                        <?php echo floor(((strtotime($in->checkouttime) - strtotime($in->checkintime))/60));?>分鐘
+                                @else
+                                @endif
+                            </td>
+                            <td>
+                                @if($in->leaveorder=="Y")
+                                    <a href="{{route("leaveorderdatilday", ['day'=>$in->checkdate,'empid'=>$in->empid])}}"
+                                       target="_blank">已請假</a>
+                                @elseif($in->leaveorder=="N"&&($day==0||$day==6))
+                                @elseif($in->leaveorder=="N"&&($day!=0||$day!=6))<font color="red">尚未請假</font>
+                                @endif
+                            </td>
+                        </tr>
 
                 @endforeach
             </table>
