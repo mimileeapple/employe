@@ -29,13 +29,28 @@ class CheckinServices
         $res=  DB:: select("select * from leaveorder where empid=$id and left(leavestart,10)<='$date' and left(leaveend,10)>='$date'");
         return $res;
     }
-    function leaveorderdatilday($day,$empid){
+    function leaveorderdatilday($day,$empid){//是否請假
         $res= DB:: select("select * from leaveorder where left(leavestart,10)>='$day' and left(leaveend,10)<= '$day' AND
         empid=$empid");
 
 //
 //            leaveorder::where('leavestart', '>=', $day)->where('leaveend', '<=', $day)->
 //        where('empid', '=', $empid)->where('ordersts','<>','D')->get();
+        return $res;
+    }
+    function sumworktime($day,$empid){
+        //計算每日不足的數量
+        $res=DB::select("select (TIMESTAMPDIFF(MINUTE,min(worktimein), max(worktime)))-540 as worktimes    FROM `checkin` where checkdate='$day' and (sign is null or sign='Y') and empid='$empid'" );
+        return $res;
+    }
+    function showmontheveryday($month){
+        $res=DB::select("select checkdate from checkin where yearmonths='$month' GROUP BY checkdate");
+        return $res;
+    }
+
+    function showmonthlatesum($month,$empid){
+        $res=DB::select("SELECT SUM(a.worktimes)as summonthlate FROM
+(select (TIMESTAMPDIFF(MINUTE,min(worktimein), max(worktime)))-540 as worktimes,checkdate    FROM `checkin` where yearmonths='$month' and (sign is null or sign='Y') and empid='$empid' GROUP BY checkdate)as a where a.worktimes<0");
         return $res;
     }
 }

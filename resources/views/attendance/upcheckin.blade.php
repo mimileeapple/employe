@@ -155,27 +155,27 @@ $title = "我要補卡";
     <table border="1" class="tbl" style="margin: auto">
 
         <tr>
-            <td>申請日期</td>
+            <td class="bg-blue">申請日期</td>
             <td>
                 <input type="text" name="creatdate" value="{{date("Y-m-d H:i:s")}}">
                 <input type="hidden" name="updatedate" value="{{date("Y-m-d H:i:s")}}"></td>
-            <td>補卡事項</td>
+            <td class="bg-blue">補卡事項</td>
             <td><select style="width:170px;" id="btnactionid" name="btnactionid">
                     <option value="0">上班</option>
                     <option value="1">下班</option>
                 </select></td>
         </tr>
         <tr>
-            <td>補卡日期</td>
+            <td class="bg-blue">補卡日期</td>
             <td><label class="start_date">
                     <input type="text" class="leavestartdate" id="datepicker"></label>
             </td>
-            <td>補卡時間</td>
+            <td class="bg-blue">補卡時間</td>
             <td><label class="start_date">
                     <input type="text" class="leavestarttime" id="timepicker"></label></td>
         </tr>
         <tr>
-            <td>補卡原因</td>
+            <td class="bg-blue">補卡原因</td>
             <td colspan="3" style="text-align: left"><input type="text" name="reason"
                                                             style="width: 400px;text-align: left" class="reason"></td>
         </tr>

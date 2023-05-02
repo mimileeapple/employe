@@ -90,6 +90,14 @@ $title = "修改客戶PI單";
 
 
             });
+            $('#payadd').click(function () {
+                // $("#rownum").val(num+1);
+                $("#payaddrow tbody").eq(-1).append("<tr><td><input type='text' name='payposit[]' value='' placeholder='付款%數' onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>" +
+                    "<td><input type='text' name='amount[]' value='' placeholder='金額ex:10000' onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>" +
+                    "<td style='text-align: left;'><input type='text' name='method[]' value='' placeholder='ex:Deposit T/T' onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>" +
+                    "<td><input type='button' class='bt-del' value='刪除' id='delpayment'></td></tr>");
+
+            });
             $(document).on('click', '#delpayment', function () {
                 var yes = confirm('你確定刪除此列嗎？');
                 if (yes) {
@@ -189,6 +197,14 @@ $title = "修改客戶PI單";
               <td class="bg-blue"> PI序號:</td>
               <td style="text-align: left;">
                   <input type='text' id="piitem" name='piitem' value='{{$data->piitem}}' onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td></tr>
+            <tr>
+                <td class="bg-blue"> 產品項目</td>
+                <td style="text-align: left;"><select name="item">
+                        <option value="1"{{$data->item=='1'?'selected':""}}>散料</option>
+                        <option value="2" {{$data->item=='2'?'selected':""}}>整機</option>
+                    </select>
+                </td>
+            </tr>
           <tr>
               <td class="bg-blue"> PINO:</td>
               <td style="text-align: left;">
@@ -225,7 +241,7 @@ $title = "修改客戶PI單";
              </tr>
              <tr>
                <td>Tax ID</td>
-               <td colspan="4"><input type="text" name="taxid" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+               <td colspan="4" style="text-align: left;padding-left: 50px;"><input type="text" style="width:400px;" name="taxid" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
              </tr>
        </table>
        <table id="test" class="bor-blue tbl" width="90%" style="margin: auto">
@@ -239,11 +255,11 @@ $title = "修改客戶PI單";
                <th><font color="white">刪除</font></th>
            </tr>
            <tbody>
+           @if($pipay>0)
            @foreach($pipay as $pay)
                <tr>
                 <td><input type="text" name="modelname[]" value="{{$pay->modelname}}" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
-                 <td><textarea style="text-align: left;vertical-align:top" name="description[]"  rows="8" cols="20" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
-                    {{$pay->description}}</textarea></td>
+                 <td><textarea style="text-align: left;vertical-align:top" name="description[]"  rows="8" cols="20" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">{{$pay->description}}</textarea></td>
                  <td>
                      <select name="currency[]" class="currency">
                          <option value="USD$" {{$pay->currency=="USD$"?'selected ' :''}}>USD$</option>
@@ -258,6 +274,23 @@ $title = "修改客戶PI單";
                    <td><button class="bt-del jq-delete ">刪除</button></td>
                </tr>
            @endforeach
+           @else
+               <tr>
+                   <td><input type="text" name="modelname[]" value="" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                   <td><textarea style="text-align: left;vertical-align:top" name="description[]" rows="8" cols="20" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
+                    </textarea></td>
+                   <td><select name="currency[]" class="currency">
+                           <option value="USD$">USD$</option>
+                           <option value="NTD$">NTD$</option>
+                           <option value="CNY￥">CNY￥</option>
+                           <option value="EUR€">EUR€</option>
+                       </select></td>
+                   <td><input type="text" name="quantity[]" required min='1' class="quantity" value="" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                   <td><input type="text" name="unitprice[]" required  class="unitprice" value="" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                   <td class="convert"><input type="text" name="total[]" value="" class="total" max="0" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                   <td><button class="bt-del jq-delete ">刪除</button></td>
+               </tr>
+               @endif
            </tbody>
 
            @foreach($custdata as $cust)
@@ -275,10 +308,12 @@ $title = "修改客戶PI單";
             <tr style="background:#305496;">
                 <th colspan="4"><font color="white">Payment Term:</font></th>
             </tr>
+            <tr>
+                <td colspan="4"><input type="button" id="payadd" value="增加Payment Term欄位" class="bt-add"></td>
+            </tr>
             @if($payment>0)
-            <tbody>
             @foreach($payment as $m)
-                <tr>
+                <tr>  <tbody>
                     <td><input type="text" name="payposit[]" value="{{$m->payposit}}" placeholder="付款%數"
                                    onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
                     <td><input type="text" name="amount[]" value="{{$m->amount}}" placeholder="金額ex:10000"
@@ -286,31 +321,43 @@ $title = "修改客戶PI單";
                     <td  style="text-align: left;"><input type="text" name="method[]" value="{{$m->method}}" placeholder="ex:Deposit T/T"
                                    onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
                     <td><input type="button" class="bt-del" value="刪除" id="delpayment"></td>
-                </tr>
-            </tbody>
+                    </tbody>    </tr>
+
             @endforeach
+            @else
+                <tr>
+                    <tbody>
+                    <td><input type="text" name="payposit[]" value="" placeholder="付款%數"
+                               onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                    <td><input type="text" name="amount[]" value="" placeholder="金額ex:10000"
+                               onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                    <td  style="text-align: left;">
+                        <input type="text" name="method[]" value="" placeholder="ex:Deposit T/T"
+                               onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                    <td><input type="button" class="bt-del" value="刪除" id="delpayment"></td>
+                    </tbody>
+                </tr>
             @endif
-            <tr>
-                <td colspan="4"><input type="button" id="payadd" value="增加Payment Term欄位" class="bt-add"></td>
-            </tr>
+
+
         </table>
 
         <table class="bor-blue tbl" width="90%" style="margin: auto">
             <tr>
                 <td class="bg-blue">shipdate:</td>
                 <td colspan="7" style="text-align: left;">
-                    <textarea name="shipdate"  rows="6" cols="120" style="text-align: left;vertical-align:top" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
-                        {{$cust->shipdate}}</textarea></td>
+                    <textarea name="shipdate"  rows="6" cols="120" style="text-align: left;vertical-align:top" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">{{$cust->shipdate}}</textarea></td>
             </tr>
             <tr>
                 <td class="bg-blue">ADDRESS OF BANK:</td>
                 <td colspan="7" style="text-align: left;">
                     <select id="addressofbank"  class="addressofbank" style="width:600px;" >
+
    <option value="1"  {{$cust->addressofbank=="65 CHULIA STREET, OCBC CENTRE, SINGAPORE 049513 "?'selected ' :''  }}>65 CHULIA STREET, OCBC CENTRE, SINGAPORE 049513 </option>
    <option value="2" {{$cust->addressofbank=="28th FLOOR, TOWER 6, THE GATEWAY, 9 CANTON ROAD, TSIMSHATSUI, KOWLOON, HONG KONG"?'selected ' :''  }}>28th FLOOR, TOWER 6, THE GATEWAY, 9 CANTON ROAD, TSIMSHATSUI, KOWLOON, HONG KONG</option>
   <option value="3" {{$cust->addressofbank=="NO.90, SEC.2, WUNHUA RD., BANCIAO DIST., NEW TAIPEI CITY 220-41,TAIWAN(R.O.C)"?'selected ' :''  }}>NO.90, SEC.2, WUNHUA RD., BANCIAO DIST., NEW TAIPEI CITY 220-41,TAIWAN(R.O.C)</option>
                     </select>
-                    <input type="hidden" id="bankadd" name="addressofbank"></td>
+                    <input type="hidden" id="bankadd" name="addressofbank" value="{{$cust->addressofbank}}"></td>
             </tr>
             <tr>
                 <td class="bg-blue">Bank Name:</td>

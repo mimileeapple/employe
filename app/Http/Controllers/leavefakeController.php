@@ -6,6 +6,7 @@ use App\Model\log\leaveorder_log;
 use App\Services\HumanResourceServices;
 use App\Services\empinforservices;
 use App\Services\PayServices;
+use App\Services\CheckinServices;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -23,12 +24,13 @@ class leavefakeController extends Controller
     private $HumanResourceServices;
     private $empinforservices;
     private $PayServices;
-
+    private $CheckinServices;
     public function __construct()
     {
         $this->HumanResourceServices = new HumanResourceServices();
         $this->empinforservices = new empinforservices();
         $this->PayServices = new PayServices();
+        $this->CheckinServices = new CheckinServices();
     }
 
     public function index()
@@ -68,7 +70,7 @@ class leavefakeController extends Controller
             $newfilename=$newfilename.$date;
             $arr = explode(".", $filename);
             $myfilename=$newfilename.".".$arr[1];
-            
+
 
             $uploadPic = Storage::disk('Leave')->put($myfilename, file_get_contents($image->getRealPath()));
 
@@ -292,7 +294,8 @@ class leavefakeController extends Controller
 
 //******************************************************************//
 
-            $emp_leavetotal = $this->empinforservices->sumleavedate($emp->empid, $selectmonths, $enddate);
+            $emp_leavetotal = $this->empinforservices->sumleavedate($emp->empid, $selected);
+
             foreach ($emp_leavetotal as $date) {
                 if ($emp->empid == $date->empid) {
                     $emp_list1[$id]['a1'] = $date->a1;
@@ -308,8 +311,30 @@ class leavefakeController extends Controller
                     $emp_list1[$id]['a11'] = $date->a11;
                 }
             }
-        }
+            $da = str_replace('-', '', $selected);//月份
+            $latemonthsum = $this->CheckinServices->showmonthlatesum($da, $emp['empid']);//sum(負數)
+            $isint=get_object_vars($latemonthsum[0])['summonthlate'];
 
+            if($isint<0){
+                $latemonthsum == json_decode(json_encode($latemonthsum), true);
+
+                $latemonth[$id]= get_object_vars($latemonthsum[0]);
+                $emp_list1[$id]['late']=$latemonth[$id]['summonthlate'];
+            }
+            elseif($isint==null){
+                $latemonthsum == json_decode(json_encode($latemonthsum), true);
+
+                $latemonth[$id]= get_object_vars($latemonthsum[0]);
+                $emp_list1[$id]['late']='0';
+            }
+            else{
+                $latemonthsum == json_decode(json_encode($latemonthsum), true);
+
+                $latemonth[$id]= get_object_vars($latemonthsum[0]);
+                $emp_list1[$id]['late']='0';
+            }
+        }
+      //  dd($late);
         return view('sign.totaltable', ['emp_list1' => $emp_list1, 'selected' => $selected]);
 
     }

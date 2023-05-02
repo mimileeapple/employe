@@ -118,7 +118,7 @@ $title="員工資料新增";
                     <option value="碩士">碩士</option>
                     <option value="博士">博士</option>
                 </select></td>
-            <td>權限</td><td><input type="text" name="syslimit"></td></tr>
+            <td>權限</td><td><input type="text" name="syslimit" value="0"></td></tr>
         <tr><td>職務代理人</td><td>
                 <select name="agentemp">
                     @foreach($emp_list1 as $v)
@@ -148,9 +148,9 @@ $title="員工資料新增";
                     <option value="{{$v->empid}}">{{$v->name}}</option>
                 @endforeach</select><input type="hidden" id="manage2name" name="manage2name" value=""></td></tr>
 
-        <tr><td>建檔日期</td><td><input style="background:#F0F0F0;" type="text" name="creatdate" value="<?php echo date("Y-m-d");?>" readonly ></td>
+        <tr><td>建檔日期</td><td><input style="background:#F0F0F0;" type="text" name="creatdate" value="<?php echo date("Y-m-d  H:i:s");?>" readonly ></td>
             <td>建檔人員</td><td><input  style="background:#F0F0F0;" type="text" name="createmp" value="{{Session::get('name')}}" readonly ></td></tr>
-        <tr><td>最後修改日期</td><td><input  style="background:#F0F0F0;" type="text" name="updatedate" value="<?php echo date("Y-m-d");?>" readonly ></td>
+        <tr><td>最後修改日期</td><td><input  style="background:#F0F0F0;" type="text" name="updatedate" value="<?php echo date("Y-m-d  H:i:s");?>" readonly ></td>
             <td>最後修改人員</td><td><input   type="hidden" name="updateemp" value="{{Session::get('name')}}">
                 <input type="text" style="background:#F0F0F0;" value="{{Session::get('name')}}" readonly></td></tr>
 

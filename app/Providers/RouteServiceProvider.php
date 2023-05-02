@@ -38,7 +38,9 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+        $this->invoiceRoutes();
 
+        $this->officeRoutes();
         //
     }
 
@@ -54,6 +56,18 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
+    }
+    protected function invoiceRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace.'\invoice')
+            ->group(base_path('routes/invoice.php'));
+    }
+    protected function officeRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace.'\office')
+            ->group(base_path('routes/office.php'));
     }
 
     /**

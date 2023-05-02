@@ -22,6 +22,7 @@ header("Content-Type:text/html;charset=utf-8"); ?>
             width: 120px;
         }
     </style>
+
 </head>
 <body style="text-align: center">
 <img src="{{ URL::asset('img/logo.png') }}">
@@ -117,7 +118,7 @@ header("Content-Type:text/html;charset=utf-8"); ?>
             <td>電話</td>
             <td><input type="text" name="phone" value="{{$data->phone}}"></td>
             <td>到職日</td>
-            <td><input type="text" name="achievedate" value="{{$data->achievedate}}"></td>
+            <td><input type="date" name="achievedate" value="{{$data->achievedate}}"></td>
         </tr>
         <tr>
             <td>學歷</td>
@@ -135,13 +136,15 @@ header("Content-Type:text/html;charset=utf-8"); ?>
         </tr>
         <tr>
             <td>職務代理人</td>
-            <td><select name="agentemp">
+            <td><select name="agentemp" id="agentemp">
                     <option value="" {{$data->agentemp ==""? 'selected':''}}></option>
                     @foreach($emp_list as $v)
                         <option
                             value="{{$v->empid}}" {{$data->agentemp ==$v->empid? 'selected':''}}>{{$v->name}}</option>
                     @endforeach
-                </select></td>
+                </select>
+
+            </td>
             <td>在職狀態</td>
             <td><select name="jobsts">
                     <option value="" {{$data->jobsts ==""? 'selected':''}}></option>
@@ -151,6 +154,22 @@ header("Content-Type:text/html;charset=utf-8"); ?>
                 </select>
             </td>
         </tr>
+        <tr><td>一階主管</td><td>
+                <select id="manage1id" name="manage1id">
+
+                    @foreach($emp_list as $v)
+                        <option value="{{$v->empid}}" {{$data->manage1id ==$v->empid? 'selected':''}}>{{$v->name}}</option>
+
+                    @endforeach
+                </select>
+                <input type="hidden" id="manage1name" name="manage1name" value="">
+            </td>
+            <td>二階主管</td><td>
+                <select id="manage2id" name="manage2id">
+
+                    @foreach($emp_list as $v)
+                        <option value="{{$v->empid}}" {{$data->manage2id ==$v->empid? 'selected':''}}>{{$v->name}}</option>
+                    @endforeach</select><input type="hidden" id="manage2name" name="manage2name" value=""></td></tr>
         <tr>
             <td>建檔日期</td>
             <td><input style="background:#F0F0F0;" type="text" name="creatdate" value="{{$data->creatdate}}" readonly>
@@ -161,7 +180,7 @@ header("Content-Type:text/html;charset=utf-8"); ?>
         </tr>
         <tr>
             <td>最後修改日期</td>
-            <td><input style="background:#F0F0F0;" type="text" name="updatedate" value="<?php echo date("Y-m-d");?>"
+            <td><input style="background:#F0F0F0;" type="text" name="updatedate" value="<?php echo date("Y-m-d  H:i:s");?>"
                        readonly></td>
             <td>最後修改人員</td>
             <td>

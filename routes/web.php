@@ -62,6 +62,13 @@ Route::any('showtripsign', 'PayController@showtripsign')->name('showtripsign')->
 Route::resource('checkin', 'checkinController')->middleware('AuthStatus');
 Route::any('search_checkin', 'checkinController@search_checkin')->name('search_checkin')->middleware('AuthStatus');
 Route::any('showchecksign', 'checkinController@showchecksign')->name('showchecksign')->middleware('AuthStatus');
+
+Route::any('showcheckinoflate', 'checkinController@showcheckinoflate')->name('showcheckinoflate')->middleware('AuthStatus');
+Route::any('checkinoflate', 'checkinController@checkinoflate')->name('checkinoflate')->middleware('AuthStatus');
+
+Route::any('selectmonthshowcheckintotal', 'checkinController@selectmonthshowcheckintotal')->name('selectmonthshowcheckintotal')->middleware('AuthStatus');
+Route::any('selectmonth', 'checkinController@selectmonth')->name('selectmonth')->middleware('AuthStatus');
+
 Route::any('leaveorderdatilday', 'checkinController@leaveorderdatilday')->name('leaveorderdatilday')->middleware('AuthStatus');
 Route::any('signcheckin', 'checkinController@signcheckin')->name('signcheckin')->middleware('AuthStatus');
 Route::any('showallemplist', 'checkinController@showallemplist')->name('showallemplist')->middleware('AuthStatus');

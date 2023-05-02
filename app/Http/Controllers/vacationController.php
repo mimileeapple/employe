@@ -53,6 +53,13 @@ class vacationController extends Controller
 
             //特休年修結束
             $vacaion = $this->empinforservices->years_vactation($thismonth, $emp->empid);
+            //1.判斷year跟month都等於0時候維剛開始2.有year但month=0 則為周年 則將病假重設15840分鐘
+            if($months==0){
+                $sickday=15840;
+                $emp_list[$id]['add_sickday']=$sickday;
+                }
+
+
             if ($years==0&&$months==6) {
 
                 $year= 0.6;
@@ -95,6 +102,7 @@ class vacationController extends Controller
                     $emp_list[$id]['a1'] = $date->a1 * 60;
                     $emp_list[$id]['a2'] = $date->a2 * 60;
                     $emp_list[$id]['a11'] = $date->a11 * 60;
+                    $emp_list[$id]['a6'] = $date->a6 * 60;
                 }
             }
 

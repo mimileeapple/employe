@@ -40,17 +40,60 @@ class HumanResourceController extends Controller
 
     public function store(Request $request)//新增員工
     {
+        $sdepid = '';
+        $depareaid="";
+        $ddep = $request->dep;
+        $depareaid=$request->input('depareaid');
+        $deparea="";
+        if ($ddep == "管理部") {
+            $sdepid = '1';
+        }
+        if ($ddep == "產品研發部") {
+            $sdepid = '2';
+        }
+        if ($ddep == "產品工程部") {
+            $sdepid = '3';
+        }
+        if ($ddep == "PM業務部") {
+            $sdepid = '4';
+        }
+        if ($ddep == "資材部") {
+            $sdepid = '5';
+        }
+        if ($ddep == "財務部") {
+            $sdepid = '6';
+        }
+        if ($ddep == "資訊部") {
+            $sdepid = '7';
+        }
+        if($depareaid=="T"){
+            $deparea="台北";
+        }
+        if($depareaid=="S"){
+            $deparea="深圳";
+        }
+        if($depareaid=="D"){
+            $deparea="東莞";
+        }
 
-
+        $data=$request->input();
         $emp_list1 = empinfo::all();
-        $mail1 = $this->empinforservices->empdata($request->manage1id, 3);//取1階主管mail
-        $mail2 = $this->empinforservices->empdata($request->manage2id, 3);//取2階主管mail
-        $a = explode("@", $request->mail);
+        $mail1 = $this->empinforservices->empdata($request->input('manage1id'), 3);//取1階主管mail
+        $mail2 = $this->empinforservices->empdata($request->input('manage2id'), 3);//取2階主管mail
+        $name1 = $this->empinforservices->empdata($request->input('manage1id'), 1);//取1階主管name
+        $name2 = $this->empinforservices->empdata($request->input('manage2id'),1);//取2階主管name
+        $a = explode("@", $request->input('mail'));
         $accout = $a[0];
 
         $data['manage1mail'] =  $mail1;
         $data['manage2mail'] =  $mail2;
         $data['accout']=$accout;
+        $data['agentempename']=$this->empinforservices->empdata($request->agentemp, 18);
+        $data['manage1name']=$name1;
+        $data['manage2name']=$name2;
+        $data['depid'] = $sdepid;
+        $data['deparea'] = $deparea;
+        $data['agentempename']=$this->empinforservices->empdata($request->agentemp, 18);
      //取得主管mail
         $data = array_merge($data, array_except($request->input(), '_token'));
         $status = empinfo::create($data);
@@ -97,7 +140,8 @@ class HumanResourceController extends Controller
         $emp_list = $this->HumanResourceServices->select_emp();
         $data = $this->HumanResourceServices->selectemp($id);
         $status = '';
-        return view('hrsys.hrupdateemp', ['data' => $data, 'emp_list' => $emp_list, 'status' => $status]);
+        $emp_list1 = $this->HumanResourceServices->select_emp();
+        return view('hrsys.hrupdateemp', ['data' => $data, 'emp_list' => $emp_list, 'status' => $status,'emp_list1'=>$emp_list1]);
 
 
     }
@@ -111,6 +155,7 @@ class HumanResourceController extends Controller
         $depareaid="";
         $ddep = $request->dep;
         $deparea=$request->deparea;
+
         if ($ddep == "管理部") {
             $sdepid = '1';
         }
@@ -142,11 +187,26 @@ class HumanResourceController extends Controller
             $depareaid="D";
         }
 
+
         try {
             $data=$request->input();
+            $emp_list1 = empinfo::all();
+            $mail1 = $this->empinforservices->empdata($request->input('manage1id'), 3);//取1階主管mail
+            $mail2 = $this->empinforservices->empdata($request->input('manage2id'), 3);//取2階主管mail
+            $name1 = $this->empinforservices->empdata($request->input('manage1id'), 1);//取1階主管name
+            $name2 = $this->empinforservices->empdata($request->input('manage2id'),1);//取2階主管name
+            $a = explode("@", $request->input('mail'));
+            $accout = $a[0];
+
+            $data['manage1mail'] =  $mail1;
+            $data['manage2mail'] =  $mail2;
+            $data['accout']=$accout;
+            $data['agentempename']=$this->empinforservices->empdata($request->agentemp, 18);
+            $data['manage1name']=$name1;
+            $data['manage2name']=$name2;
             $data['depid'] = $sdepid;
             $data['depareaid'] = $depareaid;
-
+            $data['agentempename']=$this->empinforservices->empdata($request->agentemp, 18);
             $res = empinfo::find($id)->update($data);
 
 //            $res = DB::update('update empinfo set

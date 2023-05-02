@@ -56,8 +56,9 @@ date_default_timezone_set("Asia/Taipei");
                 var pidate = $("#pidate").val();
                 var piitem = $("#piitem").val();
                 var pino = pipm + '-' + companyid + '-' + pipayarea + piselect + pidate + piitem;
+                var nonumber='-' + companyid + '-' + pipayarea + piselect + pidate + piitem;
                 $("#pino").val(pino)
-
+                $("#nonumber").val(nonumber);
 
             });
             $('#btn2').click(function () {
@@ -213,7 +214,17 @@ date_default_timezone_set("Asia/Taipei");
         </tr>
         <tr>
             <td> PI序號:</td>
-            <td style="text-align: left;"><input type='text' id="piitem" name='piitem' value='{{$maxno}}'></td>
+            <td style="text-align: left;"><input type='text' id="piitem" name='piitem' value='{{$maxno}}'>
+            <input type="hidden" id="nonumber" name="nonumber">
+            </td>
+        </tr>
+        <tr>
+            <td> 產品項目</td>
+            <td style="text-align: left;"><select name="item">
+                    <option value="1">散料</option>
+                    <option value="2">整機</option>
+                </select>
+                </td>
         </tr>
         <tr>
             <td> PINO:</td>
@@ -260,7 +271,7 @@ date_default_timezone_set("Asia/Taipei");
             @endforeach
             <tr>
                 <td>Tax ID</td>
-                <td colspan="4" style="text-align: left;"><input type="text" name="taxid" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
+                <td colspan="4" style="text-align: left;padding-left: 50px;"><input type="text" style="width:400px;"  name="taxid" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
             </tr>
         </table>
         <table id="test" class="bor-blue tbl" width="90%" style="margin: auto">
@@ -276,8 +287,7 @@ date_default_timezone_set("Asia/Taipei");
             <tbody>
             <tr>
                 <td><input type="text" name="modelname[]" value="" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
-                <td><textarea style="text-align: left;vertical-align:top" name="description[]" rows="8" cols="20" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
-                    </textarea></td>
+                <td><textarea style="text-align: left;vertical-align:top" name="description[]" rows="8" cols="20" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></textarea></td>
                 <td><select name="currency[]" class="currency">
                         <option value="USD$">USD$</option>
                         <option value="NTD$">NTD$</option>
@@ -312,6 +322,9 @@ date_default_timezone_set("Asia/Taipei");
                 <th colspan="4"><font color="white">Payment Term:</font></th>
             </tr>
             <tr>
+                <td colspan="4"><input type="button" id="payadd" value="增加Payment Term欄位" class="bt-add"></td>
+            </tr>
+            <tr>
                 <tbody>
                 <td><input type="text" name="payposit[]" value="" placeholder="付款%數"
                            onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></td>
@@ -323,9 +336,7 @@ date_default_timezone_set("Asia/Taipei");
                 <td><input type="button" class="bt-del" value="刪除" id="delpayment"></td>
                 </tbody>
             </tr>
-            <tr>
-                <td colspan="4"><input type="button" id="payadd" value="增加Payment Term欄位" class="bt-add"></td>
-            </tr>
+
         </table>
 
         <table class="bor-blue tbl" width="90%" style="margin: auto">
@@ -333,8 +344,7 @@ date_default_timezone_set("Asia/Taipei");
                 <td>shipdate:</td>
                 <td colspan="7" style="text-align: left;">
                     <textarea name="shipdate" rows="6" cols="120" style="text-align: left;vertical-align:top"
-                              onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
-                    </textarea></td>
+                              onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}"></textarea></td>
             </tr>
             <tr>
                 <td>A/C Name:</td>

@@ -44,12 +44,20 @@ $date = date("Y-m-d H:i:s");
             var h=NowDate.getHours();
             var m=NowDate.getMinutes();
             var s=NowDate.getSeconds();
-        var month=paddingLeft(mo,2);
-        var day=paddingLeft(d,2);
-            document.getElementById('showbox').innerHTML =y+'年'+month+'月'+day+'日'+ h+'時'+m+'分'+s+'秒';
+        var month= mo.toString().padStart(2,'0');
+            var day=d.toString().padStart(2,'0');
+            var hour=h.toString().padStart(2,'0');
+            var mi=m.toString().padStart(2,'0');
+            var se=s.toString().padStart(2,'0');
+            document.getElementById('showbox').innerHTML =y+'年'+month+'月'+day+'日'+ hour+'時'+mi+'分'+se+'秒';
             setTimeout('ShowTime()',1000);
         }
-
+        function paddingLeft(str,lenght){
+            if(str.length >= lenght)
+                return str;
+            else
+                return paddingLeft("0" +str,lenght);
+        }
     </script>
 
 </head>
@@ -76,7 +84,7 @@ $date = date("Y-m-d H:i:s");
             <table   align="center" class=" tbl" width="70%" >
 
                     <tr>
-                        <td><b class="title-s">目前時間</b></td>
+                        <td class="bg-blue"><b class="title-s">目前時間</b></td>
                     </tr>
                     <tr>
                         <td><b class="title-m" style="color: black"><div id="showbox"></div></b></td>

@@ -89,6 +89,7 @@ $date = date("Y-M-D");
                     </tr>
                 </thead>
                 <tbody>
+                @php $alllatetime="";@endphp
                 @foreach($checklist as $i=>$in)
 
                     <tr>
@@ -100,17 +101,25 @@ $date = date("Y-M-D");
                             @endphp
                         </td>
                         <td>@if($in->checkintime!=null){{$in->checkintime}}
+                            @elseif($day==0||$day==6)
                             @else<font color='red'>無資料</font>
                             @endif
                         </td>
                         <td>@if($in->checkouttime!=null){{$in->checkouttime}}
+                            @elseif($day==0||$day==6)
                             @else<font color='red'>無資料</font>
                             @endif
                         </td>
                         <td>
                             @if($in->checkintime!=null&&$in->checkouttime!=null)
 
-                                    <?php echo floor(((strtotime($in->checkouttime) - strtotime($in->checkintime))/60));?>分鐘
+                                @php $worktimes=floor(((strtotime($in->checkouttime) - strtotime($in->checkintime))/60));
+                                        echo $worktimes @endphp 分鐘
+                                <br> @php $reltime=540-(int)$worktimes; @endphp
+                                @if($reltime>0)
+                                    (<font color="red">不足{{$reltime}}分鐘)</font>
+                                    @php $alllatetime=+$reltime; @endphp
+                                @endif
                             @else
                             @endif
                         </td>
@@ -126,6 +135,7 @@ $date = date("Y-M-D");
 
                 @endforeach
                 </tbody>
+                <tr><td colspan="4" style="text-align: right;">不足分鐘數小計:</td><td>{{$alllatetime}}分鐘</td><td></td></tr>
             </table>
             <br><br><br>
         </div>

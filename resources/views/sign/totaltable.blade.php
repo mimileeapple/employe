@@ -60,34 +60,36 @@ date_default_timezone_set('Asia/Taipei');
                             {{ isset($selected)&&$selected == date('Y-m')?'selected ' :''  }}value="<?php echo date('Y-m'); ?>"><?php echo date('Y-m'); ?></option>
                         <option
                             {{ isset($selected)&&$selected == date('Y-m',strtotime('+1 month'))?'selected ' :''  }}value="<?php echo date('Y-m',strtotime('+1 month')); ?>"><?php echo date('Y-m', strtotime('+1 month')); ?></option>
-
+                    </select>
                         <input type="submit" value="查詢" class="bt-search">
 
                         <input type="button" value="特休管理"
                                onclick="window.open('vacation/create','newdate','width='+(window.screen.availWidth-10)+',height='+(window.screen.availHeight-30)+',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes')"
                                class="bt-export">
 
-                    </select></div>
+                    </div>
                 <br>
 
                 <font color="red">年資、特休與年休計算到當月底為準</font>
                 <table border="1" align="center" class="bor-blue tbl" width="100%" style="font-size: 10px;">
                     <tr>
-                        <td class="bg-orange" colspan="6">(本月新增)</td>
-                        <td class="bg-blue" colspan="3">尚未使用(累積)</td>
+                        <td class="bg-orange" colspan="7">(本月新增)</td>
+                        <td class="bg-blue" colspan="4">尚未使用(累積)</td>
                         <td class="bg-red" colspan="12">當月休假</td>
-                        <td class="bg-green" colspan="3">剩餘休假</td>
+                        <td class="bg-green" colspan="4">剩餘休假</td>
                     </tr>
                     <tr>
                         <td class="bg-orange"><b>姓名</b></td>
                         <td class="bg-orange"><b>到職日</b></td>
                         <td class="bg-orange"><b>年資</b></td>
-                        <td class="bg-orange"><b>特休</b></td>
-                        <td class="bg-orange"><b>年休</b></td>
-                        <td class="bg-orange"><b>補休</b></td>
+                        <td class="bg-orange"><b>新增特休(分)</b></td>
+                        <td class="bg-orange"><b>新增年休(分)</b></td>
+                        <td class="bg-orange"><b>新增補休(分)</b></td>
+                        <td class="bg-orange"><b>新增病假(分)</b></td>
                         <td class="bg-blue"><b>累積特休(分)</b></td>
                         <td class="bg-blue"><b>累積年休(分)</b></td>
                         <td class="bg-blue"><b>補休(分)</b></td>
+                        <td class="bg-blue"><b>累積病假(分)</b></td>
 
                         <td class="bg-red"><b>特休(分)</b></td>
                         <td class="bg-red"><b>年休(分)</b></td>
@@ -104,6 +106,7 @@ date_default_timezone_set('Asia/Taipei');
                         <td class="bg-green"><b>特休(分)</b></td>
                         <td class="bg-green"><b>年休(分)</b></td>
                         <td class="bg-green"><b>補休(分)</b></td>
+                        <td class="bg-green"><b>剩餘病假(分)</b></td>
                     </tr>
 
                     @foreach($emp_list1 as  $emp)
@@ -116,17 +119,21 @@ date_default_timezone_set('Asia/Taipei');
                             <td>{{$emp->add_specialdate}}</td>
                             <td>{{$emp->add_years_date}}</td>
                             <td>{{$emp->add_comp_time}}</td>
+                            <td></td>
                             <td>{{$emp->specialdate_m}}</td>
                             <td>{{$emp->years_date_m}}</td>
                             <td>{{$emp->comp_time_m}}</td>
-
+                            <td></td>
                             <td>
                                 <a href="{{route("showleaveorder", ['empid'=>$emp->empid,'month'=>$selected,'fakeid'=>1])}}"
                                    target="_blank">{{$emp->a1*60}}</a></td>
                             <td>
                                 <a href="{{route("showleaveorder", ['empid'=>$emp->empid,'month'=>$selected,'fakeid'=>2])}}"
                                    target="_blank"> {{$emp->a2*60}}</a></td>
-                            <td>--</td>
+                            <td>@if($emp->late<0)<font color="red">{{$emp->late}}</font>
+                                @else {{$emp->late}}
+                                    @endif
+                            </td>
                             <td>
                                 <a href="{{route("showleaveorder", ['empid'=>$emp->empid,'month'=>$selected,'fakeid'=>3])}}"
                                    target="_blank">{{$emp->a3*60}}</a></td>
@@ -157,6 +164,7 @@ date_default_timezone_set('Asia/Taipei');
                             <td> {{$emp->remain_specialdate}} </td>
                             <td>{{$emp->remain_years_date}}</td>
                             <td>  {{$emp->remain_comp_time}}</td>
+                            <td></td>
                             @endforeach
 
 

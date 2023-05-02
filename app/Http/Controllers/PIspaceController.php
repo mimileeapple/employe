@@ -46,8 +46,7 @@ class PIspaceController extends Controller
 
     public function store(Request $request)
     {
-        //新增spaceorder與機型名稱
-      // dd($request->input());
+        //修改規格表資料
         $con='-';
         $productdata=$request->input();
         $camerafw = $request->input("camerafw");//無顯示
@@ -98,9 +97,15 @@ class PIspaceController extends Controller
             .$cameraahousing.$camera.$power.$a21.$chassisstandcolor.$silkprint.$cablecover.$a25.$hinge.$vesascrew.$emc.$stand.$standscrew
             .$a31.$com.$chassisintrusion.$powercordtype.$powercord.$a36.$customercode.$customization.$logo.$a40.$version;
         $productdata['productmodel']=$productmodel;
-        $productdata = array_except($productdata, ['backio', 'remark']);//這兩個我不要ㄟ
+        //$productdata = array_except($productdata, ['backio', 'remark']);//這兩個我不要ㄟ
+
+
+        $productdata['backio']=json_encode($productdata['backio']);
+        $productdata['remark']=json_encode($productdata['remark']);
+
 
         productname::create($productdata);
+
 //----------------------------------------------
         //業務顯示文字
         $lcdsales =$this->CustomerService->findspacesales($request->input("lcd"));//1
@@ -134,17 +139,15 @@ class PIspaceController extends Controller
         $logosales = $this->CustomerService->findspacesales($request->input("logo"));//20
         //$remark =$request->input("remark");//21
         $backio=[];
-        $remrk=[];
+        $remark=[];
         if($request->input('backio')!=""){
-        foreach ($request->input('backio') as $i => $v) {
-            $backio[] = array('backio' => $request->input('backio')[$i]);
-        }
-        }
-        if($request->input('remrk')!="") {
+            foreach ($request->input('backio') as $i => $v) {
+                $backio[] = array('backio' => $request->input('backio')[$i]);
+            }}
+        if($request->input('remark')!=""){
             foreach ($request->input('remark') as $i => $v) {
                 $remark[] = array('remark' => $request->input('remark')[$i]);
-            }
-        }
+            }}
 //-----------------------------------------------------------------------------
         //標題
         $lcdtitle = "Display";//1
@@ -178,9 +181,7 @@ class PIspaceController extends Controller
 
         $logotitle = $this->CustomerService->usetitlefindall($request->input("logo"));//20
         $remarktitle = "Remark";//21
-        //$backio = json_encode($backio);
-        //$remark = json_encode($remark);
-        //處理backio/remark
+
         $data=array("Product Name"=>$productname,$lcdtitle=>$lcdsales,$lcdlingttitle=>$lcdlingt,$lcdnotetitle=>$lcdnote,
             $thermalmoduletitle=>$thermalmodulesales,$systemfantitle=>$systemfansales,
             $motherboardtitle=>$motherboard,$cputitle=>$cpu,
@@ -189,14 +190,15 @@ class PIspaceController extends Controller
             $comsalestitle=>$comsales,$extrausbtitle=>$extrausb,"Speaker"=>$speaker,$cablecovertitle=>$cablecoversales,$vesascrewtitle=>$vesascrewsales,
             $emctitle=>$emcsales,$kensingtonlocktitle=>$kensingtonlock,$chassisintrusiontitle=>$chassisintrusionsales,$powertitle=>$powersales,
             $standtitle=>$standsales,$hingetitle=>$hingesales,"Color"=>$chassisstandcolorsales,$logotitle=>$logosales,$remarktitle=>$remark);
+        $data=json_encode($data);
 
+        //dd($data);
 
-$data=json_encode($data);
+        $s=$request->input();
+        $s['spacedata']=$data;
 
 //     dd($data);
 
-$s=$request->input();
-$s['spacedata']=$data;
         pispaceorder::create($s);
         echo " <script>alert('新增成功'); self.opener.location.reload();window.close(); </script>";
     }
@@ -276,8 +278,9 @@ $s['spacedata']=$data;
             .$cameraahousing.$camera.$power.$a21.$chassisstandcolor.$silkprint.$cablecover.$a25.$hinge.$vesascrew.$emc.$stand.$standscrew
             .$a31.$com.$chassisintrusion.$powercordtype.$powercord.$a36.$customercode.$customization.$logo.$a40.$version;
         $productdata['productmodel']=$productmodel;
-       $productdata = array_except($productdata, ['backio', 'remark']);
+        //
         productname::find($id)->update($productdata);
+
 //----------------------------------------------
         //業務顯示文字
         $lcdsales =$this->CustomerService->findspacesales($request->input("lcd"));//1
@@ -320,6 +323,7 @@ $s['spacedata']=$data;
         foreach ($request->input('remark') as $i => $v) {
             $remark[] = array('remark' => $request->input('remark')[$i]);
         }}
+
 //-----------------------------------------------------------------------------
         //標題
         $lcdtitle = "Display";//1
@@ -353,26 +357,7 @@ $s['spacedata']=$data;
 
         $logotitle = $this->CustomerService->usetitlefindall($request->input("logo"));//20
         $remarktitle = "Remark";//21
-        // dd('a');最好的方式就是title=>slasename "Product Name"=>$productname 可是這樣會部會我要顯示key不方便
-//處理backio/remark
-        /*foreach ($backio as $i=>$b){
-            if($i==0){
-            $bkey="Back IO";
 
-            }
-            else{
-                $bkey="Back IO_".$i;
-            }
-        }
-        foreach ($backio as $i=>$b){
-            if($i==0){
-                $bkey="Remark";
-
-            }
-            else{
-                $bkey="Remark_".$i;
-            }
-        }*/
         $data=array("Product Name"=>$productname,$lcdtitle=>$lcdsales,$lcdlingttitle=>$lcdlingt,$lcdnotetitle=>$lcdnote,
             $thermalmoduletitle=>$thermalmodulesales,$systemfantitle=>$systemfansales,
             $motherboardtitle=>$motherboard,$cputitle=>$cpu,

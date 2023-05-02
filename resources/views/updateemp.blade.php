@@ -85,7 +85,7 @@ $title = "修改個人資料";
 
                     <input type="hidden" name="updatedate" value="<?php echo date("Y-m-d")?>">
 
-                    <input type="hidden" name="updateemp" value="{{Session::get('empid')}}">
+                    <input type="hidden" name="updateemp" value="{{Session::get('name')}}">
 
                     @if(isset($error))
                         <tr>

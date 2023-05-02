@@ -80,7 +80,6 @@ $title = "員工資料管理";
                     <td>QQ</td>
                     <td>電子郵件</td>
                     <td>手機</td>
-                    <td>電話</td>
                     <td>職務代理人</td>
                     <td>在職狀態</td>
                 </tr>
@@ -102,8 +101,7 @@ $title = "員工資料管理";
                         <td>{{$emp->qq}}</td>
                         <td>{{$emp->mail}}</td>
                         <td>{{$emp->cellphone}}</td>
-                        <td>{{$emp->phone}}</td>
-                        <td>{{$emp->agentemp}}</td>
+                        <td>{{$emp->agentempename}}</td>
                         <td>{{$emp->jobsts}}</td>
 
                         @endforeach

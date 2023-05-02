@@ -49,7 +49,7 @@ $title = "上傳個人電子簽名";
     <tr><td class="bg-blue">姓名</td><td>{{Session::get("name")}}</td></tr>
     @php $mysign=Session::get('empdata')->mysign;
     if($mysign!=""){
-        echo "<tr><td colspan='2'><font color='red'>你已有上傳的圖片，再次上傳會覆蓋原本檔案</font><td></tr>";
+        echo "<tr><td colspan='2'><font color='red'>你已有上傳的圖片，再次上傳會覆蓋原本檔案</font></td></tr>";
     }
     @endphp
 {{$mysign}}

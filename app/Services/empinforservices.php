@@ -67,11 +67,13 @@ class empinforservices
         if ($number == 17) {
             $res = empinfo::where('empid', '=', $id)->value('manage2id');
         }//
-
+        if ($number == 18) {
+            $res = empinfo::where('empid', '=', $id)->value('ename');
+        }//
         return $res;
     }
 
-    function sumleavedate($empid, $leavestart, $leaveend)
+    function sumleavedate($empid, $month)
     {//假別
         $res = DB::select("select empid,
 SUM(CASE  leavefakeid WHEN   '1'  THEN  hours  else 0 END)'a1',
@@ -86,8 +88,8 @@ SUM(CASE   leavefakeid WHEN  '9'  THEN  hours  else 0 END) 'a9',
 SUM(CASE  leavefakeid WHEN  '10'  THEN  hours  else 0  END) 'a10',
 SUM(CASE  leavefakeid WHEN  '11'  THEN  hours  else 0  END) 'a11'
 from leaveorder
-WHERE (leavestart >= '$leavestart' and leaveend <= '$leaveend') and ordersts<>'D'
-group by empid");;
+WHERE months='$month' and ordersts<>'D'
+group by empid");
         return $res;
     }
 
@@ -136,9 +138,9 @@ group by empid");;
 
     function leaveorderdatil($fakeid, $month, $empid)
     {
-        $selectmonths = date($month . "-01");
-        $endday = date($month . "-t");
-        return leaveorder::where('leavefakeid','=',$fakeid)->where('leavestart', '>=', $selectmonths)->where('leaveend', '<=', $endday)->
+        $selectmonths =$month;
+
+        return leaveorder::where('months','=',$month)->where('leavefakeid', '=', $fakeid)->
         where('empid', '=', $empid)->where('ordersts','<>','D')->get();
     }
 

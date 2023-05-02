@@ -23,7 +23,7 @@ class HumanResourceServices
 
     function select_emp()
     {//抓全部
-        return empinfo::all();
+        return empinfo::where('jobsts','like','Y')->get();
     }
 
     function selectemp($id)

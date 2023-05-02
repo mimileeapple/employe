@@ -64,8 +64,8 @@ date_default_timezone_set("Asia/Taipei");
 
             $("#remarkadd").click(function () {
                 // $("#rownum").val(num+1);
-                $("#addremark tbody").eq(0).append(" <tr><td><input  type='text' name='remark[]' placeholder='(自填)' autocomplete= 'off' " +
-                    "style='width:300px;' onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'/> <button class='bt-del delremark' style='width:80px;'>刪除</button></td></tr>");
+                $("#addremark tbody").eq(0).append(" <tr><td style='vertical-align: middle !important;text-align: center;'><textarea name='remark[]'  onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></textarea>" +
+                    "<button class='bt-del delremark' style='width:80px;'>刪除<tton></td></tr>");
             });
             $(document).on('click', '.delremark', function () {
                 var yes = confirm('你確定刪除此列嗎？');
@@ -93,7 +93,7 @@ date_default_timezone_set("Asia/Taipei");
 <br><br>
 
 @php $pm=Session::get('empdata')->ename;$pm=substr($pm,0,2) @endphp
-<table  class="tbl bor-blue" width="90%">
+<table  class="" width="90%">
     <tr>
 
         <td><p style="color:#8EA9DB;font-size: 26px;margin-top:8px;"><b>All in One Specification</b></p></td>
@@ -105,16 +105,16 @@ date_default_timezone_set("Asia/Taipei");
     {{method_field('PUT')}}
     <table class="tbl bor-blue" width="90%" style="text-align: center;" >
 
-            <tr><td>PI Number</td><td><input type="text" name="pino" value="{{$d->pino}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
-                <td>Date</td>
+            <tr><td class="bg-blue">PI Number</td><td><input type="text" name="pino" value="{{$d->pino}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
+                <td class="bg-blue">Date</td>
                 <td><input type="text" name="orderdate" value="{{$d->orderdate}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'>
                     <input type="hidden" name="orderid" value="{{$d->orderid}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'>
                 </td></tr>
 
         <tr>
-            <td>Model Name</td>
+            <td class="bg-blue">Model Name</td>
             <td><input type="text" name="modelname" value="{{$d->modelname}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
-            <td>System Type</td>
+            <td class="bg-blue">System Type</td>
             <td>
                 <select id="systemtype" name="systemtype">
                     <option value="L5-" {{ $d->systemtype == 'L5-'?'selected ' :''}}>L5</option>
@@ -125,33 +125,33 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>Knocked Down</td>
+            <td class="bg-blue">Knocked Down</td>
             <td>
                 <select id="knockeddown" name="knockeddown">
                     <option value="A-"  {{ $d->knockeddown == 'L5-'?'selected ' :''}}>Aassembled</option>
                     <option value="S-"  {{ $d->knockeddown == 'L5-'?'selected ' :''}}>SKD</option>
                     <option value="C-"  {{ $d->knockeddown == 'L5-'?'selected ' :''}}>CKD</option>
                 </select></td>
-            <td>Front</td>
+            <td class="bg-blue">Front</td>
             <td> <input type="text" name="front" value="{{$d->front}}"></td>
         </tr>
-        <tr><td>*Motherboard</td>
+        <tr><td class="bg-blue">Motherboard</td>
             <td><input  type="text" name="motherboard" list="motherboard" style="padding: 0.5em; border-radius: 10px"  autocomplete= 'off' value="{{ $d->motherboard }}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'/>
                 <datalist id="motherboard">
                     <option value="ITX1"  {{ $d->motherboard =='ITX1'?'selected ' :''}}>ITX1</option>
                     <option value="ITX2" {{ $d->motherboard =='ITX1'?'selected ' :''}}>ITX2</option>
                 </datalist></td>
-            <td>BIOS</td>
+            <td class="bg-blue">BIOS</td>
             <td><input type="text" name="bios" placeholder="(自填)" autocomplete= 'off' value="{{$d->bios}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
         </tr>
-        <tr><td>Front IO</td>
+        <tr><td class="bg-blue">Front IO</td>
             <td>
                 <select id="frontio" name="frontio">
                     <option value="20" {{ $d->frontio =='20'?'selected ' :''}}>U2 (Black) + U2 Type C</option>
                     <option value="21" {{ $d->frontio =='21'?'selected ' :''}}>U2 (Blue) + U2 Type C</option>
                     <option value="22" {{ $d->frontio =='22'?'selected ' :''}}>U3 (Blue) + U3 Type C</option>
                 </select></td>
-            <td>Back IO*</td>
+            <td class="bg-blue">Back IO</td>
             <td><table id="addbackio">
                     <tbody>
                     @if($backio>0)
@@ -170,14 +170,14 @@ date_default_timezone_set("Asia/Taipei");
             </td>
         </tr>
         <tr>
-            <td>Side IO</td>
+            <td class="bg-blue">Side IO</td>
             <td>
                 <select name="sideio" id="sideio">
                     <option value="24" {{ $d->sideio =='24'?'selected ' :''}}>No side IO</option>
                     <option value="25" {{ $d->sideio =='25'?'selected ' :''}}>USB2.0 + No Type C(with rubber)</option>
                     <option value="26" {{ $d->sideio =='26'?'selected ' :''}}>USB2.0 + USB2.0 Type C</option>
                 </select></td>
-            <td>Wireless</td>
+            <td class="bg-blue">Wireless</td>
             <td>
                 <select id="wireless" name="wireless">
                     <option value="27" {{ $d->wireless =='27'?'selected ' :''}}>None</option>
@@ -189,13 +189,13 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>LCD</td>
+            <td class="bg-blue">LCD</td>
             <td>
                 <select id="lcd" name="lcd">
                     <option value="34"  {{ $d->lcd =='34'?'selected ' :''}}>IPS/ADS/AHVA</option>
                     <option value="35" {{ $d->lcd =='35'?'selected ' :''}}>VA</option>
                 </select></td>
-            <td>LCD亮度*</td>
+            <td class="bg-blue">LCD亮度</td>
             <td>
                 <select id="lcdlingt" name="lcdlingt">
                     <option value="36" {{ $d->lcdlingt =='36'?'selected ' :''}}>250nits</option>
@@ -203,13 +203,13 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>LCD備註</td>
+            <td class="bg-blue">LCD備註</td>
             <td>
                 <select id="lcdnote" name="lcdnote">
                     <option value="38" {{ $d->lcdnote =='38'?'selected ' :''}}>Bright Dot</option>
                     <option value="39" {{ $d->lcdnote =='39'?'selected ' :''}}>No Bright Dot</option>
                 </select></td>
-            <td>Thermal Module</td>
+            <td class="bg-blue">Thermal Module</td>
             <td>
                 <select id="thermalmodule" name="thermalmodule">
                     <option value="40"  {{ $d->thermalmodule =='40'?'selected ' :''}}>None</option>
@@ -218,37 +218,37 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>System Fan</td>
+            <td class="bg-blue">System Fan</td>
             <td>
                 <select id="systemfan" name="systemfan">
                     <option value="43" {{ $d->systemfan =='43'?'selected ' :''}}>None</option>
                     <option value="44" {{ $d->systemfan =='44'?'selected ' :''}}>System Fan</option>
                 </select></td>
-            <td>CPU*</td>
+            <td class="bg-blue">CPU</td>
             <td><input type="text" name="cpu" placeholder="(自填型號)" autocomplete= 'off' value="{{$d->cpu}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
         </tr>
 
         <tr>
-            <td>*Key parts</td>
+            <td class="bg-blue">Key parts</td>
             <td><input type="text" name="keyparts" placeholder="(自填i3/i5/i7)" autocomplete= 'off' value="{{$d->keyparts}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
-            <td>Memory*</td>
+            <td class="bg-blue">Memory</td>
             <td><input type="text" name="memory" placeholder="(自填型號)" autocomplete= 'off' value="{{$d->memory}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
         </tr>
         <tr>
-            <td>SSD/HDD*</td>
+            <td class="bg-blue">SSD/HDD</td>
             <td><input type="text" name="ssd" placeholder="(自填型號)" autocomplete= 'off' value="{{$d->ssd}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
-            <td>Side Function</td>
+            <td class="bg-blue">Side Function</td>
             <td>
                 <select id="sidefunction" name="sidefunction">
                     <option value="49" {{ $d->sidefunction =='49'?'selected ' :''}}>None</option>
                     <option value="50"  {{ $d->sidefunction =='50'?'selected ' :''}}>ODD cover + ODD bezel</option>
                     <option value="51" {{ $d->sidefunction =='51'?'selected ' :''}}>9.5mm ODD</option>
-                    <option value="52" {{ $d->sidefunction =='52'?'selected ' :''}}>HDD Tray	H</option>
+                    <option value="52" {{ $d->sidefunction =='52'?'selected ' :''}}>HDD Tray</option>
                     <option value="53" {{ $d->sidefunction =='53'?'selected ' :''}}>Smart Card Reader</option>
                     <option value="54" {{ $d->sidefunction =='54'?'selected ' :''}}>Side IO</option>
                 </select></td>
         </tr>
-        <tr><td>Camera Housing</td>
+        <tr><td class="bg-blue">Camera Housing</td>
             <td>
                 <select id="cameraahousing" name="cameraahousing">
                     <option value="55" {{ $d->cameraahousing =='55'?'selected ' :''}}>None	</option>
@@ -256,7 +256,7 @@ date_default_timezone_set("Asia/Taipei");
                     <option value="57" {{ $d->cameraahousing =='57'?'selected ' :''}}>Type C</option>
                     <option value="58" {{ $d->cameraahousing =='58'?'selected ' :''}}>Pop up with mic on/off switch</option>
                 </select></td>
-            <td>Camera</td>
+            <td class="bg-blue">Camera</td>
             <td>
                 <select id="camera" name="camera">
                     <option value="59" {{ $d->camera =='59'?'selected ' :''}}>None</option>
@@ -268,9 +268,9 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>Camera FW</td>
+            <td class="bg-blue">Camera FW</td>
             <td><input  type="text" name="camerafw" placeholder="(自填)" autocomplete= 'off' value="{{$d->camerafw}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'/></td>
-            <td>Power</td>
+            <td class="bg-blue">Power</td>
             <td>
                 <select id="power" name="power">
                     <option value="66" {{ $d->power =='66'?'selected ' :''}}>None</option>
@@ -283,9 +283,9 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td> Speaker*</td>
+            <td class="bg-blue"> Speaker</td>
             <td><input type="text" name="speaker"  autocomplete= 'off' value="{{$d->speaker}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
-            <td>Chassis+Stand Color</td>
+            <td class="bg-blue">Chassis+Stand Color</td>
             <td>
                 <select id="chassisstandcolor" name="chassisstandcolor">
                     <option value="75" {{ $d->chassisstandcolor =='75'?'selected ' :''}}>Black Color Chassis</option>
@@ -293,9 +293,9 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>*Silk Print</td>
+            <td class="bg-blue">Silk Print</td>
             <td><input type="text" name="silkprint" placeholder="(自填)" autocomplete= 'off' value="{{$d->silkprint}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
-            <td>Cable Cover</td>
+            <td class="bg-blue">Cable Cover</td>
             <td>
                 <select id="cablecover"  name="cablecover">
                     <option value="78" {{ $d->cablecover =='78'?'selected ' :''}}>None</option>
@@ -303,7 +303,7 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>Hinge</td>
+            <td class="bg-blue">Hinge</td>
             <td>
                 <select id="hinge" name="hinge">
                     <option value="81" {{ $d->hinge =='81'?'selected ' :''}}>Default Y hinge</option>
@@ -311,7 +311,7 @@ date_default_timezone_set("Asia/Taipei");
                     <option value="83" {{ $d->hinge =='83'?'selected ' :''}}>Hinge outside + mylar</option>
                     <option value="84" {{ $d->hinge =='84'?'selected ' :''}}>VESA only, no mylar</option>
                 </select></td>
-            <td>VESA Screw</td>
+            <td class="bg-blue">VESA Screw</td>
             <td>
                 <select id="vesascrew" name="vesascrew">
                     <option value="85" {{ $d->vesascrew =='85'?'selected ' :''}}>No Screw(VESA or No need)</option>
@@ -319,17 +319,17 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>EMC</td>
+            <td class="bg-blue">EMC</td>
             <td>
                 <select id="emc" name="emc">
                     <option value="87" {{ $d->emc =='87'?'selected ' :''}}>None</option>
                     <option value="88" {{ $d->emc =='88'?'selected ' :''}}>EMI Coating</option>
                 </select></td>
-            <td>Kensington Lock</td>
+            <td class="bg-blue">Kensington Lock</td>
             <td><input type="text" name="kensingtonlock"  autocomplete= 'off' value="{{$d->kensingtonlock}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'></td>
         </tr>
         <tr>
-            <td>Stand</td>
+            <td class="bg-blue">Stand</td>
             <td>
                 <select id="stand" name="stand">
                     <option value="90" {{ $d->stand =='90'?'selected ' :''}}>No Stand</option>
@@ -342,7 +342,7 @@ date_default_timezone_set("Asia/Taipei");
                     <option value="97" {{ $d->stand =='97'?'selected ' :''}}>HAS-R-S Round Silver</option>
                     <option value="98" {{ $d->stand =='98'?'selected ' :''}}>HAS 1804</option>
                 </select></td>
-            <td>2-in-1 Stand Screw</td>
+            <td class="bg-blue">2-in-1 Stand Screw</td>
             <td>
                 <select id="standscrew"  name="standscrew">
                     <option value="99"  {{ $d->standscrew =='99'?'selected ' :''}}>Not 2in1 stand</option>
@@ -351,13 +351,13 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>COM</td>
+            <td class="bg-blue">COM</td>
             <td>
                 <select id="com" name="com">
                     <option value="103" {{ $d->com =='103'?'selected ' :''}}>None</option>
                     <option value="104" {{ $d->com =='104'?'selected ' :''}}>COM</option>
                 </select></td>
-            <td>Extra USB</td>
+            <td class="bg-blue">Extra USB</td>
             <td>
                 <select id="extrausb" name="extrausb">
                     <option value="105" {{ $d->extrausb =='105'?'selected ' :''}}>None</option>
@@ -366,12 +366,12 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>Chassis Intrusion</td>
+            <td class="bg-blue">Chassis Intrusion</td>
             <td><select id="chassisintrusion" name="chassisintrusion">
                     <option value="108" {{ $d->chassisintrusion =='108'?'selected ' :''}}>None</option>
                     <option value="109" {{ $d->chassisintrusion =='109'?'selected ' :''}}>Chassis Intrusion</option>
                 </select></td>
-            <td>Power Cord Type</td>
+            <td class="bg-blue">Power Cord Type</td>
             <td>
                 <select id="powercordtype" name="powercordtype">
                     <option value="110" {{ $d->powercordtype =='110'?'selected ' :''}}>None</option>
@@ -380,7 +380,7 @@ date_default_timezone_set("Asia/Taipei");
                 </select></td>
         </tr>
         <tr>
-            <td>Power Cord</td>
+            <td class="bg-blue">Power Cord</td>
             <td>
                 <select id="powercord" name="powercord">
                     <option value="113" {{ $d->powercord =='113'?'selected ' :''}}>Power Cord	None</option>
@@ -393,62 +393,64 @@ date_default_timezone_set("Asia/Taipei");
                     <option value="120" {{ $d->powercord =='120'?'selected ' :''}}>India (3 round)</option>
                     <option value="121" {{ $d->powercord =='121'?'selected ' :''}}>China</option>
                 </select></td>
-            <td>*Customer Code</td>
+            <td class="bg-blue">Customer Code</td>
             <td><input  type="text" name="customercode" placeholder="(自填)" autocomplete= 'off' value="{{$d->customercode}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'/></td>
         </tr>
         <tr>
-            <td>Customization</td>
+            <td class="bg-blue">Customization</td>
             <td>
                 <select id="customization" name="customization">
                     <option value="124" {{ $d->customization =='124'?'selected ' :''}}>No Customization</option>
                     <option value="125" {{ $d->customization =='125'?'selected ' :''}}>Customization</option>
                 </select></td>
-            <td>LOGO</td>
+            <td class="bg-blue">LOGO</td>
             <td>
                 <select id="logo" name="logo">
                     <option value="126" {{ $d->logo =='126'?'selected ' :''}}>No logo</option>
-                    <option value="127" {{ $d->logo =='127'?'selected ' :''}}>silk print only</option>
-                    <option value="128" {{ $d->logo =='128'?'selected ' :''}}>nickel logo only</option>
-                    <option value="129" {{ $d->logo =='129'?'selected ' :''}}>silk print only</option>
-                    <option value="130" {{ $d->logo =='130'?'selected ' :''}}>nickel logo only</option>
-                    <option value="131" {{ $d->logo =='131'?'selected ' :''}}>and Back silk print</option>
-                    <option value="132" {{ $d->logo =='132'?'selected ' :''}}>and Back nickel logo</option>
-                    <option value="133" {{ $d->logo =='133'?'selected ' :''}}>silk print and Back nickel logo</option>
-                    <option value="134" {{ $d->logo =='134'?'selected ' :''}}>nickel logo and Back silk print</option>
+                    <option value="127" {{ $d->logo =='127'?'selected ' :''}}>Front silk print only</option>
+                    <option value="128" {{ $d->logo =='128'?'selected ' :''}}>Front nickel logo only</option>
+                    <option value="129" {{ $d->logo =='129'?'selected ' :''}}>Back silk print only</option>
+                    <option value="130" {{ $d->logo =='130'?'selected ' :''}}>Back nickel logo only</option>
+                    <option value="131" {{ $d->logo =='131'?'selected ' :''}}>Front and Back silk print</option>
+                    <option value="132" {{ $d->logo =='132'?'selected ' :''}}>Front and Back nickel logo</option>
+                    <option value="133" {{ $d->logo =='133'?'selected ' :''}}>Front silk print and Back nickel logo</option>
+                    <option value="134" {{ $d->logo =='134'?'selected ' :''}}>Front nickel logo and Back silk print</option>
                 </select></td>
         </tr>
         <tr>
-            <td>Remark*</td>
+            <td class="bg-blue">Remark</td>
             <td>
-                <table id="addremark">
+                <table id="addremark" >
+                    <input type="button" id="remarkadd" value="新增remark列" class="bt-add">
                     <tbody>
                     @if($remarklist>0)
                     @foreach($remarklist as $r)
-                    <tr><td><input  type="text" name="remark[]" placeholder="(自填)" autocomplete= 'off' style="width:300px;" value="{{$r}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'/>
-                            <button class="bt-del delremark" style="width:80px;">刪除</button></td></tr>
+                        <tr><td style="vertical-align: middle !important;text-align: center;"><br>
+                         <textarea name="remark[]" cols="50" rows="3" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'>{{$r}}</textarea>
+                         <button class="bt-del delremark" style="width:80px;">刪除</button>
+                          </td></tr>
                     @endforeach
                         @endif
                     </tbody>
-                    <input type="button" id="remarkadd" value="新增remark列" class="bt-add">
                 </table></td>
-            <td>*Version</td>
+            <td class="bg-blue">Version</td>
             <td><input  type="text" name="version"  placeholder="(自填)" autocomplete= 'off' value="{{$d->version}}" onkeydown='if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}'/></td>
         </tr>
 
-        <tr><td>Buyer:Date</td><td><input type="date" name="buyer" value="{{$d->buyer}}"></td>
-            <td>Seller:Date</td><td><input type="date" name="seller" value="{{$d->seller}}"></td></tr>
+        <tr><td class="bg-blue">Buyer:Date</td><td><input type="date" name="buyer" value="{{$d->buyer}}"></td>
+            <td class="bg-blue">Seller:Date</td><td><input type="date" name="seller" value="{{$d->seller}}"></td></tr>
 
 
         <tr>
-            <td>最後修改日期</td>
+            <td class="bg-blue">最後修改日期</td>
             <td><input style="background:#F0F0F0;width:200px;" type="text" name="updatedate" value="<?php echo date("Y-m-d H:i:s");?>" readonly></td>
-            <td>最後修改人員</td>
+            <td class="bg-blue">最後修改人員</td>
             <td><input style="background:#F0F0F0;width:200px;" type="text" name="updateemp" value="{{Session::get('name')}}"></td>
             <input type="hidden" name="sts" value="N">
         </tr>
 
     </table>
-    <br><input type="submit" class="bt-send" value="修改I規格單" ><br><br>
+    <br><input type="submit" class="bt-send" value="修改PI規格單" ><br><br>
 
 </form>
 @endforeach

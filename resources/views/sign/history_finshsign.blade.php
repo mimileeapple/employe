@@ -46,6 +46,7 @@ date_default_timezone_set('Asia/Taipei');
                 <font size="20px"> ^</font>
             </a>
             <br>
+            @if(count($emp_list)>0)
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
 
@@ -66,8 +67,7 @@ date_default_timezone_set('Asia/Taipei');
                     <td><b>附件</b></td>
                 </tr>
                 {{--                放在foreach 會導致ID重複 submit只會送出第一個--}}
-                <form id="form1" name="form1" action="{{route('signfinsh')}}" method="post">
-                    {{ csrf_field() }}
+
                     @foreach($emp_list as  $emp)
                         <tr>
 
@@ -96,10 +96,12 @@ date_default_timezone_set('Asia/Taipei');
                         </tr>
                 @endforeach
 
-
-            </table>  @if($emp_list->count()>2)
+            </table>
+                @if($emp_list->count()>2)
                 {{$emp_list->links()}}
-            @endif
+                  @endif
+            @else <font color="red">沒有資料</font>
+        @endif
             <br><br><br>
         </div>
     </div>

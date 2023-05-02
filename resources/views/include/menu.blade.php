@@ -65,7 +65,7 @@
             <div class="dropdown">
                 <a class="btn bt-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    請假系統管理
+                    請假系統管理(台灣)
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -86,14 +86,53 @@
                             員工出勤總表
                         </a>
                     </li>
+                    @if(Session::get('empid')==12)
+                    <li><a href="{{route("selectmonthshowcheckintotal")}}" class="nav-link link-dark submenu-item">
+                            員工遲到總表
+                        </a>
+                    </li>
+                        @endif
                 </ul>
-            </div>
 
+            </div>
+                <div class="dropdown">
+                    <a class="btn bt-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        請假系統管理(大陸)
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a href="{{route("employees.index")}}" class="nav-link link-dark submenu-item">
+                                員工資料管理
+                            </a>
+                        </li>
+                        <li><a href="{{route("finshorder")}}" class="nav-link link-dark submenu-item">
+                                員工請假(結案)
+                            </a></li>
+
+                        <li><a href="{{route("showleaveall")}}" class="nav-link link-dark submenu-item">
+                                員工請假總表
+                            </a>
+                        </li>
+                        <li><a href="{{route("showallemplist")}}" class="nav-link link-dark submenu-item">
+                                員工出勤總表
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
             <li class="nav-item">
                 <a href="{{route("creatboard.create")}}" class="nav-link link-dark">
                     公佈欄管理
                 </a>
             </li>
+
+                <li class="nav-item">
+                    <a href="{{route("payoffice.index")}}" class="nav-link link-dark">
+                        行政付款申請
+                    </a>
+                </li>
 
                 <li class="nav-item">
                 <a href="{{route("customer.index")}}" class="nav-link link-dark">

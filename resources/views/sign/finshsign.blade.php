@@ -59,8 +59,9 @@ date_default_timezone_set('Asia/Taipei');
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
-            <br><br><a style="margin-left: -1100px;" href="{{route('historysignfinsh')}}" target="_blank"
+            <br><br><a style="margin-left: -1000px;" href="{{route('historysignfinsh')}}" target="_blank"
                        class="bt-search">已結案歷史資料</a><br><br>
+            @if(count($emp_list)>0)
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
                     <td><label>
@@ -120,16 +121,8 @@ date_default_timezone_set('Asia/Taipei');
                         </tr>
                     @endforeach
                 </form>
-                <script>
-                    $(function () {
-                        $('#signpass').click(function () {
-                            alert("簽核成功!");
 
-                            $('#form1').submit();
 
-                        })
-                    })
-                </script>
                 <tr>
                     <td colspan="14"><input type="button" value="簽核通過" class="bt-send" id="signpass">
                     </td>
@@ -137,11 +130,22 @@ date_default_timezone_set('Asia/Taipei');
             </table> @if($emp_list->count()>2)
                 {{$emp_list->links()}}
             @endif
+            @else <font color="red">沒有資料</font>
+            @endif
             <br><br><br>
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        $('#signpass').click(function () {
+            alert("簽核成功!");
 
+            $('#form1').submit();
+
+        })
+    })
+</script>
 </body>
 
 </html>

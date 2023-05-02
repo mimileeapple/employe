@@ -65,10 +65,10 @@ date_default_timezone_set('Asia/Taipei');
                 {{ csrf_field() }}
                 <table border="1" align="center" class="bor-blue tbl" width="100%" style="text-align: center;">
                     <tr>
-                        <td colspan="7" class="bg-blue">累積時數</td>
-                        <td colspan="3" class="bg-orange">新增時數</td>
-                        <td colspan="3" class="bg-red">本月請假時數</td>
-                        <td colspan="3" class="bg-green">剩餘時數</td>
+                        <td colspan="8" class="bg-blue">累積時數</td>
+                        <td colspan="4" class="bg-orange">新增時數</td>
+                        <td colspan="4" class="bg-red">本月請假時數</td>
+                        <td colspan="4" class="bg-green">剩餘時數</td>
                     </tr>
                     <tr>
                         <td>編號</td>
@@ -78,15 +78,20 @@ date_default_timezone_set('Asia/Taipei');
                         <td>特休</td>
                         <td>年休</td>
                         <td>補休</td>
+                        <td>病假</td>
                         <td>特休</td>
                         <td>年休</td>
                         <td>補休</td>
+                        <td>病假</td>
+
                         <td>特休</td>
                         <td>年休</td>
                         <td>補休</td>
+                        <td>病假</td>
                         <td>特休</td>
                         <td>年休</td>
                         <td>補休</td>
+                        <td>病假</td>
                     </tr>
                     @foreach($emp_list as  $emp)
                         <tr>
@@ -101,9 +106,7 @@ date_default_timezone_set('Asia/Taipei');
                                 {{$emp->empid}}</td>
                             <td>{{$emp->name}}<br>{{$emp->ename}}</td>
                             <td>{{$emp->achievedate}}</td>
-                            <td>{{$emp->personlyears}}
-
-                            </td>
+                            <td>{{$emp->personlyears}}</td>
 
                             <td><input type="hidden" name="specialdate[{{$emp->empid}}]"
                                        value="{{$emp->specialdate_m}}">{{$emp->specialdate_m}}</td>
@@ -111,24 +114,29 @@ date_default_timezone_set('Asia/Taipei');
                                        value="{{$emp->years_date_m}}">{{$emp->years_date_m}}</td>
                             <td><input type="hidden" name="comp_time[{{$emp->empid}}]"
                                        value="{{$emp->comp_time_m}}">{{$emp->comp_time_m}}</td>
+                            <td><input type="hidden" name="sickday[{{$emp->empid}}]"
+                                       value="{{$emp->sickday}}">{{$emp->sickday}}</td>
                             <td><input type="text" name="add_specialdate[{{$emp->empid}}]"
-                                       value="{{$emp->add_specialdate*8}}"></td>
+                                       value="{{$emp->add_specialdate*8*60}}"></td>
                             <td><input type="text" name="add_years_date[{{$emp->empid}}]"
-                                       value="{{$emp->add_years_date*8}}"></td>
+                                       value="{{$emp->add_years_date*8*60}}"></td>
                             <td><input type="text" name="add_comp_time[{{$emp->empid}}]"
                                        value="{{$emp->add_comp_time}}"></td>
+                            <td><input type="text" name="add_sickday[{{$emp->empid}}]"
+                                       value="{{$emp->add_sickday}}"></td>
                             <td><input type="hidden" name="sub_specialdate[{{$emp->empid}}]"
                                        value="{{$emp->a1}}">{{$emp->a1}}</td>
                             <td><input type="hidden" name="sub_years_date[{{$emp->empid}}]"
                                        value="{{$emp->a2}}">{{$emp->a2}}</td>
                             <td><input type="hidden" name="sub_comp_time[{{$emp->empid}}]"
                                        value="{{$emp->a11}}">{{$emp->a11}}</td>
-
+                            <td><input type="hidden" name="sub_sickday[{{$emp->empid}}]"
+                                       value="{{$emp->a6}}">{{$emp->a6}}</td>
                             @php
-  $remain_specialdate=(int)$emp->specialdate_m+(int)($emp->add_specialdate*8)-(int)$emp->a1;
- $remain_years_date=(int)$emp->years_date_m+(int)($emp->add_years_date*8)-(int)$emp->a2;
+  $remain_specialdate=(int)$emp->specialdate_m+(int)($emp->add_specialdate*8*60)-(int)$emp->a1;
+ $remain_years_date=(int)$emp->years_date_m+(int)($emp->add_years_date*8*60)-(int)$emp->a2;
   $remain_comp_time=(int)$emp->comp_time_m+(int)$emp->add_comp_time-(int)$emp->a11;
-
+$remain_sickday=(int)$emp->sickday+(int)$emp->add_sickday-(int)$emp->a6;
                             @endphp
                             <td><input type="hidden" name="remain_specialdate[{{$emp->empid}}]"
                                        value="{{$remain_specialdate}}">
@@ -139,6 +147,9 @@ date_default_timezone_set('Asia/Taipei');
                             <td><input type="hidden" name="remain_comp_time[{{$emp->empid}}]"
                                        value="{{ $remain_comp_time}}">
                                 {{$remain_comp_time}}  </td>
+                            <td><input type="hidden" name="remain_sickday[{{$emp->empid}}]"
+                                       value="{{ $remain_sickday}}">
+                                {{$remain_sickday}} </td>
                             @endforeach
                         </tr>
                         <tr>
