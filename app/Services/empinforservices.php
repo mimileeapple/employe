@@ -146,7 +146,7 @@ group by empid");
 
     function historysignfinsh($page)
     {
-        return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->paginate($page);
+        return leaveorder::where('signsts', '=', 3)->where('ordersts', '=', 'Y')->where('area','like','T')->paginate($page);
     }
     function leaveorderdatil_day($day,$empid){
         $res=leaveorder::where('leavestart', '>=', $day)->where('leaveend', '<=', $day)->

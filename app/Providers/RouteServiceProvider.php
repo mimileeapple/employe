@@ -41,6 +41,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->invoiceRoutes();
 
         $this->officeRoutes();
+        $this->empchinaRoutes();
         //
     }
 
@@ -68,6 +69,12 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace.'\office')
             ->group(base_path('routes/office.php'));
+    }
+    protected function empchinaRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace.'\china')
+            ->group(base_path('routes/empchina.php'));
     }
 
     /**

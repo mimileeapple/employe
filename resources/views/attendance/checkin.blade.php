@@ -2,12 +2,11 @@
 header("Pragma: no-cache");
 session_start();
 header('Content-Type: text/html;charset=UTF-8');
-$title = "打卡系統";
+$title = "上傳考勤表";
 date_default_timezone_set('Asia/Taipei');
-$date = date("Y-m-d H:i:s");
-
+$today = date('Y-m-d H:i:s');
 ?>
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1; charset=utf-8">
@@ -24,44 +23,15 @@ $date = date("Y-m-d H:i:s");
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript" src="{{ URL::asset('myjs/gotop.js') }}"></script>
     <title><?php echo $title ?></title>
-    <style>
-        tr{
-            height:80px;
-        }
-    </style>
     <script>
-        function paddingLeft(str,lenght){
-            if(str.length >= lenght)
-                return str;
-            else
-                return paddingLeft("0" +str,lenght);
-        }
-        function ShowTime(){
-            var NowDate=new Date();
-            var y=NowDate.getFullYear();
-            var mo=NowDate.getMonth()+1;
-            var d=NowDate.getDate();
-            var h=NowDate.getHours();
-            var m=NowDate.getMinutes();
-            var s=NowDate.getSeconds();
-        var month= mo.toString().padStart(2,'0');
-            var day=d.toString().padStart(2,'0');
-            var hour=h.toString().padStart(2,'0');
-            var mi=m.toString().padStart(2,'0');
-            var se=s.toString().padStart(2,'0');
-            document.getElementById('showbox').innerHTML =y+'年'+month+'月'+day+'日'+ hour+'時'+mi+'分'+se+'秒';
-            setTimeout('ShowTime()',1000);
-        }
-        function paddingLeft(str,lenght){
-            if(str.length >= lenght)
-                return str;
-            else
-                return paddingLeft("0" +str,lenght);
-        }
+    if({{$status}}==true){
+        alert('上傳成功');
+    }
     </script>
 
+
 </head>
-<body style="text-align: center" onload="ShowTime()">
+<body style="text-align:center;">
 @include("include.nav")
 <div class="mt-5">
     <div>
@@ -78,92 +48,38 @@ $date = date("Y-m-d H:i:s");
             </a>
             <br>
 
-<form action="{{route('checkin.store')}}" method="post" id="form1">
+            <form action="{{route('importcheckin.store')}}" method="post" id="form1" enctype="multipart/form-data">
 
-    {{ csrf_field() }}
-            <table   align="center" class=" tbl" width="70%" >
+                {{ csrf_field() }}
+                <table align="center" class=" tbl" width="70%">
 
-                    <tr>
-                        <td class="bg-blue"><b class="title-s">目前時間</b></td>
+                    <tr class="bg-blue">
+
+                        <td>選擇上傳檔案</td>
                     </tr>
                     <tr>
-                        <td><b class="title-m" style="color: black"><div id="showbox"></div></b></td>
+
+                        <td>
+                            <input type="file" name="file1" id="file1">
+                            <input type="hidden" name="createemp" value="{{Session::get('name')}}">
+                            <input type="hidden" name="creatdate" value="{{$today}}">
+                            <input type="hidden" name="updateemp" value="{{Session::get('name')}}">
+                            <input type="hidden" name="updatedate" value="{{$today}}">
+                        </td>
                     </tr>
-                <tr>
-                    <td>
-                        <input type="button" id="checkin" value="上班打卡" class="bt-send" style="width: 120px;height: 40px;" >
-                        <input type="button" id="checkout" value="下班打卡" class="bt-search" style="width: 120px;height: 40px;">
-         </td>
-                    <input type="hidden" name="empid" value="{{Session::get('empid')}}">
-                    <input type="hidden" name="empname" value="{{Session::get('name')}}">
-                    <input type="hidden" name="worktimein" id="worktimein" value="{{$date}}">
-                    <input type="hidden" name="worktime" id="worktime" value="{{$date}}">
-                    <input type="hidden" name="yearmonths" value="{{date("Ym")}}">
-                    <input type="hidden" name="checkdate" value="{{date("Y-m-d")}}">
-                    <input type="hidden" id="btnactionin" name="btnactionin" value="">
-                    <input type="hidden" id="btnactionout" name="btnactionout" value="">
-                    <input type="hidden" id="btnactionid" name="btnactionid" value="">
-                </tr>
-            </table></form>
+                    <tr>
+                        <td colspan="3"><input type="submit" value="上傳" class="bt-add"></td>
+                    </tr>
+
+                </table>
+            </form>
+
 
             <br><br><br>
         </div>
     </div>
 </div>
+
 </body>
 
 </html>
-<script>
-    $(document).ready(function() {
-        $("#checkin").click(function(){
-            $("#btnactionid").val(0);
-            $("#btnactionin").val("上班");
-            $("#worktime").val('');
-
-            data = $('#form1').serializeArray()
-          // console.log(data)
-            $.ajax({
-                type: "post",
-                dataType: "JSON",
-                url: '{{route('checkin.store')}}',
-                data: {_token: "{{ csrf_token() }}",data:data},
-                success: function (response) {
-                    if(response.status){
-                        alert('打卡成功')
-                    }else {
-                        alert('打卡失敗')
-                    }
-
-                },
-                error: function (thrownError) {
-                   alert('error')
-                }
-            });
-        });
-        $("#checkout").click(function(){
-            $("#btnactionid").val(1);
-            $("#btnactionout").val("下班");
-            data = $('#form1').serializeArray();
-            $("#worktimein").val('');
-            $.ajax({
-                type: "post",
-                dataType: "JSON",
-                url: '{{route('checkin.store')}}',
-                data: {_token: "{{ csrf_token() }}",data:data},
-                success: function (response) {
-                    if(response.status){
-                        alert('打卡成功')
-                    }else {
-                        alert('打卡失敗')
-                    }
-
-                },
-                error: function (thrownError) {
-                    alert('error')
-                }
-            });
-        });
-
-    });
-
-</script>

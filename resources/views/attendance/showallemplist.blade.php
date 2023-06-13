@@ -80,63 +80,62 @@ $date = date("Y-M-D");
             </form></td><td>
              </table>
 <br><br>
-         @if(isset($checklist)&&$checklist!=0)
-                <table border="1" align="center" class="bor-blue tbl" width="80%" >
+            @if(isset($latelist)&&count($latelist)>0)
+
+                <table border="1" align="center" class="bor-blue tbl" width="90%" >
+                    <thead>
                     <tr class="bg-blue">
-                        <td><b>序號</b></td>
-                        <td><b>日期</b></td>
-                        <td><b>上班打卡時間</b></td>
-                        <td><b>下班打卡時間</b></td>
-                        <td><b>今日上班時間</b></td>
-                        <td><b>備註</b></td>
+                        <th><b>日期</b></th>
+                        <th><b>上班打卡時間</b></th>
+                        <th><b>下班打卡時間</b></th>
+                        <th><b>遲到(分)</b></th>
+                        <th><b>請假(分)</b></th>
+                        <th><b>備註</b></th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    @php  $tempkey=""; $tempdate="";$weekarray=array("日","一","二","三","四","五","六");@endphp
+                    @foreach($latelist as $key=> $empno)
+                        @if($tempdate!=$key)
+                            <tr>
+                                <td>{{$key}}@php echo "(".$weekarray[date("w",strtotime("$key"))].")" @endphp</td>
 
-                @foreach($checklist as $i=>$in)
-
-                        <tr>
-                            <td>{{$i+1}}</td>
-                            <td>{{$in->checkdate}}
-                                @php $weekarray=array("日","一","二","三","四","五","六");
-                            echo "(星期".$weekarray[date("w",strtotime($in->checkdate))].")";
-                             $day=date("w",strtotime($in->checkdate));
-                                @endphp
-                            </td>
-                            <td>@if($in->checkintime!=null){{$in->checkintime}}
-                                @elseif($day==0||$day==6)
-                                @else<font color='red'>無資料</font>
                                 @endif
-                            </td>
-                            <td>@if($in->checkouttime!=null){{$in->checkouttime}}
-                                @elseif($day==0||$day==6)
-                                @else<font color='red'>無資料</font>
-                                @endif
-                            </td>
-                            <td>
-                                @if($in->checkintime!=null&&$in->checkouttime!=null)
+                                @foreach($empno as $i=>$time)
+                                    @if($tempdate!=$key)
+                                        <td>{{$empno['worktimein']}}</td>
+                                        <td>{{$empno['worktimeout']}}</td>
+                                        <td>@if((int)$empno['latemin']!=0&&$empno['latemin']!="-")
+                                                @if((int)$empno['latemin']<0)
+                                                    <font color="red"> {{(int)$empno['latemin']}}</font>
 
-                                        @php $worktimes=floor(((strtotime($in->checkouttime) - strtotime($in->checkintime))/60));
-                                        echo $worktimes @endphp 分鐘
-                                    <br> @php $reltime=540-(int)$worktimes; @endphp
-                                        @if($reltime>=0)
-                                            (<font color="red">不足{{$reltime}}分鐘)</font>
+                                                @elseif((int)$empno['latemin']>0){{(int)$empno['latemin']}}
+                                                @endif
+                                            @else {{(int)$empno['latemin']}}
+                                            @endif</td>
+                                        <td>{{$empno['leavetime']}}</td>
+                                        <td>
+                                            @if($empno['leavetime']!="0分"&&$empno['leavetime']!="-")
+                                                <a href="{{route("leaveorderdatilday", ['day'=>$key,'empid'=>Session::get('empid')])}}"
+                                                   target="_blank">{{$empno['leavetime']}}</a>
+
                                             @endif
-                                @else
-                                @endif
-                            </td>
-                            <td>
-                                @if($in->leaveorder=="Y")
-                                    <a href="{{route("leaveorderdatilday", ['day'=>$in->checkdate,'empid'=>$in->empid])}}"
-                                       target="_blank">已請假</a>
-                                @elseif($in->leaveorder=="N"&&($day==0||$day==6))
-                                @elseif($in->leaveorder=="N"&&($day!=0||$day!=6))<font color="red">尚未請假</font>
-                                @endif
-                            </td>
-                        </tr>
+                                        </td>
+                                    @endif
+                                    @if($tempdate==$key)
+                            </tr>
+                        @endif
 
-                @endforeach
-            </table>
-            @else
-             @endif
+                        @php $tempdate=$key; @endphp
+
+                    @endforeach
+                    @endforeach
+                    </tbody>
+                    <tr><td colspan="3" style="text-align: right;">不足分鐘數小計:</td><td>{{$total}}分鐘-30分鐘<br>
+                            <font color="red"> 本月遲到總計:{{$total+30}}分鐘</font></td><td></td></tr>
+                </table>
+            @else <font color="red">沒有資料</font>
+@endif
             <br><br><br>
         </div>
     </div>

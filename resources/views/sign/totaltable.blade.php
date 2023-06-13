@@ -22,7 +22,11 @@ date_default_timezone_set('Asia/Taipei');
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript" src="{{ URL::asset('myjs/gotop.js') }}"></script>
     <title><?php echo $title ?></title>
-
+<style>
+    table{
+    table-layout: fixed;
+    }
+</style>
     <script>
 
     </script>
@@ -73,40 +77,40 @@ date_default_timezone_set('Asia/Taipei');
                 <font color="red">年資、特休與年休計算到當月底為準</font>
                 <table border="1" align="center" class="bor-blue tbl" width="100%" style="font-size: 10px;">
                     <tr>
-                        <td class="bg-orange" colspan="7">(本月新增)</td>
-                        <td class="bg-blue" colspan="4">尚未使用(累積)</td>
-                        <td class="bg-red" colspan="12">當月休假</td>
-                        <td class="bg-green" colspan="4">剩餘休假</td>
+                        <th class="bg-orange" colspan="7">(本月新增)</th>
+                        <th class="bg-blue" colspan="4">尚未使用(累積)</th>
+                        <th class="bg-red" colspan="12">當月休假</th>
+                        <th class="bg-green" colspan="4">剩餘休假</th>
                     </tr>
                     <tr>
-                        <td class="bg-orange"><b>姓名</b></td>
-                        <td class="bg-orange"><b>到職日</b></td>
-                        <td class="bg-orange"><b>年資</b></td>
-                        <td class="bg-orange"><b>新增特休(分)</b></td>
-                        <td class="bg-orange"><b>新增年休(分)</b></td>
-                        <td class="bg-orange"><b>新增補休(分)</b></td>
-                        <td class="bg-orange"><b>新增病假(分)</b></td>
-                        <td class="bg-blue"><b>累積特休(分)</b></td>
-                        <td class="bg-blue"><b>累積年休(分)</b></td>
-                        <td class="bg-blue"><b>補休(分)</b></td>
-                        <td class="bg-blue"><b>累積病假(分)</b></td>
+                        <th class="bg-orange"><b>姓名</b></th>
+                        <th class="bg-orange"><b>到職日</b></th>
+                        <th class="bg-orange"><b>年資</b></th>
+                        <th class="bg-orange"><b>新增特休(分)</b></th>
+                        <th class="bg-orange"><b>新增年休(分)</b></th>
+                        <th class="bg-orange"><b>新增補休(分)</b></th>
+                        <th class="bg-orange"><b>新增病假(分)</b></th>
+                        <th class="bg-blue"><b>累積特休(分)</b></th>
+                        <th class="bg-blue"><b>累積年休(分)</b></th>
+                        <th class="bg-blue"><b>補休(分)</b></th>
+                        <th class="bg-blue"><b>累積病假(分)</b></th>
 
-                        <td class="bg-red"><b>特休(分)</b></td>
-                        <td class="bg-red"><b>年休(分)</b></td>
-                        <td class="bg-red"><b>遲到(分)</b></td>
-                        <td class="bg-red"><b>出差(分)</b></td>
-                        <td class="bg-red"><b>公假(分)</b></td>
-                        <td class="bg-red"><b>事假(分)</b></td>
-                        <td class="bg-red"><b>病假(分)</b></td>
-                        <td class="bg-red"><b>生理假(分)</b></td>
-                        <td class="bg-red"><b>婚假(分)</b></td>
-                        <td class="bg-red"><b>喪假(分)</b></td>
-                        <td class="bg-red"><b>補休(分)</b></td>
-                        <td class="bg-red"><b>其他(分)</b></td>
-                        <td class="bg-green"><b>特休(分)</b></td>
-                        <td class="bg-green"><b>年休(分)</b></td>
-                        <td class="bg-green"><b>補休(分)</b></td>
-                        <td class="bg-green"><b>剩餘病假(分)</b></td>
+                        <th class="bg-red"><b>特休(分)</b></th>
+                        <th class="bg-red"><b>年休(分)</b></th>
+                        <th class="bg-red"><b>遲到(分)</b></th>
+                        <th class="bg-red"><b>出差(分)</b></th>
+                        <th class="bg-red"><b>公假(分)</b></th>
+                        <th class="bg-red"><b>事假(分)</b></th>
+                        <th class="bg-red"><b>病假(分)</b></th>
+                        <th class="bg-red"><b>生理假(分)</b></th>
+                        <th class="bg-red"><b>婚假(分)</b></th>
+                        <th class="bg-red"><b>喪假(分)</b></th>
+                        <th class="bg-red"><b>補休(分)</b></th>
+                        <th class="bg-red"><b>其他(分)</b></th>
+                        <th class="bg-green"><b>特休(分)</b></th>
+                        <th class="bg-green"><b>年休(分)</b></th>
+                        <th class="bg-green"><b>補休(分)</b></th>
+                        <th class="bg-green"><b>剩餘病假(分)</b></th>
                     </tr>
 
                     @foreach($emp_list1 as  $emp)
@@ -119,19 +123,19 @@ date_default_timezone_set('Asia/Taipei');
                             <td>{{$emp->add_specialdate}}</td>
                             <td>{{$emp->add_years_date}}</td>
                             <td>{{$emp->add_comp_time}}</td>
-                            <td></td>
+                            <td>{{$emp->add_sickday}}</td>
                             <td>{{$emp->specialdate_m}}</td>
                             <td>{{$emp->years_date_m}}</td>
                             <td>{{$emp->comp_time_m}}</td>
-                            <td></td>
+                            <td>{{$emp->sickday}}</td>
                             <td>
                                 <a href="{{route("showleaveorder", ['empid'=>$emp->empid,'month'=>$selected,'fakeid'=>1])}}"
                                    target="_blank">{{$emp->a1*60}}</a></td>
                             <td>
                                 <a href="{{route("showleaveorder", ['empid'=>$emp->empid,'month'=>$selected,'fakeid'=>2])}}"
                                    target="_blank"> {{$emp->a2*60}}</a></td>
-                            <td>@if($emp->late<0)<font color="red">{{$emp->late}}</font>
-                                @else {{$emp->late}}
+                            <td>@if($emp->total<0)<font color="red">{{$emp->total}}</font>
+                                @else {{$emp->total}}
                                     @endif
                             </td>
                             <td>
@@ -164,7 +168,7 @@ date_default_timezone_set('Asia/Taipei');
                             <td> {{$emp->remain_specialdate}} </td>
                             <td>{{$emp->remain_years_date}}</td>
                             <td>  {{$emp->remain_comp_time}}</td>
-                            <td></td>
+                            <td>{{$emp->remain_sickday}}</td>
                             @endforeach
 
 

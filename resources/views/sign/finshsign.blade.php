@@ -55,12 +55,12 @@ date_default_timezone_set('Asia/Taipei');
 <div class="container-fluid">
     <div class="row">
         @include("include.menu")
-        <div class="col-md-10">
+        <p class="col-md-10">
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
-            <br><br><a style="margin-left: -1000px;" href="{{route('historysignfinsh')}}" target="_blank"
-                       class="bt-search">已結案歷史資料</a><br><br>
+            <br><a style="margin-left: -1000px;" href="{{route('historysignfinsh')}}" target="_blank"
+                          class="bt-search">已結案歷史資料</a><br><br>
             @if(count($emp_list)>0)
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
@@ -130,7 +130,7 @@ date_default_timezone_set('Asia/Taipei');
             </table> @if($emp_list->count()>2)
                 {{$emp_list->links()}}
             @endif
-            @else <font color="red">沒有資料</font>
+            @else <font color="red">目前尚無資料</font>
             @endif
             <br><br><br>
         </div>

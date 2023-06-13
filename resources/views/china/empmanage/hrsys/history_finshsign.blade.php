@@ -100,7 +100,7 @@ date_default_timezone_set('Asia/Taipei');
                 @if($emp_list->count()>2)
                 {{$emp_list->links()}}
                   @endif
-            @else <font color="red">目前尚無資料</font>
+            @else <font color="red">沒有資料</font>
         @endif
             <br><br><br>
         </div>

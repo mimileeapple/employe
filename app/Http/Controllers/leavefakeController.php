@@ -7,6 +7,7 @@ use App\Services\HumanResourceServices;
 use App\Services\empinforservices;
 use App\Services\PayServices;
 use App\Services\CheckinServices;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -97,11 +98,13 @@ class leavefakeController extends Controller
             $res = true;
         }
         $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'),10);
-       return view('leave.personalleaveorder', ['emp_list' => $data]);//跳到總表
+        return redirect()->route('showmyleave');
+//       return view('leave.personalleaveorder', ['emp_list' => $data]);//跳到總表
+
 
     }
 
-    public function show($id)////我的個人請假資料
+    public function showmyleave()////我的個人請假資料
     {
         $data = $this->HumanResourceServices->selectmyleave(Session::get('empid'),10);
         return view('leave.personalleaveorder', ['emp_list' => $data]);
@@ -283,12 +286,15 @@ class leavefakeController extends Controller
                 $emp_list1[$id]['specialdate_m'] = $a->specialdate;
                 $emp_list1[$id]['years_date_m'] = $a->years_date;
                 $emp_list1[$id]['comp_time_m'] = $a->comp_time;
+                $emp_list1[$id]['sickday'] = $a->sickday;
                 $emp_list1[$id]['add_specialdate'] = $a->add_specialdate;
                 $emp_list1[$id]['add_years_date'] = $a->add_years_date;
                 $emp_list1[$id]['add_comp_time'] = $a->add_comp_time;
+                $emp_list1[$id]['add_sickday'] = $a->add_sickday;
                 $emp_list1[$id]['remain_specialdate'] = $a->remain_specialdate;
                 $emp_list1[$id]['remain_years_date'] = $a->remain_years_date;
                 $emp_list1[$id]['remain_comp_time'] = $a->remain_comp_time;
+                $emp_list1[$id]['remain_sickday'] = $a->remain_sickday;
             }
 
 
@@ -311,30 +317,70 @@ class leavefakeController extends Controller
                     $emp_list1[$id]['a11'] = $date->a11;
                 }
             }
-            $da = str_replace('-', '', $selected);//月份
-            $latemonthsum = $this->CheckinServices->showmonthlatesum($da, $emp['empid']);//sum(負數)
-            $isint=get_object_vars($latemonthsum[0])['summonthlate'];
+           $da = str_replace('-', '', $selected);//月份
+            /*  $latemonthsum = $this->CheckinServices->showmonthlatesum($da, $emp['empid']);//sum(負數)
+             $isint=get_object_vars($latemonthsum[0])['summonthlate'];
 
-            if($isint<0){
-                $latemonthsum == json_decode(json_encode($latemonthsum), true);
+             if($isint<0){
+                 $latemonthsum == json_decode(json_encode($latemonthsum), true);
 
-                $latemonth[$id]= get_object_vars($latemonthsum[0]);
-                $emp_list1[$id]['late']=$latemonth[$id]['summonthlate'];
+                 $latemonth[$id]= get_object_vars($latemonthsum[0]);
+                 $emp_list1[$id]['late']=$latemonth[$id]['summonthlate'];
+             }
+             elseif($isint==null){
+                 $latemonthsum == json_decode(json_encode($latemonthsum), true);
+
+                 $latemonth[$id]= get_object_vars($latemonthsum[0]);
+                 $emp_list1[$id]['late']='0';
+             }
+             else{
+                 $latemonthsum == json_decode(json_encode($latemonthsum), true);
+
+                 $latemonth[$id]= get_object_vars($latemonthsum[0]);
+                 $emp_list1[$id]['late']='0';
+             }*/
+
+
+            $everyday = $this->CheckinServices->showmontheveryday($da);//抓取DB內選擇的月份所有的日期
+            //  $emp_list=  json_decode( json_encode($emp_list), true);
+            $everyday = json_decode(json_encode($everyday), true);
+            $late = [];
+            foreach ($everyday as $i => $day) {
+            $starttime = leaveorder::where('startdate', 'like', $day['checkdate'])->where('empid', '=', $emp['empid'])->value('leavestart');
+            $endtime = leaveorder::where('enddate', 'like', $day['checkdate'])->where('empid', '=', $emp['empid'])->value('leaveend');
+
+            $start = Carbon::parse($starttime);
+            $end = Carbon::parse($endtime);
+            $diff = $start->diffInMinutes($end, false);
+            $minutes = $diff;  // 取得請假分鐘數
+            $isleave = leaveorder::where('startdate', 'like', $day['checkdate'])->where('enddate', 'like', $day['checkdate'])->where('empid', '=', $emp['empid'])->value('leavefakename');
+//有請假的 isleave為何假 minutes為請假時數
+            if ($minutes == 540) {
+                if ($isleave != "") {
+                    $latetime['latemin'] = "";
+                    $latetime['leavetime'] = $isleave . $minutes . "分";
+                }
+            } elseif ($minutes < 535) {
+                $latesum = $this->CheckinServices->sumworktime($day['checkdate'], $emp['empid']);//人員每日遲到分鐘數函數
+                $latesum = json_decode(json_encode($latesum), true);//轉為數組
+                $latesum = Arr::flatten($latesum);//扁平化陣列
+                $templatetime = implode($latesum);
+                $latetimes = $minutes - abs((int)$templatetime);
+                if ($latetimes > 0) {
+                    $latetime['latemin'] = "";
+                } else {
+                    $latetime['latemin'] = $latetimes;
+                    $late[$emp['empid']][$day['checkdate']] = $latetimes;
+                }
+                $latetime['leavetime'] = $isleave . $minutes . "分";
             }
-            elseif($isint==null){
-                $latemonthsum == json_decode(json_encode($latemonthsum), true);
-
-                $latemonth[$id]= get_object_vars($latemonthsum[0]);
-                $emp_list1[$id]['late']='0';
-            }
-            else{
-                $latemonthsum == json_decode(json_encode($latemonthsum), true);
-
-                $latemonth[$id]= get_object_vars($latemonthsum[0]);
-                $emp_list1[$id]['late']='0';
+           }
+            $total = [];//加總
+            foreach ($late as $k => $values) {
+                $emp_list1[$id]['total']= array_sum($values);//使用日期來加總來存入k=empid
             }
         }
-      //  dd($late);
+      // dd($emp_list1);
         return view('sign.totaltable', ['emp_list1' => $emp_list1, 'selected' => $selected]);
 
     }

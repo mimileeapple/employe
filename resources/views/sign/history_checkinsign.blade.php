@@ -59,7 +59,7 @@ date_default_timezone_set('Asia/Taipei');
                 <font size="20px"> ^</font>
             </a>
             <br>
-
+            @if(count($checklist)>0)
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
                     <td>單號</td>
@@ -122,6 +122,8 @@ date_default_timezone_set('Asia/Taipei');
 
 
             </table>
+                @else<font color="red">目前尚無資料</font>
+            @endif
             <br><br><br>
         </div>
     </div>

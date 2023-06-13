@@ -29,7 +29,23 @@ $title = "上傳個人電子簽名";
     <style>
         tr{height: 35px;}
     </style>
+<script>
+    $(document).ready(function() {
+        $('#form1').submit(function(event) {
+            var fileInput = $('#uploadfile');
+            var fileName = fileInput.val();
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
 
+            if (ext !== 'jpg' && ext !== 'png') {
+                event.preventDefault(); // 阻止表單送出
+                alert('請輸入JPG或PNG檔案');
+
+            } else {
+               $("#form1").submit();
+            }
+        });
+    });
+</script>
 </head>
 <body style="text-align: center" >
 <img src="{{ URL::asset('img/logo.png') }}">
@@ -52,14 +68,14 @@ $title = "上傳個人電子簽名";
         echo "<tr><td colspan='2'><font color='red'>你已有上傳的圖片，再次上傳會覆蓋原本檔案</font></td></tr>";
     }
     @endphp
-{{$mysign}}
+<tr><td colspan="2"><img src="{{$mysign}}"></td></tr>
     <tr>
     <td colspan="2">
         <input type="file" id="uploadfile" name="uploadfile" class="upl">
 
         <input type="hidden" name="empid" value="{{Session::get("empid")}}"></td></tr>
         <tr><td colspan="2">
-        <input type="submit" value="確定上傳" class="bt-send" id="filesend">
+                <input type="submit" value="確定上傳" class="bt-add" >
                 <br><font color="red">請上傳JPG/PNG檔案</font>
     </td>
 </tr>

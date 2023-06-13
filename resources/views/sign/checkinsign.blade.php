@@ -110,6 +110,7 @@ date_default_timezone_set('Asia/Taipei');
                             <td>
                                 <input data-del="{{$order->id}}" type="button" value="刪除" class="bt-del">
                             </td>
+                            <input type="hidden" name="checkinid" value="{{$order->checkinid}}">
                     <input type="hidden" name="signdate" value="{{date('Y-m-d H:i:s')}}">
                      <input type="hidden" name="updatedate" value="{{date('Y-m-d H:i:s')}}">
                      <input type="hidden" name="sign" value="Y">

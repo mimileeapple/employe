@@ -94,7 +94,7 @@ class HumanResourceController extends Controller
         $data['depid'] = $sdepid;
         $data['deparea'] = $deparea;
         $data['agentempename']=$this->empinforservices->empdata($request->agentemp, 18);
-     //取得主管mail
+        //取得主管mail
         $data = array_merge($data, array_except($request->input(), '_token'));
         $status = empinfo::create($data);
         if ($status != false) {

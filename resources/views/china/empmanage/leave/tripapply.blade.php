@@ -2,7 +2,7 @@
 header("Pragma: no-cache");
 session_start();
 header('Content-Type: text/html;charset=UTF-8');
-$title = "個人請假單查詢";
+$title = "申請出差旅費及報告表";
 date_default_timezone_set('Asia/Taipei');
 $date = date("Y-M-D");
 
@@ -48,10 +48,11 @@ $date = date("Y-M-D");
             </a>
             <br>
 
+
             <form action="{{route("searchdate")}}" method="post">
                 {{ csrf_field() }}
                 <div style="text-align: left;">
-                    <input type="hidden" name="empid" value="{{Session::get("empid")}}">
+                    <input type="hidden" name="empid" value="{{session("empid")}}">
                     <select name="sreachdateorder" style="width: 150px;text-align: center">
                         <option
                             {{ isset($selected)&&$selected == date('Y-m-01',strtotime('-3 month'))?'selected ' :''  }} value="<?php echo date('Y-m-01',strtotime('-3 month')); ?>"><?php echo date('Y-m-01', strtotime('-3 month'));; ?></option>
@@ -63,16 +64,14 @@ $date = date("Y-M-D");
                         <option
                             {{ isset($selected)&&$selected == date('Y-m-01')?'selected ' :''  }}value="<?php echo date('Y-m-01'); ?>"><?php echo date('Y-m-01'); ?></option>
                         <option
-                            {{ isset($selected)&&$selected == date('Y-m-01',strtotime('last day of 1 month'))?'selected ' :''  }}value="<?php echo date('Y-m-01',strtotime('last day of 1 month')); ?>"><?php echo date('Y-m-01', strtotime('last day of 1 month')); ?></option>
+                            {{ isset($selected)&&$selected == date('Y-m-01',strtotime('+1 month'))?'selected ' :''  }}value="<?php echo date('Y-m-01',strtotime('+1 month')); ?>"><?php echo date('Y-m-01', strtotime('+1 month')); ?></option>
 
                         <input type="submit" value="查詢" class="bt-search">
                     </select></div>
-            </form>
-            @if(count($emp_list) !=0)
+            </form>@if(count($emp_list) !=0)
                 <br>
                 <table border="1" align="center" class="bor-blue tbl" width="100%">
                     <tr class="bg-blue">
-                        <td><b>單號</b></td>
                         <td><b>申请時間</b></td>
                         <td><b>明細</b></td>
                         <td><b>假別</b></td>
@@ -92,22 +91,28 @@ $date = date("Y-M-D");
 
                     @foreach($emp_list as  $emp)
                         <tr>
-                            <td>{{$emp->orderid}}</td>
                             <td>{{$emp->orderdate}}</td>
                             <td><input type="button" value="明細" class="bt-admit"
-                                       onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=700px;height=700px')">
+                                       onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=500px;height=500px')">
                             </td>
-                            <td>{{$emp->leavefakename}}</td>
+
+                            <td>@if($emp->leavefakename=="出差")
+                                    <a id='pay' href="{{route('Pay.create',['orderid'=>$emp->orderid])}}"
+                                       target='_blank'>出差表</a>
+                                @else
+                                    {{$emp->leavefakename}}
+                                @endif
+                            </td>
+
                             <td>{{$emp->name}}</td>
                             <td> {{$emp->reason}}</td>
                             <td>{{$emp->note}}</td>
                             <td>{{$emp->leavestart}}</td>
                             <td>{{$emp->leaveend}}</td>
-                            <td>{{$emp->hours}}時({{$emp->hours*60}}分鐘)</td>
+                            <td>{{$emp->hours}}時</td>
                             <td>{{$emp->signsts}}</td>
-
                             @if($emp->uploadfile!='')
-                                <td><a target="_blank" href="{{url($emp->uploadfile)}}">附件</a></td>
+                                <td><a target="_blank" href="{{url('../'.$emp->uploadfile)}}">附件</a></td>
                             @else
                                 <td></td>
                             @endif
@@ -116,11 +121,6 @@ $date = date("Y-M-D");
                     @endforeach
 
                 </table>
-                @if($emp_list->count()>2)
-
-                    {{$emp_list->appends(request()->input())->links()}}
-{{--                    {{$emp_list->links()}}--}}
-                @endif
                 <br><br><br>
         </div>
     </div>

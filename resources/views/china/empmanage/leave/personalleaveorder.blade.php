@@ -67,8 +67,7 @@ $date = date("Y-M-D");
 
                         <input type="submit" value="查詢" class="bt-search">
                     </select></div>
-            </form>
-            @if(count($emp_list) !=0)
+            </form>@if(count($emp_list) !=0)
                 <br>
                 <table border="1" align="center" class="bor-blue tbl" width="100%">
                     <tr class="bg-blue">

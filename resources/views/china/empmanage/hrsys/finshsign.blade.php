@@ -2,7 +2,7 @@
 header("Pragma: no-cache");
 session_start();
 header('Content-Type: text/html;charset=UTF-8');
-$title = "請假單簽核已結案(歷史資料)";
+$title = "請假單簽核-結案";
 date_default_timezone_set('Asia/Taipei');
 ?>
     <!DOCTYPE html>
@@ -28,7 +28,21 @@ date_default_timezone_set('Asia/Taipei');
             width: 80px;
         }
     </style>
-
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#CheckAll").click(function () {
+                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                    })
+                }
+            })
+        })
+    </script>
 </head>
 <body style="text-align: center">
 @include("include.nav")
@@ -45,11 +59,14 @@ date_default_timezone_set('Asia/Taipei');
             <a id="gotop">
                 <font size="20px"> ^</font>
             </a>
-            <br>
+            <br><a style="margin-left: -1000px;" href="{{route('historysignfinshchina')}}" target="_blank"
+                       class="bt-search">已結案歷史資料</a><br><br>
             @if(count($emp_list)>0)
             <table border="1" align="center" class="bor-blue tbl" width="100%">
                 <tr class="bg-blue">
-
+                    <td><label>
+                            <input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll"/>
+                            全選</label></td>
                     <td><b>單號</b></td>
                     <td><b>明細</b></td>
                     <td><b>申请時間</b></td>
@@ -67,13 +84,15 @@ date_default_timezone_set('Asia/Taipei');
                     <td><b>附件</b></td>
                 </tr>
                 {{--                放在foreach 會導致ID重複 submit只會送出第一個--}}
-
+                <form id="form1" name="form1" action="{{route('signfinsh')}}" method="post">
+                    {{ csrf_field() }}
                     @foreach($emp_list as  $emp)
                         <tr>
-
+                            <td><input type="checkbox" id="checkboxselect" name="Checkbox[]" value="{{$emp->orderid}}">
+                            </td>
                             <td>{{$emp->orderid}}</td>
                             <td><input type="button" value="明細" class="bt-admit"
-                                       onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=500px;height=500px')">
+                                       onclick="window.open('{{route('orderdetail',['p'=>$emp->orderid])}}','newemp','width=900px;height=900px')">
                             </td>
                             <td>{{$emp->orderdate}}</td>
                             <td>{{$emp->leavefakename}}</td>
@@ -86,7 +105,13 @@ date_default_timezone_set('Asia/Taipei');
                             <td>{{$emp->leavestart}}</td>
                             <td>{{$emp->leaveend}}</td>
                             <td>{{$emp->hours}}時</td>
-                            <td> {{$emp->signsts}} </td>
+                            <td> {{$emp->signsts}} <input type="hidden" name="signsts" value="{{$emp->signsts}}"></td>
+                            <input type="hidden" name="orderid" value="{{$emp->orderid}}">
+                            <input type="hidden" name="manage1id" value="{{$emp->manage1id}}">
+                            <input type="hidden" name="manage2id" value="{{$emp->manage2id}}">
+                            <input type="hidden" name="signfinshmail" value="{{$emp->signfinshmail}}">
+                            <input type="hidden" name="ordersts" value="{{$emp->ordersts}}">
+                            <input type="hidden" name="name" value="{{$emp->name}}">
                             @if($emp->uploadfile!='')
                                 <td><a target="_blank" href="{{url('../'.$emp->uploadfile)}}">附件</a></td>
                             @else
@@ -94,19 +119,33 @@ date_default_timezone_set('Asia/Taipei');
                             @endif
 
                         </tr>
-                @endforeach
+                    @endforeach
+                </form>
 
-            </table>
-                @if($emp_list->count()>2)
+
+                <tr>
+                    <td colspan="14"><input type="button" value="簽核通過" class="bt-send" id="signpass">
+                    </td>
+                </tr>
+            </table> @if($emp_list->count()>2)
                 {{$emp_list->links()}}
-                  @endif
-            @else <font color="red">目前尚無資料</font>
-        @endif
+            @endif
+            @else <font color="red">沒有資料</font>
+            @endif
             <br><br><br>
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        $('#signpass').click(function () {
+            alert("簽核成功!");
 
+            $('#form1').submit();
+
+        })
+    })
+</script>
 </body>
 
 </html>

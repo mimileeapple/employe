@@ -42,7 +42,7 @@ header("Content-Type:text/html;charset=utf-8");
 <img src="img/logo.png">
 
 <h2 class="title-m ">員工登入</h2>
-<form id="form1" action="verify" method="post" name="form1">
+<form id="form1" action="{{route('verify')}}" method="post" name="form1">
     {{ csrf_field() }}
     <table width="600px;" border="0" class="tbl-result" style="margin: auto">
         <tr>

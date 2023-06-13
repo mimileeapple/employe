@@ -18,12 +18,12 @@ class HumanResourceServices
 
     function emp_list($page)
     {//分頁
-        return empinfo::paginate($page);
+        return empinfo::where('jobsts','like','Y')->where('depareaid','like','T')->paginate($page);
     }
 
     function select_emp()
     {//抓全部
-        return empinfo::where('jobsts','like','Y')->get();
+        return empinfo::where('jobsts','like','Y')->where('depareaid','like','T')->where('depid','<>',1)->get();
     }
 
     function selectemp($id)
@@ -117,13 +117,13 @@ or manage2id=$id) and manage1empsign='N' and manage2empsign='N'");*/
     {//以月分搜尋某人請價單
         $enddate = date('Y-m-t', strtotime($sreachdateorder));
 
-        return leaveorder::where('empid', '=', $id)->where('ordersts', '<>','D')->whereBetween('creatdate', [$sreachdateorder, $enddate])->paginate($page);;
+        return leaveorder::where('empid', '=', $id)->where('ordersts', '<>','D')->whereBetween('startdate', [$sreachdateorder, $enddate])->paginate($page);;
     }
 
     function finshsign($page)
     {//搜尋需要結案的單子
         //
-        return leaveorder::where('signsts', '=', '2')->where('ordersts', '<>','D')->paginate($page);
+        return leaveorder::where('signsts', '=', '2')->where('ordersts', '<>','D')->where('area','like','T')->paginate($page);
     }
 
     function board()

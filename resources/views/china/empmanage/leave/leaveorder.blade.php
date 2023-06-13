@@ -2,7 +2,7 @@
 header("Pragma: no-cache");
 session_start();
 header('Content-Type: text/html;charset=UTF-8');
-$title = "員工請假單/出差申請單";
+$title = "員工请假单/出差申請單";
 date_default_timezone_set('Asia/Taipei');
 ?>
     <!DOCTYPE html>
@@ -444,7 +444,7 @@ date_default_timezone_set('Asia/Taipei');
                                 <option value="1">特休</option>
                                 <option value="2">年休</option>
                                 <option value="3">出差</option>
-                                <option value="4">公假(台灣)</option>
+                                <option value="4">公假</option>
                                 <option value="5">事假</option>
                                 <option value="6">病假</option>
                                 <option value="7">婚假</option>
@@ -458,11 +458,9 @@ date_default_timezone_set('Asia/Taipei');
 
                             <input type="hidden" id="leavefakename" name="leavefakename" value="特休"></td>
                         <td class="bg-blue">事由</td>
-                        <td colspan="3" style="text-align:left;"><input type="text" id="reason" name="reason" value="" required="required" style="margin-left:40px;width: 530px;"></td>
-                    </tr>
-                    <tr>
+                        <td><input type="text" id="reason" name="reason" value="" required="required" ></td>
                         <td class="bg-blue">備註</td>
-                        <td colspan="5" style="text-align:left;"><input type="text" id="note" name="note" value="" style="margin-left:40px;width: 800px;"></td>
+                        <td><input type="text" id="note" name="note" value=""></td>
 
                     </tr>
                     <tr>
@@ -470,12 +468,12 @@ date_default_timezone_set('Asia/Taipei');
                         <td colspan="5" style="text-align: left;font-size: 12px;">
 
                             起始日期 <label class="start_date">
-                                <input type="text" class="leavestartdate"  id="datepicker"  name="startdate" autocomplete="off"></label>
+                                <input type="text" class="leavestartdate"  id="datepicker"  autocomplete="off"></label>
                             起始時間 <label class="start_date">
                                 <input type="text" class="leavestarttime" id="timepicker"  autocomplete="off"></label>
                             到
                             結束日期 <label class="start_date">
-                                <input type="text" class="leaveenddate" id="datepicker1" name="enddate" autocomplete="off"></label>
+                                <input type="text" class="leaveenddate" id="datepicker1"  autocomplete="off"></label>
                             結束時間 <label class="start_date">
                                 <input type="text" class="leaveendtime" id="timepicker1"  autocomplete="off"></label>
                             <input type="button" value="計算" onclick="calculate()" class="bt-print"><br><br>
@@ -483,7 +481,6 @@ date_default_timezone_set('Asia/Taipei');
                             =<input type="text" id="minit" name="minit" value="">分
                             <input type="hidden" class="" id="leavestart" name="leavestart">
                             <input type="hidden" class="" id="leaveend" name="leaveend">
-
                         </td>
                     </tr>
                     @foreach($emp_vacation as $e)
@@ -532,7 +529,6 @@ date_default_timezone_set('Asia/Taipei');
 
                         <input type="hidden" id="manage2sign" name="manage2empsign" value="N">
                         <input type="hidden" id="manage1sign" name="manage1empsign" value="N">
-                        <input type="hidden" id="area" name="area" value="{{Session::get('empdata')->depareaid}}">
                     </tr>
                     <tr>
                         <td colspan="6"><input type="button" value="送出" class="bt-add" id="doicon" name="doicon"

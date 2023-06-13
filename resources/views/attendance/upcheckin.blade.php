@@ -104,7 +104,8 @@ $title = "我要補卡";
         }
 
         function sendcheck() {
-            var a = $("#btnactionid :selected").val();
+            var worksts =$('#work').find(":selected").text();
+            var a=$('#work').find(":selected").val();
             if ($(".leavestartdate").val() > Today) {
                 alert("補卡日期不得大於今天日期");
                 $("#datepicker").val("");
@@ -120,20 +121,26 @@ $title = "我要補卡";
                 alert("原因不得為空");
                 $(".reason").focus();
                 return false;
-            } else {
+            }
+            else {
                 var sTime = $(".leavestartdate").val() + ' ' + $(".leavestarttime").val();
                 var Today = getTodayDate();
                 var day = $(".leavestartdate").val();
-                var aday = getdate();
-                if (a == 0) {
-                    $("#btnactionin").val('上班');
-                    $("#worktimein").val(sTime);
+                var aday =$(".leavestartdate").val().replace(/-/g,"").substr(0,6);
+                var w= $("#work:selected").text();
+
+                if(a==0){
+                    $("#upcheckworkinstsname").val(worksts);
+                    $("#worktimein").val($(".leavestarttime").val());
+                    $("#checkin").val(sTime);
+                    $("#checkinsts").val('N');
                 }
-                if (a == 1) {
-                    $("#btnactionin").val('下班');
-                    $('#worktime').val(sTime);
+                else if(a==1){
+                    $("#upcheckworkoutstsname").val(worksts);
+                    $('#worktimeout').val($(".leavestarttime").val());
+                    $('#checkout').val(sTime);
+                    $("#checkoutsts").val('N');
                 }
-                $("#checkdate").val(day);
                 $("#yearmonths").val(aday);
                 $("#form1").submit();
 
@@ -157,36 +164,40 @@ $title = "我要補卡";
         <tr>
             <td class="bg-blue">申請日期</td>
             <td>
-                <input type="text" name="creatdate" value="{{date("Y-m-d H:i:s")}}">
-                <input type="hidden" name="updatedate" value="{{date("Y-m-d H:i:s")}}"></td>
+
+                <input type="text" name="updatedate" value="{{date("Y-m-d H:i:s")}}" readonly></td>
             <td class="bg-blue">補卡事項</td>
-            <td><select style="width:170px;" id="btnactionid" name="btnactionid">
+            <td><select style="width:170px;" id="work">
                     <option value="0">上班</option>
                     <option value="1">下班</option>
-                </select></td>
+                </select>
+            <input type="hidden" id="upcheckworkinstsname" name="upcheckworkinstsname" value="">
+                <input type="hidden" id="upcheckworkoutstsname" name="upcheckworkoutstsname" value="">
+                <input type="hidden" id="checkinsts" name="checkinsts" value="">
+                <input type="hidden" id="checkoutsts" name="checkoutsts" value="">
+            </td>
         </tr>
         <tr>
             <td class="bg-blue">補卡日期</td>
             <td><label class="start_date">
-                    <input type="text" class="leavestartdate" id="datepicker"></label>
+                    <input type="text" class="leavestartdate" id="datepicker" name="checkdate" required></label>
             </td>
             <td class="bg-blue">補卡時間</td>
             <td><label class="start_date">
-                    <input type="text" class="leavestarttime" id="timepicker"></label></td>
+                    <input type="text" class="leavestarttime" id="timepicker" required></label></td>
         </tr>
         <tr>
             <td class="bg-blue">補卡原因</td>
-            <td colspan="3" style="text-align: left"><input type="text" name="reason"
-                                                            style="width: 400px;text-align: left" class="reason"></td>
+            <td colspan="3" style="text-align: left">
+                <input type="text" name="reason" style="width: 400px;text-align: left" class="reason" required></td>
         </tr>
             <input type="hidden" name="empid" value="{{Session::get('empid')}}">
             <input type="hidden" name="empname" value="{{Session::get('name')}}">
-            <input type="hidden" name="checkdate" id="checkdate" value="">
             <input type="hidden" name="yearmonths" id="yearmonths" value="">
-            <input type="hidden" name="worktime" value="" id="worktime">
             <input type="hidden" name="worktimein" value="" id="worktimein">
-            <input type="hidden" name="btnactionin" value="" class="btnaction" id="btnactionin">
-            <input type="hidden" name="btnactionout" value="" class="btnaction" id="btnactionout">
+            <input type="hidden" name="worktimeout" value="" id="worktimeout">
+        <input type="hidden" name="checkin" value="" id="checkin">
+        <input type="hidden" name="checkout" value="" id="checkout">
             <input type="hidden" name="sign" value="N">
             <input type="hidden" name="signemp" value="1">
         <tr>

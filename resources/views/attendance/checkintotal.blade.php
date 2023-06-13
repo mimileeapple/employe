@@ -67,47 +67,66 @@ date_default_timezone_set('Asia/Taipei');
             </form>
             <br>
             @isset($emp_list)
-                <table border="1" align="center" class="bor-blue tbl styletable" width="100%" style="font-size: 10px;"
-                       id="myTable">
+                <table border="1" align="center" class="bor-blue tbl styletable" width="100%"
+                       id="myTable" style="font-size: 8px;">
                     <thead>
 
-                    <tr>
-                        <td>日期/姓名</td>
+                    <tr class="bg-blue">
+                        <td rowspan="2">日期/姓名</td>
                     @foreach($emp_list as  $k=>$emp)
-                            <td>{{$emp->name}}</td>
+                            <td colspan="4">{{$emp->name}}<br>{{$emp->ename}}</td>
                     @endforeach
                     </tr>
-                    </thead>
-                    @php  $tempkey=""; $tempdate=""; @endphp
-                    @foreach($latelist as $key=> $empno)
+                    <tr class="bg-blue">
+                        @foreach($emp_list as  $k=>$emp)
+                        <td >上班</td><td>下班</td><td>遲到(分)</td><td>請假(分)</td>
+                        @endforeach
+                    </tr>
 
+                    </thead>
+                    @php  $tempkey=""; $tempdate="";$weekarray=array("日","一","二","三","四","五","六");@endphp
+                    @foreach($latelist as $key=> $empno)
                         @if($tempdate!=$key)
                             <tr>
-                                <td>{{$key}}</td>
+                                <td>{{$key}}@php echo "(".$weekarray[date("w",strtotime("$key"))].")" @endphp</td>
                         @endif
+
                                 @foreach($empno as $i=>$time)
+                                     <td>{{$time['worktimein']}}</td>
+                                    <td>{{$time['worktimeout']}}</td>
+                                    <td>{{$time['latemin']}}</td>
+                                    <td>{{$time['leavetime']}}</td>
+                    @if($tempdate==$key)
+                            </tr>
+                    @endif
 
-                                    @if($tempkey!=$i)
-                                        @if($time<0)
-                                            <td class="latetime"><font color="red">{{$time}}</font>
-                                            </td>
-                                        @else
-                                            <td>{{$time}} </td>
-                                        @endif
 
-                                    @else
-                                        <td>{{$time}}</td></tr>
-                                     @endif
-                    @endforeach
-                    @php $tempkey=$i;$tempdate=$key; @endphp
+                              @endforeach
+                    @php $tempdate=$key; @endphp
 
                     @endforeach
 
-                    <tr> <td>加總：</td>
+                    <tr> <td>總共遲到(分)：</td>
 
-                        @foreach($late as  $total)
-                            <td>{{$total}}</td>
+                        @foreach($total as  $latetime)
+                            <td colspan="4">
+                                {{$latetime}}分
+                            </td>
                     @endforeach
+                    </tr>
+                    <tr> <td>實際遲到：</td>
+
+                        @foreach($total as  $latetime)
+                            <td colspan="4">
+                                @if($latetime<-30)
+                                 {{$latetime}}分+30分(緩衝時間)<br>
+                                   總計: <font color="red">{{$latetime+30}}分</font>
+                                @elseif($latetime>-30)
+                                總計:0分
+                                    @endif
+                            </td>
+
+                        @endforeach
                     </tr>
                 </table>
             @endisset

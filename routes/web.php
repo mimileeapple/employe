@@ -14,6 +14,8 @@
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+/*Route::group(['prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']], function() {*/
 Route::resource('/', 'loginController');// 第一個
 //因為是登入 所以東西不能放在GET 我們這邊用POST
 //any 是啥都可以 他不會特別去監控 你是get 還是post
@@ -47,7 +49,9 @@ Route::get('isholiday', 'leavefakeController@isholiday')->middleware('AuthStatus
 //你路徑 signleaveorder
 Route::get('workinfo', 'leavefakeController@workinfo')->middleware('AuthStatus')->name('workinfo');
 Route::post('signleaveorder', 'leavefakeController@signleaveorder')->middleware('AuthStatus')->name('signleaveorder');
-Route::any('searchdate', 'leavefakeController@sreachdate')->name('searchdate')->middleware('AuthStatus');
+
+Route::any('showmyleave', 'leavefakeController@showmyleave')->middleware('AuthStatus')->name('showmyleave');
+Route::any('searchdate', 'leavefakeController@sreachdate')->middleware('AuthStatus')->name('searchdate');
 Route::get('finshorder', 'leavefakeController@finshorder')->name('finshorder')->middleware('AuthStatus');//秀出列表
 Route::post('signfinsh', 'leavefakeController@signfinsh')->name('signfinsh')->middleware('AuthStatus');//審核
 Route::post('sumleavedate', 'leavefakeController@sumleavedate')->name('sumleavedate')->middleware('AuthStatus');//審核
@@ -90,9 +94,9 @@ Route::any('uploadpi', 'custPIController@uploadpi')->name('uploadpi')->middlewar
 Route::any('signpi/{p}', 'custPIController@signpi')->name('signpi')->middleware('AuthStatus');
 Route::resource('pispace', 'PIspaceController')->middleware('AuthStatus');
 Route::any('showpispace/{p}', 'PIspaceController@showpispace')->name('showpispace')->middleware('AuthStatus');
-
+Route::resource('importcheckin', 'importcheckinController')->middleware('AuthStatus');
 //這也有規則 規則是AuthStatus 我當初寫的是 如果session的會員不見了  他會到登入頁面 還有很多規則 這是比較核心的
-
+//});
 
 //像這種的 他有在中介曾 增加規則 叫做WEB 如果有達成WEB的規則 路由才能連線
 //Route::group(['middleware' => ['web']], function () {
